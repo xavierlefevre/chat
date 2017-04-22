@@ -14,6 +14,7 @@ export const Schema = [`
   type User {
     id: Int! # unique id for the user
     email: String! # we will also require a unique email per user
+    username: String
     messages: [Message] # messages sent by user
     groups: [Group] # groups the user belongs to
     friends: [User] # user's contacts
