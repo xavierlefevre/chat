@@ -3,6 +3,8 @@ import { Router, Scene, Actions } from 'react-native-router-flux';
 import { Text, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
+import Groups from './components/groups';
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -51,7 +53,7 @@ export const Scenes = Actions.create(
       <Scene key="chatsTab" title="Chats" icon={TabIcon}>
         <Scene
           key="groups"
-          component={TestScene}
+          component={Groups}
           title="Chats"
         />
       </Scene>
