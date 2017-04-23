@@ -4,6 +4,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import Groups from './components/groups';
+import Messages from './components/messages';
 
 const styles = StyleSheet.create({
   container: {
@@ -65,6 +66,10 @@ export const Scenes = Actions.create(
         />
       </Scene>
     </Scene>
+    <Scene
+      key="messages"
+      component={Messages}
+    />
   </Scene>,
 );
 

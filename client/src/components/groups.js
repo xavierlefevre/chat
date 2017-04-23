@@ -1,6 +1,7 @@
 import { _ } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import { ListView, Platform, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 
 const styles = StyleSheet.create({
   container: {
@@ -36,6 +37,7 @@ class Group extends Component {
     return (
       <TouchableHighlight
         key={id}
+        onPress={this.props.goToMessages}
       >
         <View style={styles.groupContainer}>
           <Text style={styles.groupName}>{`${name}`}</Text>
@@ -46,6 +48,7 @@ class Group extends Component {
 }
 
 Group.propTypes = {
+  goToMessages: PropTypes.func.isRequired,
   group: PropTypes.shape({
     id: PropTypes.number,
     name: PropTypes.string,
@@ -60,6 +63,10 @@ class Groups extends Component {
     };
   }
 
+  goToMessages(group) {
+    Actions.messages({ groupId: group.id, title: group.name });
+  }
+
   render() {
     // render list of groups for user
     return (
@@ -68,7 +75,7 @@ class Groups extends Component {
           enableEmptySections
           dataSource={this.state.ds}
           renderRow={(group => (
-            <Group group={group} />
+            <Group group={group} goToMessages={() => this.goToMessages(group)} />
           ))}
         />
       </View>
