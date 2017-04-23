@@ -1,12 +1,20 @@
 import { _ } from 'lodash';
 import React, { Component, PropTypes } from 'react';
-import { ListView, Platform, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { ActivityIndicator, ListView, Platform,
+  StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
+import { graphql } from 'react-apollo';
+
+import { USER_QUERY } from '../queries/user';
 
 const styles = StyleSheet.create({
   container: {
     marginBottom: 50, // tab bar height
     marginTop: Platform.OS === 'ios' ? 64 : 54, // nav bar height
+    flex: 1,
+  },
+  loading: {
+    justifyContent: 'center',
     flex: 1,
   },
   groupContainer: {
@@ -24,12 +32,6 @@ const styles = StyleSheet.create({
     flex: 0.7,
   },
 });
-
-// create fake data to populate our ListView
-const fakeData = () => _.times(100, i => ({
-  id: i,
-  name: `Group ${i}`,
-}));
 
 class Group extends Component {
   render() {
@@ -59,8 +61,19 @@ class Groups extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }).cloneWithRows(fakeData()),
+      ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.loading && nextProps.user !== this.props.user) {
+      // convert groups Array to ListView.DataSource
+      // we will use this.state.ds to populate our ListView
+      this.setState({
+        // cloneWithRows computes a diff and decides whether to rerender
+        ds: this.state.ds.cloneWithRows(nextProps.user.groups),
+      });
+    }
   }
 
   goToMessages(group) {
@@ -68,6 +81,17 @@ class Groups extends Component {
   }
 
   render() {
+    const { loading } = this.props;
+
+    // render loading placeholder while we fetch messages
+    if (loading) {
+      return (
+        <View style={[styles.loading, styles.container]}>
+          <ActivityIndicator />
+        </View>
+      );
+    }
+
     // render list of groups for user
     return (
       <View style={styles.container}>
@@ -83,4 +107,25 @@ class Groups extends Component {
   }
 }
 
-export default Groups;
+Groups.propTypes = {
+  loading: PropTypes.bool,
+  user: PropTypes.shape({
+    id: PropTypes.number.isRequired,
+    email: PropTypes.string.isRequired,
+    groups: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        name: PropTypes.string.isRequired,
+      }),
+    ),
+  }),
+};
+
+const userQuery = graphql(USER_QUERY, {
+  options: () => ({ variables: { id: 1 } }),
+  props: ({ data: { loading, user } }) => ({
+    loading, user,
+  }),
+});
+
+export default userQuery(Groups);
