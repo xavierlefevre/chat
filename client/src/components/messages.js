@@ -5,6 +5,7 @@ import randomColor from 'randomcolor';
 import { graphql, compose } from 'react-apollo';
 
 import Message from './message';
+import MessageInput from './message-input';
 import GROUP_QUERY from '../queries/group';
 
 const styles = StyleSheet.create({
@@ -82,6 +83,11 @@ export class Messages extends Component {
     }
   }
 
+  send(text) {
+    // TODO: send the message
+    console.log(`sending message: ${text}`);
+  }
+
   render() {
     const { loading, group } = this.props;
     // render loading placeholder while we fetch messages
@@ -108,6 +114,7 @@ export class Messages extends Component {
             />
           )}
         />
+        <MessageInput send={text => this.send(text)} />
       </View>
     );
   }
