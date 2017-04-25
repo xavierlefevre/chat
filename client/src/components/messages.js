@@ -3,10 +3,12 @@ import { ActivityIndicator, KeyboardAvoidingView, ListView, Platform, StyleSheet
 import React, { Component, PropTypes } from 'react';
 import randomColor from 'randomcolor';
 import { graphql, compose } from 'react-apollo';
+import update from 'immutability-helper';
 
 import Message from './message';
 import MessageInput from './message-input';
-import GROUP_QUERY from '../queries/group';
+import GROUP_QUERY from '../queries/group.query';
+import CREATE_MESSAGE_MUTATION from '../queries/createMessage.mutation';
 
 const styles = StyleSheet.create({
   container: {
@@ -84,8 +86,11 @@ export class Messages extends Component {
   }
 
   send(text) {
-    // TODO: send the message
-    console.log(`sending message: ${text}`);
+    this.props.createMessage({
+      groupId: this.props.groupId,
+      userId: 1, // faking the user for now
+      text,
+    });
   }
 
   render() {
@@ -132,6 +137,7 @@ Messages.propTypes = {
   loading: PropTypes.bool,
   groupId: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  createMessage: PropTypes.func,
 };
 
 const groupQuery = graphql(GROUP_QUERY, {
@@ -141,6 +147,37 @@ const groupQuery = graphql(GROUP_QUERY, {
   }),
 });
 
+function isDuplicateMessage(newMessage, existingMessages) {
+  return newMessage.id !== null &&
+    existingMessages.some(message => newMessage.id === message.id);
+}
+
+const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
+  props: ({ mutate }) => ({
+    createMessage: ({ text, userId, groupId }) =>
+      mutate({
+        variables: { text, userId, groupId },
+        updateQueries: {
+          group: (previousResult, { mutationResult }) => {
+            const newMessage = mutationResult.data.createMessage;
+            if (isDuplicateMessage(newMessage,
+                previousResult.group.messages)) {
+              return previousResult;
+            }
+            return update(previousResult, {
+              group: {
+                messages: {
+                  $unshift: [newMessage],
+                },
+              },
+            });
+          },
+        },
+      }),
+  }),
+});
+
 export default compose(
   groupQuery,
+  createMessage,
 )(Messages);

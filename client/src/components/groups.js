@@ -5,7 +5,7 @@ import { ActivityIndicator, ListView, Platform,
 import { Actions } from 'react-native-router-flux';
 import { graphql } from 'react-apollo';
 
-import { USER_QUERY } from '../queries/user';
+import { USER_QUERY } from '../queries/user.query';
 
 const styles = StyleSheet.create({
   container: {
