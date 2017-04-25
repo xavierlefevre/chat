@@ -91,6 +91,10 @@ export class Messages extends Component {
       userId: 1, // faking the user for now
       text,
     });
+
+    this.setState({
+      shouldScrollToBottom: true,
+    });
   }
 
   render() {
@@ -112,9 +116,18 @@ export class Messages extends Component {
         style={styles.container}
       >
         <ListView
+          ref={(ref) => { this.listView = ref; }}
           style={styles.listView}
           enableEmptySections
           dataSource={this.state.ds}
+          onContentSizeChange={() => {
+            if (this.state.shouldScrollToBottom) {
+              this.listView.scrollToEnd({ animated: true });
+              this.setState({
+                shouldScrollToBottom: false,
+              });
+            }
+          }}
           renderRow={message => (
             <Message
               color={this.state.usernameColors[message.from.username]}
@@ -157,6 +170,21 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
     createMessage: ({ text, userId, groupId }) =>
       mutate({
         variables: { text, userId, groupId },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          createMessage: {
+            __typename: 'Message',
+            id: null, // don't know id yet, but it doesn't matter
+            text, // we know what the text will be
+            createdAt: new Date().toISOString(), // the time is now!
+            from: {
+              __typename: 'User',
+              id: 1, // still faking the user
+              username: 'Justyn.Kautzer', // still faking the user
+              // maybe we should stop faking the user soon!
+            },
+          },
+        },
         updateQueries: {
           group: (previousResult, { mutationResult }) => {
             const newMessage = mutationResult.data.createMessage;
