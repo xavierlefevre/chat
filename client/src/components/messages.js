@@ -1,5 +1,5 @@
 import { _ } from 'lodash';
-import { ActivityIndicator, ListView, Platform, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, ListView, Platform, StyleSheet, View } from 'react-native';
 import React, { Component, PropTypes } from 'react';
 import randomColor from 'randomcolor';
 import { graphql, compose } from 'react-apollo';
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e5ddd5',
     flex: 1,
     flexDirection: 'column',
-    paddingTop: 64,
+    paddingTop: 32,
   },
   loading: {
     justifyContent: 'center',
@@ -101,7 +101,11 @@ export class Messages extends Component {
 
     // render list of messages for group
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={'position'}
+        contentContainerStyle={styles.container}
+        style={styles.container}
+      >
         <ListView
           style={styles.listView}
           enableEmptySections
@@ -115,7 +119,7 @@ export class Messages extends Component {
           )}
         />
         <MessageInput send={text => this.send(text)} />
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
