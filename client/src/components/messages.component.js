@@ -57,25 +57,23 @@ class Messages extends Component {
     const oldData = this.props;
     const newData = nextProps;
     const usernameColors = {};
-    // check for new messages
+
     if (newData.group) {
       if (newData.group.users) {
-        // apply a color to each user
         newData.group.users.map((user) => {
           usernameColors[user.username] = this.state.usernameColors[user.username] || randomColor();
         });
       }
       if (!!newData.group.messages &&
         (!oldData.group || newData.group.messages !== oldData.group.messages)) {
-        // convert messages Array to ListView.DataSource
-        // we will use this.state.ds to populate our ListView
         this.setState({
           ds: this.state.ds.cloneWithRows(
-            // reverse the array so newest messages
-            // show up at the bottom
             newData.group.messages.slice().reverse(),
           ),
           usernameColors,
+        });
+        this.setState({
+          shouldScrollToBottom: true,
         });
       }
     }
@@ -86,10 +84,6 @@ class Messages extends Component {
       groupId: this.props.groupId,
       userId: 1, // faking the user for now
       text,
-    });
-
-    this.setState({
-      shouldScrollToBottom: true,
     });
   }
 
