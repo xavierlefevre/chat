@@ -6,6 +6,13 @@ import ApolloClient, { createNetworkInterface } from 'apollo-client';
 
 import { Routes, Scenes } from './routes';
 
+global.XMLHttpRequest = global.originalXMLHttpRequest ?
+  global.originalXMLHttpRequest :
+  global.XMLHttpRequest;
+global.FormData = global.originalFormData ?
+  global.originalFormData :
+  global.FormData;
+
 const networkInterface = createNetworkInterface({ uri: 'http://localhost:8080/graphql' });
 const client = new ApolloClient({
   networkInterface,
