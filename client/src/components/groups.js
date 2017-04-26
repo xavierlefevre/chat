@@ -1,10 +1,10 @@
-import { _ } from 'lodash';
 import React, { Component, PropTypes } from 'react';
 import { ActivityIndicator, ListView, Platform,
-  StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+  StyleSheet, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import { graphql } from 'react-apollo';
 
+import Group from './group';
 import { USER_QUERY } from '../queries/user.query';
 
 const styles = StyleSheet.create({
@@ -17,45 +17,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flex: 1,
   },
-  groupContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderBottomColor: '#eee',
-    borderBottomWidth: 1,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-  },
-  groupName: {
-    fontWeight: 'bold',
-    flex: 0.7,
-  },
 });
-
-class Group extends Component {
-  render() {
-    const { id, name } = this.props.group;
-    return (
-      <TouchableHighlight
-        key={id}
-        onPress={this.props.goToMessages}
-      >
-        <View style={styles.groupContainer}>
-          <Text style={styles.groupName}>{`${name}`}</Text>
-        </View>
-      </TouchableHighlight>
-    );
-  }
-}
-
-Group.propTypes = {
-  goToMessages: PropTypes.func.isRequired,
-  group: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-  }),
-};
 
 class Groups extends Component {
   constructor(props) {

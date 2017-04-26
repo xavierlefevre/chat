@@ -4,7 +4,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import Groups from './components/groups';
-import Messages from './components/messages';
+import Messages from './components/messages.container';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,7 +30,6 @@ const TestScene = props => (
   </View>
 );
 
-// icons for our Tab Scene
 class TabIcon extends Component {
   render() {
     return (
@@ -42,12 +41,12 @@ class TabIcon extends Component {
     );
   }
 }
+
 TabIcon.propTypes = {
   selected: PropTypes.bool,
   title: PropTypes.string.isRequired,
 };
 
-// create scenes via Actions.create() or it will be re-created every time Router renders
 export const Scenes = Actions.create(
   <Scene key="root">
     <Scene key="tabs" tabs>
