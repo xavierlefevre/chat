@@ -6,9 +6,9 @@ import ApolloClient, { createNetworkInterface } from 'apollo-client';
 
 import { Routes, Scenes } from './routes';
 
-global.XMLHttpRequest = global.originalXMLHttpRequest ?
-  global.originalXMLHttpRequest :
-  global.XMLHttpRequest;
+global.XMLHttpRequest = global.originalXMLHttpRequest
+  ? global.originalXMLHttpRequest
+  : global.XMLHttpRequest;
 global.FormData = global.originalFormData ?
   global.originalFormData :
   global.FormData;
