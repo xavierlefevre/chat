@@ -1,3 +1,5 @@
+// @flow
+
 import React, { Component, PropTypes } from 'react';
 import {
   ActivityIndicator,
@@ -41,7 +43,7 @@ class Groups extends Component {
     }
   }
 
-  goToMessages(group) {
+  goToMessages(group: { name: String, id: Number }) {
     Actions.messages({ groupId: group.id, title: group.name });
   }
 
