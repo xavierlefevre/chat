@@ -2,10 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { ActivityIndicator, ListView, Platform,
   StyleSheet, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import { graphql } from 'react-apollo';
 
-import Group from './group';
-import { USER_QUERY } from '../queries/user.query';
+import Group from './group.component';
 
 const styles = StyleSheet.create({
   container: {
@@ -83,11 +81,4 @@ Groups.propTypes = {
   }),
 };
 
-const userQuery = graphql(USER_QUERY, {
-  options: () => ({ variables: { id: 1 } }),
-  props: ({ data: { loading, user } }) => ({
-    loading, user,
-  }),
-});
-
-export default userQuery(Groups);
+export default Groups;

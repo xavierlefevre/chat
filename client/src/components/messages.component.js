@@ -3,8 +3,8 @@ import { ActivityIndicator, KeyboardAvoidingView,
 import React, { Component, PropTypes } from 'react';
 import randomColor from 'randomcolor';
 
-import Message from './message';
-import MessageInput from './message-input';
+import Message from './message.component';
+import MessageInput from './message-input.component';
 
 const styles = StyleSheet.create({
   container: {
