@@ -1,5 +1,11 @@
-import { ActivityIndicator, KeyboardAvoidingView,
-  ListView, Platform, StyleSheet, View } from 'react-native';
+import {
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  ListView,
+  Platform,
+  StyleSheet,
+  View,
+} from 'react-native';
 import React, { Component, PropTypes } from 'react';
 import randomColor from 'randomcolor';
 
@@ -60,15 +66,18 @@ class Messages extends Component {
 
     if (newData.group) {
       if (newData.group.users) {
-        newData.group.users.map((user) => {
-          usernameColors[user.username] = this.state.usernameColors[user.username] || randomColor();
+        newData.group.users.map(user => {
+          usernameColors[user.username] =
+            this.state.usernameColors[user.username] || randomColor();
         });
       }
-      if (!!newData.group.messages &&
-        (!oldData.group || newData.group.messages !== oldData.group.messages)) {
+      if (
+        !!newData.group.messages &&
+        (!oldData.group || newData.group.messages !== oldData.group.messages)
+      ) {
         this.setState({
           ds: this.state.ds.cloneWithRows(
-            newData.group.messages.slice().reverse(),
+            newData.group.messages.slice().reverse()
           ),
           usernameColors,
         });
@@ -106,7 +115,9 @@ class Messages extends Component {
         style={styles.container}
       >
         <ListView
-          ref={(ref) => { this.listView = ref; }}
+          ref={ref => {
+            this.listView = ref;
+          }}
           style={styles.listView}
           enableEmptySections
           dataSource={this.state.ds}

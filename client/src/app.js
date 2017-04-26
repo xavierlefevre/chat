@@ -9,11 +9,13 @@ import { Routes, Scenes } from './routes';
 global.XMLHttpRequest = global.originalXMLHttpRequest
   ? global.originalXMLHttpRequest
   : global.XMLHttpRequest;
-global.FormData = global.originalFormData ?
-  global.originalFormData :
-  global.FormData;
+global.FormData = global.originalFormData
+  ? global.originalFormData
+  : global.FormData;
 
-const networkInterface = createNetworkInterface({ uri: 'http://localhost:8080/graphql' });
+const networkInterface = createNetworkInterface({
+  uri: 'http://localhost:8080/graphql',
+});
 const client = new ApolloClient({
   networkInterface,
 });
@@ -23,9 +25,7 @@ const store = createStore(
     apollo: client.reducer(),
   }),
   {}, // initial state
-  composeWithDevTools(
-    applyMiddleware(client.middleware()),
-  ),
+  composeWithDevTools(applyMiddleware(client.middleware()))
 );
 
 export default class App extends Component {

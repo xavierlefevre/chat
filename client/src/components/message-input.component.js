@@ -67,7 +67,9 @@ class MessageInput extends Component {
       <View style={styles.container}>
         <View style={styles.inputContainer}>
           <TextInput
-            ref={(ref) => { this.textInput = ref; }}
+            ref={ref => {
+              this.textInput = ref;
+            }}
             onChangeText={text => this.setState({ text })}
             style={styles.input}
             placeholder="Type your message here!"

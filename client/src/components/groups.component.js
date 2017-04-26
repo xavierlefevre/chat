@@ -1,6 +1,11 @@
 import React, { Component, PropTypes } from 'react';
-import { ActivityIndicator, ListView, Platform,
-  StyleSheet, View } from 'react-native';
+import {
+  ActivityIndicator,
+  ListView,
+  Platform,
+  StyleSheet,
+  View,
+} from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import Group from './group.component';
@@ -58,9 +63,12 @@ class Groups extends Component {
         <ListView
           enableEmptySections
           dataSource={this.state.ds}
-          renderRow={(group => (
-            <Group group={group} goToMessages={() => this.goToMessages(group)} />
-          ))}
+          renderRow={group => (
+            <Group
+              group={group}
+              goToMessages={() => this.goToMessages(group)}
+            />
+          )}
         />
       </View>
     );
@@ -76,7 +84,7 @@ Groups.propTypes = {
       PropTypes.shape({
         id: PropTypes.number.isRequired,
         name: PropTypes.string.isRequired,
-      }),
+      })
     ),
   }),
 };

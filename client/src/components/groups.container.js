@@ -6,7 +6,8 @@ import Groups from './groups.component';
 const userQuery = graphql(USER_QUERY, {
   options: () => ({ variables: { id: 1 } }),
   props: ({ data: { loading, user } }) => ({
-    loading, user,
+    loading,
+    user,
   }),
 });
 

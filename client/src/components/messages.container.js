@@ -1,20 +1,23 @@
 import { graphql, compose } from 'react-apollo';
 import update from 'immutability-helper';
 
-import Messages from './messages.component.js';
+import Messages from './messages.component';
 import GROUP_QUERY from '../queries/group.query';
 import CREATE_MESSAGE_MUTATION from '../queries/createMessage.mutation';
 
 const groupQuery = graphql(GROUP_QUERY, {
   options: ({ groupId }) => ({ variables: { groupId } }),
   props: ({ data: { loading, group } }) => ({
-    loading, group,
+    loading,
+    group,
   }),
 });
 
 function isDuplicateMessage(newMessage, existingMessages) {
-  return newMessage.id !== null &&
-    existingMessages.some(message => newMessage.id === message.id);
+  return (
+    newMessage.id !== null &&
+    existingMessages.some(message => newMessage.id === message.id)
+  );
 }
 
 const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
@@ -40,8 +43,7 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
         updateQueries: {
           group: (previousResult, { mutationResult }) => {
             const newMessage = mutationResult.data.createMessage;
-            if (isDuplicateMessage(newMessage,
-                previousResult.group.messages)) {
+            if (isDuplicateMessage(newMessage, previousResult.group.messages)) {
               return previousResult;
             }
             return update(previousResult, {
@@ -57,7 +59,4 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
   }),
 });
 
-export default compose(
-  groupQuery,
-  createMessage,
-)(Messages);
+export default compose(groupQuery, createMessage)(Messages);

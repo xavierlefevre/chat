@@ -30,11 +30,20 @@ const TestScene = props => (
   </View>
 );
 
+TestScene.propTypes = {
+  title: PropTypes.string,
+};
+
 class TabIcon extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={[styles.tabText, this.props.selected ? styles.selected : undefined]}>
+        <Text
+          style={[
+            styles.tabText,
+            this.props.selected ? styles.selected : undefined,
+          ]}
+        >
           {this.props.title}
         </Text>
       </View>
@@ -51,25 +60,14 @@ export const Scenes = Actions.create(
   <Scene key="root">
     <Scene key="tabs" tabs>
       <Scene key="chatsTab" title="Chats" icon={TabIcon}>
-        <Scene
-          key="groups"
-          component={Groups}
-          title="Chats"
-        />
+        <Scene key="groups" component={Groups} title="Chats" />
       </Scene>
       <Scene key="settingsTab" title="Settings" icon={TabIcon}>
-        <Scene
-          key="settings"
-          component={TestScene}
-          title="Settings"
-        />
+        <Scene key="settings" component={TestScene} title="Settings" />
       </Scene>
     </Scene>
-    <Scene
-      key="messages"
-      component={Messages}
-    />
-  </Scene>,
+    <Scene key="messages" component={Messages} />
+  </Scene>
 );
 
 export const Routes = connect()(Router);

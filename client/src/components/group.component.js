@@ -22,10 +22,7 @@ class Group extends Component {
   render() {
     const { id, name } = this.props.group;
     return (
-      <TouchableHighlight
-        key={id}
-        onPress={this.props.goToMessages}
-      >
+      <TouchableHighlight key={id} onPress={this.props.goToMessages}>
         <View style={styles.groupContainer}>
           <Text style={styles.groupName}>{`${name}`}</Text>
         </View>
