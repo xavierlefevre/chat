@@ -1,6 +1,5 @@
 // @flow
-
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
 import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -20,25 +19,21 @@ const styles = StyleSheet.create({
   },
 });
 
-class Group extends Component {
-  render() {
-    const { id, name } = this.props.group;
-    return (
-      <TouchableHighlight key={id} onPress={this.props.goToMessages}>
-        <View style={styles.groupContainer}>
-          <Text style={styles.groupName}>{`${name}`}</Text>
-        </View>
-      </TouchableHighlight>
-    );
-  }
-}
-
-Group.propTypes = {
-  goToMessages: PropTypes.func.isRequired,
-  group: PropTypes.shape({
-    id: PropTypes.number,
-    name: PropTypes.string,
-  }),
+type PropsType = {
+  goToMessages: () => void,
+  group: {
+    id: number,
+    name: string,
+  },
 };
 
-export default Group;
+export default function(props: PropsType) {
+  const { id, name } = props.group;
+  return (
+    <TouchableHighlight key={id} onPress={props.goToMessages}>
+      <View style={styles.groupContainer}>
+        <Text style={styles.groupName}>{`${name}`}</Text>
+      </View>
+    </TouchableHighlight>
+  );
+}

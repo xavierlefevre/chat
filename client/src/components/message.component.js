@@ -1,5 +1,6 @@
+// @flow
 import moment from 'moment';
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -40,7 +41,18 @@ const styles = StyleSheet.create({
   },
 });
 
-const Message = ({ color, message, isCurrentUser }) => (
+type PropsType = {
+  color: string,
+  message: {
+    id: number,
+    createdAt: string,
+    from: { username: string },
+    text: string,
+  },
+  isCurrentUser: boolean,
+};
+
+export default ({ color, message, isCurrentUser }: PropsType) => (
   <View key={message.id} style={styles.container}>
     {isCurrentUser ? <View style={styles.messageSpacer} /> : undefined}
     <View style={[styles.message, isCurrentUser && styles.myMessage]}>
@@ -55,17 +67,3 @@ const Message = ({ color, message, isCurrentUser }) => (
     {!isCurrentUser ? <View style={styles.messageSpacer} /> : undefined}
   </View>
 );
-
-Message.propTypes = {
-  color: PropTypes.string.isRequired,
-  message: PropTypes.shape({
-    createdAt: PropTypes.string.isRequired,
-    from: PropTypes.shape({
-      username: PropTypes.string.isRequired,
-    }),
-    text: PropTypes.string.isRequired,
-  }).isRequired,
-  isCurrentUser: PropTypes.bool.isRequired,
-};
-
-export default Message;

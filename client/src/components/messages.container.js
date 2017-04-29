@@ -1,3 +1,4 @@
+// @flow
 import { graphql, compose } from 'react-apollo';
 import update from 'immutability-helper';
 
@@ -14,10 +15,7 @@ const groupQuery = graphql(GROUP_QUERY, {
 });
 
 function isDuplicateMessage(newMessage, existingMessages) {
-  return (
-    newMessage.id !== null &&
-    existingMessages.some(message => newMessage.id === message.id)
-  );
+  return newMessage.id !== null && existingMessages.some(message => newMessage.id === message.id);
 }
 
 const createMessage = graphql(CREATE_MESSAGE_MUTATION, {

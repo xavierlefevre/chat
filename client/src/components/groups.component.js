@@ -1,5 +1,4 @@
 // @flow
-
 import React, { Component } from 'react';
 import { ActivityIndicator, ListView, Platform, StyleSheet, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
@@ -19,7 +18,7 @@ const styles = StyleSheet.create({
 });
 
 type PropsType = {
-  loading: number,
+  loading: boolean,
   user: {
     id: number,
     email: string,
@@ -33,7 +32,7 @@ type StateType = {
   ds: any,
 };
 
-class Groups extends Component {
+export default class Groups extends Component {
   props: PropsType;
   state: StateType;
 
@@ -75,5 +74,3 @@ class Groups extends Component {
     );
   }
 }
-
-export default Groups;

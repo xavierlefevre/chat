@@ -1,3 +1,4 @@
+// @flow
 import { graphql } from 'react-apollo';
 import { USER_QUERY } from '../queries/user.query';
 

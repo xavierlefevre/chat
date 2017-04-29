@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+// @flow
+import React from 'react';
 import { Router, Scene, Actions } from 'react-native-router-flux';
 import { Text, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
@@ -22,7 +23,9 @@ const styles = StyleSheet.create({
   },
 });
 
-const TestScene = props => (
+type TestScenePropsType = { title: string };
+
+const TestScene = (props: TestScenePropsType) => (
   <View style={styles.container}>
     <Text>
       {props.title}
@@ -30,31 +33,18 @@ const TestScene = props => (
   </View>
 );
 
-TestScene.propTypes = {
-  title: PropTypes.string,
+type TabIconPropsType = {
+  selected: boolean,
+  title: string,
 };
 
-class TabIcon extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text
-          style={[
-            styles.tabText,
-            this.props.selected ? styles.selected : undefined,
-          ]}
-        >
-          {this.props.title}
-        </Text>
-      </View>
-    );
-  }
-}
-
-TabIcon.propTypes = {
-  selected: PropTypes.bool,
-  title: PropTypes.string.isRequired,
-};
+const TabIcon = (props: TabIconPropsType) => (
+  <View style={styles.container}>
+    <Text style={[styles.tabText, props.selected ? styles.selected : undefined]}>
+      {props.title}
+    </Text>
+  </View>
+);
 
 export const Scenes = Actions.create(
   <Scene key="root">

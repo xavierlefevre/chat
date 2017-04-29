@@ -1,12 +1,6 @@
-import {
-  ActivityIndicator,
-  KeyboardAvoidingView,
-  ListView,
-  Platform,
-  StyleSheet,
-  View,
-} from 'react-native';
-import React, { Component, PropTypes } from 'react';
+// @flow
+import { ActivityIndicator, KeyboardAvoidingView, ListView, Platform, StyleSheet, View } from 'react-native';
+import React, { Component } from 'react';
 import randomColor from 'randomcolor';
 
 import Message from './message.component';
@@ -50,16 +44,35 @@ const styles = StyleSheet.create({
   },
 });
 
-class Messages extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
-      usernameColors: {},
-    };
-  }
+type PropsType = {
+  group: {
+    messages: Array<any>,
+    users: Array<any>,
+  },
+  loading: boolean,
+  groupId: number,
+  title: string,
+  createMessage: () => void,
+};
+type StateType = {
+  ds: any,
+  usernameColors: {},
+  shouldScrollToBottom: boolean,
+};
+type ListViewType = any;
 
-  componentWillReceiveProps(nextProps) {
+export default class Messages extends Component {
+  props: PropsType;
+  state: StateType;
+  listView: ListViewType;
+
+  state = {
+    ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+    usernameColors: {},
+    shouldScrollToBottom: false,
+  };
+
+  componentWillReceiveProps(nextProps: PropsType) {
     const oldData = this.props;
     const newData = nextProps;
     const usernameColors = {};
@@ -67,18 +80,12 @@ class Messages extends Component {
     if (newData.group) {
       if (newData.group.users) {
         newData.group.users.map(user => {
-          usernameColors[user.username] =
-            this.state.usernameColors[user.username] || randomColor();
+          usernameColors[user.username] = this.state.usernameColors[user.username] || randomColor();
         });
       }
-      if (
-        !!newData.group.messages &&
-        (!oldData.group || newData.group.messages !== oldData.group.messages)
-      ) {
+      if (!!newData.group.messages && (!oldData.group || newData.group.messages !== oldData.group.messages)) {
         this.setState({
-          ds: this.state.ds.cloneWithRows(
-            newData.group.messages.slice().reverse()
-          ),
+          ds: this.state.ds.cloneWithRows(newData.group.messages.slice().reverse()),
           usernameColors,
         });
         this.setState({
@@ -88,7 +95,7 @@ class Messages extends Component {
     }
   }
 
-  send(text) {
+  send(text: string) {
     this.props.createMessage({
       groupId: this.props.groupId,
       userId: 1, // faking the user for now
@@ -98,7 +105,7 @@ class Messages extends Component {
 
   render() {
     const { loading, group } = this.props;
-    // render loading placeholder while we fetch messages
+
     if (loading && !group) {
       return (
         <View style={[styles.loading, styles.container]}>
@@ -107,13 +114,8 @@ class Messages extends Component {
       );
     }
 
-    // render list of messages for group
     return (
-      <KeyboardAvoidingView
-        behavior={'position'}
-        contentContainerStyle={styles.container}
-        style={styles.container}
-      >
+      <KeyboardAvoidingView behavior={'position'} contentContainerStyle={styles.container} style={styles.container}>
         <ListView
           ref={ref => {
             this.listView = ref;
@@ -137,21 +139,8 @@ class Messages extends Component {
             />
           )}
         />
-        <MessageInput send={text => this.send(text)} />
+        <MessageInput send={(text: string) => this.send(text)} />
       </KeyboardAvoidingView>
     );
   }
 }
-
-Messages.propTypes = {
-  group: PropTypes.shape({
-    messages: PropTypes.array,
-    users: PropTypes.array,
-  }),
-  loading: PropTypes.bool,
-  groupId: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
-  createMessage: PropTypes.func,
-};
-
-export default Messages;

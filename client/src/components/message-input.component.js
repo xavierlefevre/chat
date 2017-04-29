@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+// @flow
+import React, { Component } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -50,12 +51,18 @@ const sendButton = send => (
   />
 );
 
-class MessageInput extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-    this.send = this.send.bind(this);
-  }
+type PropsType = { send: string => void };
+type StateType = { text: string };
+type TextInputType = any;
+
+export default class MessageInput extends Component {
+  props: PropsType;
+  state: StateType;
+  textInput: TextInputType;
+
+  state = {
+    text: '',
+  };
 
   send() {
     this.props.send(this.state.text);
@@ -76,15 +83,9 @@ class MessageInput extends Component {
           />
         </View>
         <View style={styles.sendButtonContainer}>
-          {sendButton(this.send)}
+          {sendButton(() => this.send())}
         </View>
       </View>
     );
   }
 }
-
-MessageInput.propTypes = {
-  send: PropTypes.func.isRequired,
-};
-
-export default MessageInput;
