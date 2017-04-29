@@ -3,8 +3,8 @@ import { graphql, compose } from 'react-apollo';
 import update from 'immutability-helper';
 
 import Messages from './messages.component';
-import GROUP_QUERY from '../queries/group.query';
-import CREATE_MESSAGE_MUTATION from '../queries/createMessage.mutation';
+import GROUP_QUERY from '../../queries/group.query';
+import CREATE_MESSAGE_MUTATION from '../../queries/createMessage.mutation';
 
 const groupQuery = graphql(GROUP_QUERY, {
   options: ({ groupId }) => ({ variables: { groupId } }),
