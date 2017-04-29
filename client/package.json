@@ -8,6 +8,7 @@
 	},
 	"dependencies": {
 		"apollo-client": "^1.0.3",
+		"eslint-plugin-flowtype": "^2.32.1",
 		"graphql-tag": "^2.0.0",
 		"immutability-helper": "^2.1.2",
 		"lodash": "^4.17.4",

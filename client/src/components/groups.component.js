@@ -1,13 +1,7 @@
 // @flow
 
-import React, { Component, PropTypes } from 'react';
-import {
-  ActivityIndicator,
-  ListView,
-  Platform,
-  StyleSheet,
-  View,
-} from 'react-native';
+import React, { Component } from 'react';
+import { ActivityIndicator, ListView, Platform, StyleSheet, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import Group from './group.component';
@@ -24,33 +18,44 @@ const styles = StyleSheet.create({
   },
 });
 
-class Groups extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
-    };
-  }
+type PropsType = {
+  loading: number,
+  user: {
+    id: number,
+    email: string,
+    groups: Array<{
+      id: number,
+      name: string,
+    }>,
+  },
+};
+type StateType = {
+  ds: any,
+};
 
-  componentWillReceiveProps(nextProps) {
+class Groups extends Component {
+  props: PropsType;
+  state: StateType;
+
+  state = {
+    ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+  };
+
+  componentWillReceiveProps(nextProps: PropsType) {
     if (!nextProps.loading && nextProps.user !== this.props.user) {
-      // convert groups Array to ListView.DataSource
-      // we will use this.state.ds to populate our ListView
       this.setState({
-        // cloneWithRows computes a diff and decides whether to rerender
         ds: this.state.ds.cloneWithRows(nextProps.user.groups),
       });
     }
   }
 
-  goToMessages(group: { name: String, id: Number }) {
+  goToMessages(group: GroupType) {
     Actions.messages({ groupId: group.id, title: group.name });
   }
 
   render() {
     const { loading } = this.props;
 
-    // render loading placeholder while we fetch messages
     if (loading) {
       return (
         <View style={[styles.loading, styles.container]}>
@@ -59,36 +64,16 @@ class Groups extends Component {
       );
     }
 
-    // render list of groups for user
     return (
       <View style={styles.container}>
         <ListView
           enableEmptySections
           dataSource={this.state.ds}
-          renderRow={group => (
-            <Group
-              group={group}
-              goToMessages={() => this.goToMessages(group)}
-            />
-          )}
+          renderRow={(group: GroupType) => <Group group={group} goToMessages={() => this.goToMessages(group)} />}
         />
       </View>
     );
   }
 }
-
-Groups.propTypes = {
-  loading: PropTypes.bool,
-  user: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-    email: PropTypes.string.isRequired,
-    groups: PropTypes.arrayOf(
-      PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
-      })
-    ),
-  }),
-};
 
 export default Groups;
