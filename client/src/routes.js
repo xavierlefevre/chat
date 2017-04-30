@@ -5,6 +5,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import Groups from './pages/groups/groups.container';
+import NewGroup from './pages/new-group/new-group.container';
 import Messages from './pages/messages/messages.container';
 
 const styles = StyleSheet.create({
@@ -12,6 +13,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: 'white',
+  },
+  tabBarStyle: {
+    backgroundColor: '#dbdbdb',
   },
   tabText: {
     color: '#777',
@@ -48,13 +52,16 @@ const TabIcon = (props: TabIconPropsType) => (
 
 export const Scenes = Actions.create(
   <Scene key="root">
-    <Scene key="tabs" tabs>
+    <Scene key="tabs" tabBarStyle={styles.tabBarStyle} tabs>
       <Scene key="chatsTab" title="Chats" icon={TabIcon}>
         <Scene key="groups" component={Groups} title="Chats" />
       </Scene>
       <Scene key="settingsTab" title="Settings" icon={TabIcon}>
         <Scene key="settings" component={TestScene} title="Settings" />
       </Scene>
+    </Scene>
+    <Scene key="newGroup" direction="vertical">
+      <Scene key="newGroupModal" component={NewGroup} title="New Group" schema="modal" panHandlers={null} />
     </Scene>
     <Scene key="messages" component={Messages} />
   </Scene>

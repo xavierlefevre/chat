@@ -21,10 +21,7 @@ const styles = StyleSheet.create({
 
 type PropsType = {
   goToMessages: () => void,
-  group: {
-    id: number,
-    name: string,
-  },
+  group: GroupType,
 };
 
 export default function(props: PropsType) {

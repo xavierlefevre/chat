@@ -45,10 +45,7 @@ const styles = StyleSheet.create({
 });
 
 type PropsType = {
-  group: {
-    messages: Array<any>,
-    users: Array<any>,
-  },
+  group: GroupType,
   loading: boolean,
   groupId: number,
   title: string,
@@ -59,12 +56,11 @@ type StateType = {
   usernameColors: {},
   shouldScrollToBottom: boolean,
 };
-type ListViewType = any;
 
 export default class Messages extends Component {
   props: PropsType;
   state: StateType;
-  listView: ListViewType;
+  listView: any;
 
   state = {
     ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),

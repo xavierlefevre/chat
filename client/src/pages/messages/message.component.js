@@ -43,12 +43,7 @@ const styles = StyleSheet.create({
 
 type PropsType = {
   color: string,
-  message: {
-    id: number,
-    createdAt: string,
-    from: { username: string },
-    text: string,
-  },
+  message: MessageType,
   isCurrentUser: boolean,
 };
 

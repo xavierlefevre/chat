@@ -53,12 +53,11 @@ const sendButton = send => (
 
 type PropsType = { send: string => void };
 type StateType = { text: string };
-type TextInputType = any;
 
 export default class MessageInput extends Component {
   props: PropsType;
   state: StateType;
-  textInput: TextInputType;
+  textInput: any;
 
   state = {
     text: '',

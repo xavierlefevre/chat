@@ -7,6 +7,10 @@ export const USER_QUERY = gql`
       id
       email
       username
+      friends {
+        id
+        username
+      }
       groups {
         id
         name
