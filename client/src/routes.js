@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import Groups from './pages/groups/groups.container';
 import NewGroup from './pages/new-group/new-group.container';
 import Messages from './pages/messages/messages.container';
+import FinalizeGroup from './pages/finalize-group/finalize-group.container';
 
 const styles = StyleSheet.create({
   container: {
@@ -62,6 +63,7 @@ export const Scenes = Actions.create(
     </Scene>
     <Scene key="newGroup" direction="vertical">
       <Scene key="newGroupModal" component={NewGroup} title="New Group" schema="modal" panHandlers={null} />
+      <Scene key="finalizeGroup" component={FinalizeGroup} title="New Group" />
     </Scene>
     <Scene key="messages" component={Messages} />
   </Scene>

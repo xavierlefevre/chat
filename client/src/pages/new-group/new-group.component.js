@@ -8,7 +8,7 @@ import { Actions } from 'react-native-router-flux';
 import AlphabetListView from 'react-native-alphabetlistview';
 import update from 'immutability-helper';
 
-import SelectedUserList from './selected-user-list.component';
+import SelectedUserList from '../../components/selected-user-list.component';
 import Cell from './cell.component';
 
 const sortObject = obj =>
@@ -67,7 +67,7 @@ type PropsType = {
 };
 type StateType = {
   selected: Array<FriendType>,
-  friends: Array<FriendType>,
+  friends: { A?: FriendType },
   ds: any,
 };
 
@@ -81,7 +81,7 @@ export default class NewGroup extends Component {
       selected: [],
       friends: !!props.data && !!props.data.user
         ? _.groupBy(props.data.user.friends, friend => friend.username.charAt(0).toUpperCase())
-        : [],
+        : {},
       ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
     };
   }
