@@ -33,9 +33,11 @@ export const Schema = [
   }
 
   type Mutation {
-    createMessage(
-      text: String!, userId: Int!, groupId: Int!
-    ): Message
+    createMessage(text: String!, userId: Int!, groupId: Int!): Message
+    createGroup(name: String!, userId: Int!, userIds: [Int]): Group
+    deleteGroup(id: Int!): Group
+    leaveGroup(id: Int!, userId: Int!): Group # let user leave group
+    updateGroup(id: Int!, name: String): Group
   }
 
   schema {
