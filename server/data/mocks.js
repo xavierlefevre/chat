@@ -7,11 +7,13 @@ export const Mocks = {
   Query: () => ({
     user: (root, args) => ({
       email: args.email,
-      messages: [{
-        from: {
-          email: args.email,
+      messages: [
+        {
+          from: {
+            email: args.email,
+          },
         },
-      }],
+      ],
     }),
   }),
   User: () => ({

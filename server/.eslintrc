@@ -1,28 +1,9 @@
 {
-  "extends": "airbnb",
+  "extends": "airbnb-base",
   "parser": "babel-eslint",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    }
-  },
   "plugins": [
-    "prettier",
-    "react",
-    "jsx-a11y",
-    "flowtype"
+    "prettier"
   ],
-  "globals": {
-    "React": true,
-    "__DEV__": true,
-    "__dirname": true,
-    "describe": true,
-    "expect": true,
-    "it": true,
-    "xit": true,
-    "beforeEach": true,
-    "jest": true
-  },
   "env": {
     "browser": true,
     "node": true,
@@ -45,11 +26,6 @@
         "exports": "always-multiline",
         "functions": "never"
     }],
-    "react/jsx-filename-extension": 0,
-    "react/sort-comp": 0,
-    "react/no-unused-prop-types": 0,
-    "flowtype/define-flow-type": 1,
-    "flowtype/use-flow-type": 1,
     "prettier/prettier": [
       "error",
       {
@@ -60,10 +36,5 @@
         "printWidth": 120
       }
     ]
-  },
-  "settings": {
-    "flowtype": {
-      "onlyFilesWithFlowAnnotation": false
-    }
   }
 }

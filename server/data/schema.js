@@ -1,4 +1,5 @@
-export const Schema = [`
+export const Schema = [
+  `
   scalar Date
 
   type Group {
@@ -41,6 +42,7 @@ export const Schema = [`
     query: Query
     mutation: Mutation
   }
-`];
+`,
+];
 
 export default Schema;
