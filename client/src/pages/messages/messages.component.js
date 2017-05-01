@@ -1,6 +1,15 @@
 // @flow
 import React, { Component } from 'react';
-import { ActivityIndicator, KeyboardAvoidingView, ListView, View, TouchableOpacity, Image, Text } from 'react-native';
+import {
+  ActivityIndicator,
+  RefreshControl,
+  KeyboardAvoidingView,
+  ListView,
+  View,
+  TouchableOpacity,
+  Image,
+  Text,
+} from 'react-native';
 import randomColor from 'randomcolor';
 import { Actions } from 'react-native-router-flux';
 
@@ -14,11 +23,13 @@ type PropsType = {
   groupId: number,
   title: string,
   createMessage: () => void,
+  loadMoreEntries: () => Promise<any>,
 };
 type StateType = {
   ds: any,
   usernameColors: {},
   shouldScrollToBottom: boolean,
+  refreshing: boolean,
 };
 
 export default class Messages extends Component {
@@ -30,6 +41,7 @@ export default class Messages extends Component {
     ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
     usernameColors: {},
     shouldScrollToBottom: false,
+    refreshing: false,
   };
 
   componentWillReceiveProps(nextProps: PropsType) {
@@ -68,6 +80,15 @@ export default class Messages extends Component {
       groupId: this.props.groupId,
       userId: 1, // faking the user for now
       text,
+    });
+  }
+
+  onRefresh() {
+    this.setState({ refreshing: true });
+    this.props.loadMoreEntries().then(() => {
+      this.setState({
+        refreshing: false,
+      });
     });
   }
 
@@ -112,6 +133,7 @@ export default class Messages extends Component {
               });
             }
           }}
+          refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.onRefresh()} />}
           renderRow={message => (
             <Message
               color={this.state.usernameColors[message.from.username]}

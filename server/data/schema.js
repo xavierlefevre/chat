@@ -6,7 +6,7 @@ export const Schema = [
     id: Int! # unique id for the group
     name: String # name of the group
     users: [User]! # users in the group
-    messages: [Message] # messages sent to the group
+    messages(limit: Int, offset: Int): [Message] # messages sent to the group
   }
 
   type User {

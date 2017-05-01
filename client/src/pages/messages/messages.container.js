@@ -5,11 +5,35 @@ import update from 'immutability-helper';
 import Messages from './messages.component';
 import { GROUP_QUERY, CREATE_MESSAGE_MUTATION } from '../../queries';
 
+const ITEMS_PER_PAGE = 10;
 const groupQuery = graphql(GROUP_QUERY, {
-  options: ({ groupId }) => ({ variables: { groupId } }),
-  props: ({ data: { loading, group } }) => ({
+  options: ({ groupId }) => ({
+    variables: {
+      groupId,
+      offset: 0,
+      limit: ITEMS_PER_PAGE,
+    },
+  }),
+  props: ({ data: { fetchMore, loading, group } }) => ({
     loading,
     group,
+    loadMoreEntries() {
+      return fetchMore({
+        variables: {
+          offset: group.messages.length,
+        },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          if (!fetchMoreResult) {
+            return previousResult;
+          }
+          return update(previousResult, {
+            group: {
+              messages: { $push: fetchMoreResult.group.messages },
+            },
+          });
+        },
+      });
+    },
   }),
 });
 
