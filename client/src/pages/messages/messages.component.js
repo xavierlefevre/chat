@@ -1,7 +1,8 @@
 // @flow
 import React, { Component } from 'react';
-import { ActivityIndicator, KeyboardAvoidingView, ListView, View } from 'react-native';
+import { ActivityIndicator, KeyboardAvoidingView, ListView, View, TouchableOpacity, Image, Text } from 'react-native';
 import randomColor from 'randomcolor';
+import { Actions } from 'react-native-router-flux';
 
 import styles from './messages.style';
 import Message from './message.component';
@@ -54,11 +55,32 @@ export default class Messages extends Component {
     }
   }
 
+  componentDidMount() {
+    this.renderTitle();
+  }
+
+  groupDetails() {
+    Actions.groupDetails({ id: this.props.groupId });
+  }
+
   send(text: string) {
     this.props.createMessage({
       groupId: this.props.groupId,
       userId: 1, // faking the user for now
       text,
+    });
+  }
+
+  renderTitle() {
+    Actions.refresh({
+      renderTitle: () => (
+        <TouchableOpacity style={styles.titleWrapper} onPress={() => this.groupDetails()}>
+          <View style={styles.title}>
+            <Image style={styles.titleImage} source={{ uri: 'https://facebook.github.io/react/img/logo_og.png' }} />
+            <Text>{this.props.title}</Text>
+          </View>
+        </TouchableOpacity>
+      ),
     });
   }
 

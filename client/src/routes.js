@@ -8,6 +8,7 @@ import { Groups } from './pages/groups';
 import { NewGroup } from './pages/new-group';
 import { Messages } from './pages/messages';
 import { FinalizeGroup } from './pages/finalize-group';
+import { GroupDetails } from './pages/group-details';
 
 const styles = StyleSheet.create({
   container: {
@@ -66,6 +67,7 @@ export const Scenes = Actions.create(
       <Scene key="finalizeGroup" component={FinalizeGroup} title="New Group" />
     </Scene>
     <Scene key="messages" component={Messages} />
+    <Scene key="groupDetails" component={GroupDetails} title="Group Info" />
   </Scene>
 );
 
