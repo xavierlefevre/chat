@@ -2,8 +2,7 @@
 import { graphql, compose } from 'react-apollo';
 import update from 'immutability-helper';
 
-import USER_QUERY from '../../queries/user.query';
-import CREATE_GROUP_MUTATION from '../../queries/createGroup.mutation';
+import { USER_QUERY, CREATE_GROUP_MUTATION } from '../../queries';
 import FinalizeGroup from './finalize-group.component';
 
 // helper function checks for duplicate groups, which we receive because we

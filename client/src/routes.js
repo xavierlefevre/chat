@@ -4,10 +4,10 @@ import { Router, Scene, Actions } from 'react-native-router-flux';
 import { Text, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import Groups from './pages/groups/groups.container';
-import NewGroup from './pages/new-group/new-group.container';
-import Messages from './pages/messages/messages.container';
-import FinalizeGroup from './pages/finalize-group/finalize-group.container';
+import { Groups } from './pages/groups';
+import { NewGroup } from './pages/new-group';
+import { Messages } from './pages/messages';
+import { FinalizeGroup } from './pages/finalize-group';
 
 const styles = StyleSheet.create({
   container: {

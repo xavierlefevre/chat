@@ -8,7 +8,7 @@ import { Actions } from 'react-native-router-flux';
 import AlphabetListView from 'react-native-alphabetlistview';
 import update from 'immutability-helper';
 
-import SelectedUserList from '../../components/selected-user-list.component';
+import { SelectedUserList } from '../../components';
 import Cell from './cell.component';
 
 const sortObject = obj =>

@@ -2,68 +2,12 @@
 /* eslint no-bitwise:0 */
 import { _ } from 'lodash';
 import React, { Component } from 'react';
-import { Alert, Image, ListView, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, ListView, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import update from 'immutability-helper';
 
-import SelectedUserList from '../../components/selected-user-list.component';
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: Platform.OS === 'ios' ? 64 : 54, // nav bar height
-    flex: 1,
-  },
-  detailsContainer: {
-    padding: 20,
-    flexDirection: 'row',
-  },
-  imageContainer: {
-    paddingRight: 20,
-    alignItems: 'center',
-  },
-  inputContainer: {
-    flexDirection: 'column',
-    flex: 1,
-  },
-  input: {
-    color: 'black',
-    height: 32,
-  },
-  inputBorder: {
-    borderColor: '#dbdbdb',
-    borderBottomWidth: 1,
-    borderTopWidth: 1,
-    paddingVertical: 8,
-  },
-  inputInstructions: {
-    paddingTop: 6,
-    color: '#777',
-    fontSize: 12,
-  },
-  groupImage: {
-    width: 54,
-    height: 54,
-    borderRadius: 27,
-  },
-  selected: {
-    flexDirection: 'row',
-  },
-  loading: {
-    justifyContent: 'center',
-    flex: 1,
-  },
-  navIcon: {
-    color: 'blue',
-    fontSize: 18,
-    paddingTop: 2,
-  },
-  participants: {
-    paddingHorizontal: 20,
-    paddingVertical: 6,
-    backgroundColor: '#dbdbdb',
-    color: '#777',
-  },
-});
+import styles from './finalize-group.style';
+import { SelectedUserList } from '../../components';
 
 type PropsType = {
   createGroup: () => Promise<any>,

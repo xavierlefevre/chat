@@ -53,6 +53,7 @@
     "react/jsx-closing-bracket-location": 0,
     "flowtype/define-flow-type": 1,
     "flowtype/use-flow-type": 1,
+    "import/prefer-default-export": 0,
     "prettier/prettier": [
       "error",
       {
