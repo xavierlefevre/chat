@@ -6,14 +6,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import styles from './selected-user-list-item.style';
 
 type PropsType = {
-  user: {
-    id: number,
-    username: string,
-  },
-  remove: ({
-    username: string,
-    id: any,
-  }) => void,
+  user: FriendType,
+  remove: FriendType => void,
 };
 
 export default class SelectedUserListItem extends Component {
