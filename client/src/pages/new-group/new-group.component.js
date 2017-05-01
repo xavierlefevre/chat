@@ -3,45 +3,20 @@
 /* eslint no-param-reassign:0 */
 import { _ } from 'lodash';
 import React, { Component } from 'react';
-import { ActivityIndicator, ListView, Platform, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, ListView, Text, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import AlphabetListView from 'react-native-alphabetlistview';
 import update from 'immutability-helper';
 
 import { SelectedUserList } from '../../components';
 import Cell from './cell.component';
+import styles, { sectionHeaderStyles } from './new-group.style';
 
 const sortObject = obj =>
   Object.keys(obj).sort().reduce((reduced, key) => {
     reduced[key] = obj[key];
     return reduced;
   }, {});
-
-const styles = StyleSheet.create({
-  container: {
-    marginTop: Platform.OS === 'ios' ? 64 : 54, // nav bar height
-    flex: 1,
-  },
-  selected: {
-    flexDirection: 'row',
-  },
-  loading: {
-    justifyContent: 'center',
-    flex: 1,
-  },
-});
-
-const sectionHeaderStyles = StyleSheet.create({
-  view: {
-    backgroundColor: '#ccc',
-  },
-  text: {
-    textAlign: 'center',
-    color: '#fff',
-    fontWeight: '700',
-    fontSize: 16,
-  },
-});
 
 type SectionHeaderPropsType = {
   title: string,

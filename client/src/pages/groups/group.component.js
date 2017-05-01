@@ -1,23 +1,8 @@
 // @flow
 import React from 'react';
-import { StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Text, TouchableHighlight, View } from 'react-native';
 
-const styles = StyleSheet.create({
-  groupContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: 'white',
-    borderBottomColor: '#eee',
-    borderBottomWidth: 1,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-  },
-  groupName: {
-    fontWeight: 'bold',
-    flex: 0.7,
-  },
-});
+import styles from './group.style';
 
 type PropsType = {
   goToMessages: () => void,

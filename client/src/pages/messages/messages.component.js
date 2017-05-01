@@ -1,48 +1,11 @@
 // @flow
-import { ActivityIndicator, KeyboardAvoidingView, ListView, Platform, StyleSheet, View } from 'react-native';
 import React, { Component } from 'react';
+import { ActivityIndicator, KeyboardAvoidingView, ListView, View } from 'react-native';
 import randomColor from 'randomcolor';
 
+import styles from './messages.style';
 import Message from './message.component';
 import MessageInput from './message-input.component';
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'stretch',
-    backgroundColor: '#e5ddd5',
-    flex: 1,
-    flexDirection: 'column',
-    paddingTop: 32,
-  },
-  loading: {
-    justifyContent: 'center',
-  },
-  titleWrapper: {
-    alignItems: 'center',
-    marginTop: 10,
-    position: 'absolute',
-    ...Platform.select({
-      ios: {
-        top: 15,
-      },
-      android: {
-        top: 5,
-      },
-    }),
-    left: 0,
-    right: 0,
-  },
-  title: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  titleImage: {
-    marginRight: 6,
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-  },
-});
 
 type PropsType = {
   group: GroupType,

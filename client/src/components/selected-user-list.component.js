@@ -1,14 +1,9 @@
 // @flow
 import React, { Component } from 'react';
-import { ListView, StyleSheet } from 'react-native';
+import { ListView } from 'react-native';
 
 import SelectedUserListItem from './selected-user-list-item.component';
-
-const styles = StyleSheet.create({
-  list: {
-    paddingVertical: 8,
-  },
-});
+import styles from './selected-user-list.style';
 
 type PropsType = {
   dataSource: {},
