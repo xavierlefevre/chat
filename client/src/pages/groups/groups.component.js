@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { ActivityIndicator, ListView, View, Button, Text } from 'react-native';
+import { ActivityIndicator, ListView, View, Button, Text, RefreshControl } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import Group from './group.component';
@@ -9,9 +9,11 @@ import styles from './groups.style';
 type PropsType = {
   loading: boolean,
   user: UserType,
+  refetch: () => Promise<any>,
 };
 type StateType = {
   ds: any,
+  refreshing: boolean,
 };
 
 const Header = () => (
@@ -26,10 +28,11 @@ export default class Groups extends Component {
 
   state = {
     ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+    refreshing: false,
   };
 
   componentWillReceiveProps(nextProps: PropsType) {
-    if (!nextProps.loading && nextProps.user !== this.props.user) {
+    if (nextProps.user && !nextProps.loading && nextProps.user !== this.props.user) {
       this.setState({
         ds: this.state.ds.cloneWithRows(nextProps.user.groups),
       });
@@ -38,6 +41,13 @@ export default class Groups extends Component {
 
   goToMessages(group: GroupType) {
     Actions.messages({ groupId: group.id, title: group.name });
+  }
+
+  onRefresh() {
+    this.setState({ refreshing: true });
+    this.props.refetch().then(() => {
+      this.setState({ refreshing: false });
+    });
   }
 
   render() {
@@ -65,6 +75,7 @@ export default class Groups extends Component {
         <ListView
           enableEmptySections
           dataSource={this.state.ds}
+          refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.onRefresh()} />}
           renderHeader={() => <Header />}
           renderRow={(group: GroupType) => <Group group={group} goToMessages={() => this.goToMessages(group)} />}
         />

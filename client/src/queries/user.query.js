@@ -1,6 +1,8 @@
 // @flow
 import gql from 'graphql-tag';
 
+import MESSAGE_FRAGMENT from './message.fragment';
+
 const USER_QUERY = gql`
   query user($id: Int) {
     user(id: $id) {
@@ -14,9 +16,13 @@ const USER_QUERY = gql`
       groups {
         id
         name
+        messages(limit: 1) { # we don't have to use variables
+          ... MessageFragment
+        }
       }
     }
   }
+  ${MESSAGE_FRAGMENT}
 `;
 
 export default USER_QUERY;
