@@ -12,10 +12,12 @@ import {
 } from 'react-native';
 import randomColor from 'randomcolor';
 import { Actions } from 'react-native-router-flux';
+import update from 'immutability-helper';
 
 import styles from './messages.style';
 import Message from './message.component';
 import MessageInput from './message-input.component';
+import { MESSAGE_ADDED_SUBSCRIPTION } from '../../queries';
 
 type PropsType = {
   group: GroupType,
@@ -24,6 +26,7 @@ type PropsType = {
   title: string,
   createMessage: () => void,
   loadMoreEntries: () => Promise<any>,
+  subscribeToMore: () => void,
 };
 type StateType = {
   ds: any,
@@ -32,10 +35,15 @@ type StateType = {
   refreshing: boolean,
 };
 
+function isDuplicateMessage(newMessage, existingMessages) {
+  return newMessage.id !== null && existingMessages.some(message => newMessage.id === message.id);
+}
+
 export default class Messages extends Component {
   props: PropsType;
   state: StateType;
   listView: any;
+  subscription: any;
 
   state = {
     ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
@@ -64,6 +72,29 @@ export default class Messages extends Component {
           shouldScrollToBottom: true,
         });
       }
+    }
+
+    if (!this.subscription && !newData.loading) {
+      this.subscription = newData.subscribeToMore({
+        document: MESSAGE_ADDED_SUBSCRIPTION,
+        variables: { groupIds: [newData.groupId] },
+        updateQuery: (previousResult, { subscriptionData }) => {
+          const newMessage = subscriptionData.data.messageAdded;
+          // if it's our own mutation
+          // we might get the subscription result
+          // after the mutation result.
+          if (isDuplicateMessage(newMessage, previousResult.group.messages)) {
+            return previousResult;
+          }
+          return update(previousResult, {
+            group: {
+              messages: {
+                $unshift: [newMessage],
+              },
+            },
+          });
+        },
+      });
     }
   }
 

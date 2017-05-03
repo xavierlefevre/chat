@@ -5,3 +5,5 @@ export { default as LEAVE_GROUP_MUTATION } from './leaveGroup.mutation';
 export { default as DELETE_GROUP_MUTATION } from './deleteGroup.mutation';
 export { default as GROUP_QUERY } from './group.query';
 export { default as USER_QUERY } from './user.query';
+export { default as MESSAGE_ADDED_SUBSCRIPTION } from './messageAdded.subscription';
+export { default as GROUP_ADDED_SUBSCRIPTION } from './groupAdded.subscription';

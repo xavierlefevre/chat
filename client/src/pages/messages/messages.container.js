@@ -14,9 +14,10 @@ const groupQuery = graphql(GROUP_QUERY, {
       limit: ITEMS_PER_PAGE,
     },
   }),
-  props: ({ data: { fetchMore, loading, group } }) => ({
+  props: ({ data: { fetchMore, loading, group, subscribeToMore } }) => ({
     loading,
     group,
+    subscribeToMore,
     loadMoreEntries() {
       return fetchMore({
         variables: {
