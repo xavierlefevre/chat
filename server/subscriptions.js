@@ -7,6 +7,12 @@ export const subscriptionManager = new SubscriptionManager({
   schema: executableSchema,
   pubsub,
   setupFunctions: {
+    groupAdded: (options, args) => ({
+      groupAdded: {
+        // if the user is in the new group
+        filter: group => args.userId && ~map(group.users, 'id').indexOf(args.userId),
+      },
+    }),
     messageAdded: (options, args) => ({
       messageAdded: {
         filter: message => args.groupIds && ~args.groupIds.indexOf(message.groupId),

@@ -31,13 +31,20 @@ export const Resolvers = {
         return message;
       });
     },
-    createGroup(_, { name, userId, userIds }) {
+    createGroup(_, { name, userIds, userId }) {
       return User.findOne({ where: { id: userId } }).then(user =>
-        user.getFriends({ where: { id: { $in: !userIds ? [] : userIds } } }).then(friends =>
+        user.getFriends({ where: { id: { $in: userIds } } }).then(friends =>
           Group.create({
             name,
-            users: [user, ...friends],
-          }).then(group => group.addUsers([user, ...friends]).then(() => group))
+          }).then(group =>
+            group.addUsers([user, ...friends]).then(() => {
+              // append the user list to the group object
+              // to pass to pubsub so we can check members
+              group.users = [user, ...friends];
+              pubsub.publish('groupAdded', group);
+              return group;
+            })
+          )
         )
       );
     },
@@ -64,6 +71,9 @@ export const Resolvers = {
   Subscription: {
     messageAdded(message) {
       return message;
+    },
+    groupAdded(group) {
+      return group;
     },
   },
 
