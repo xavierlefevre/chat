@@ -1,5 +1,6 @@
 import GraphQLDate from 'graphql-date';
 import { Group, Message, User } from './connectors';
+import { pubsub } from '../subscriptions';
 
 export const Resolvers = {
   Date: GraphQLDate,
@@ -25,6 +26,9 @@ export const Resolvers = {
         userId,
         text,
         groupId,
+      }).then(message => {
+        pubsub.publish('messageAdded', message);
+        return message;
       });
     },
     createGroup(_, { name, userId, userIds }) {
@@ -54,6 +58,12 @@ export const Resolvers = {
     },
     updateGroup(_, { id, name }) {
       return Group.findOne({ where: { id } }).then(group => group.update({ name }));
+    },
+  },
+
+  Subscription: {
+    messageAdded(message) {
+      return message;
     },
   },
 

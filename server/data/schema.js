@@ -1,3 +1,8 @@
+import { addMockFunctionsToSchema, makeExecutableSchema } from 'graphql-tools';
+
+import { Mocks } from './mocks';
+import { Resolvers } from './resolvers';
+
 export const Schema = [
   `
   scalar Date
@@ -40,11 +45,23 @@ export const Schema = [
     updateGroup(id: Int!, name: String): Group
   }
 
+  type Subscription {
+    # Subscription fires on every message added
+    # for any of the groups with one of these groupIds
+    messageAdded(groupIds: [Int]): Message
+  }
+
   schema {
     query: Query
     mutation: Mutation
+    subscription: Subscription
   }
 `,
 ];
 
-export default Schema;
+export const executableSchema = makeExecutableSchema({
+  typeDefs: Schema,
+  resolvers: Resolvers,
+});
+
+export default executableSchema;
