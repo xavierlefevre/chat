@@ -1,3 +1,4 @@
+// @flow
 import gql from 'graphql-tag';
 
 import MESSAGE_FRAGMENT from './message.fragment';
