@@ -3,7 +3,7 @@ import { graphql, compose } from 'react-apollo';
 import update from 'immutability-helper';
 
 import Messages from './messages.component';
-import { GROUP_QUERY, CREATE_MESSAGE_MUTATION } from '../../queries';
+import { GROUP_QUERY, CREATE_MESSAGE_MUTATION } from '../../graphql';
 
 const ITEMS_PER_PAGE = 10;
 const groupQuery = graphql(GROUP_QUERY, {

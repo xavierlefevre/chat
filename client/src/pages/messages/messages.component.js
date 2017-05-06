@@ -17,7 +17,7 @@ import update from 'immutability-helper';
 import styles from './messages.style';
 import Message from './message.component';
 import MessageInput from './message-input.component';
-import { MESSAGE_ADDED_SUBSCRIPTION } from '../../queries';
+import { MESSAGE_ADDED_SUBSCRIPTION } from '../../graphql';
 
 type PropsType = {
   group: GroupType,

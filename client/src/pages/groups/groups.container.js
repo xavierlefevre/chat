@@ -1,7 +1,7 @@
 // @flow
 import { graphql } from 'react-apollo';
 
-import { USER_QUERY } from '../../queries';
+import { USER_QUERY } from '../../graphql';
 import Groups from './groups.component';
 
 const userQuery = graphql(USER_QUERY, {

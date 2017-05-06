@@ -7,7 +7,7 @@ import { map } from 'lodash';
 
 import Group from './group.component';
 import styles from './groups.style';
-import { MESSAGE_ADDED_SUBSCRIPTION, GROUP_ADDED_SUBSCRIPTION } from '../../queries';
+import { MESSAGE_ADDED_SUBSCRIPTION, GROUP_ADDED_SUBSCRIPTION } from '../../graphql';
 
 function isDuplicateDocument(newDocument, existingDocuments) {
   return newDocument.id !== null && existingDocuments.some(doc => newDocument.id === doc.id);

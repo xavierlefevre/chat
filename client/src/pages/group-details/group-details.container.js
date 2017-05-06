@@ -2,7 +2,7 @@
 import { graphql, compose } from 'react-apollo';
 import update from 'immutability-helper';
 
-import { GROUP_QUERY, DELETE_GROUP_MUTATION, LEAVE_GROUP_MUTATION } from '../../queries';
+import { GROUP_QUERY, DELETE_GROUP_MUTATION, LEAVE_GROUP_MUTATION } from '../../graphql';
 import GroupDetails from './group-details.component';
 
 const group = graphql(GROUP_QUERY, {
