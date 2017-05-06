@@ -1,2 +1,2 @@
 // @flow
-export { default as SelectedUserList } from './selected-user-list.component';
+export { SelectedUserList } from './selected-user-list';
