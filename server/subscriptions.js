@@ -1,4 +1,5 @@
 import { PubSub, SubscriptionManager } from 'graphql-subscriptions';
+import { map } from 'lodash';
 
 import { executableSchema } from './data/schema';
 

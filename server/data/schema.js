@@ -1,6 +1,5 @@
-import { addMockFunctionsToSchema, makeExecutableSchema } from 'graphql-tools';
+import { makeExecutableSchema } from 'graphql-tools';
 
-import { Mocks } from './mocks';
 import { Resolvers } from './resolvers';
 
 export const Schema = [
