@@ -3,7 +3,10 @@ import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
 import bodyParser from 'body-parser';
 import { createServer } from 'http';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
+import jwt from 'express-jwt';
 
+import JWT_SECRET from './config';
+import { User } from './data/connectors';
 import { subscriptionManager } from './subscriptions';
 import { executableSchema } from './data/schema';
 
@@ -15,10 +18,20 @@ const app = express();
 app.use(
   '/graphql',
   bodyParser.json(),
-  graphqlExpress({
+  jwt({
+    secret: JWT_SECRET,
+    credentialsRequired: false,
+  }),
+  graphqlExpress(req => ({
     schema: executableSchema,
-    context: {},
-  })
+    context: {
+      user: req.user
+        ? User.findOne({
+            where: { id: req.user.id },
+          })
+        : null,
+    },
+  }))
 );
 app.use(
   '/graphiql',
