@@ -20,6 +20,9 @@
     "space-before-function-paren": 0,
     "max-len": 0,
     "indent": 0,
+    "no-param-reassign": 0,
+    "prefer-default-export": 0,
+    "import/prefer-default-export": 0,
     "comma-dangle": ["error", {
         "arrays": "always-multiline",
         "objects": "always-multiline",

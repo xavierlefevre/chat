@@ -1,6 +1,7 @@
 import { _ } from 'lodash';
 import faker from 'faker';
 import Sequelize from 'sequelize';
+import bcrypt from 'bcrypt';
 
 const db = new Sequelize('chat', null, null, {
   dialect: 'sqlite',
@@ -38,23 +39,25 @@ db.sync({ force: true }).then(() =>
       .then(group =>
         _.times(USERS_PER_GROUP, () => {
           const password = faker.internet.password();
-          return group
-            .createUser({
-              email: faker.internet.email(),
-              username: faker.internet.userName(),
-              password,
-            })
-            .then(user => {
-              console.log('{email, username, password}', `{${user.email}, ${user.username}, ${password}}`);
-              _.times(MESSAGES_PER_USER, () =>
-                MessageModel.create({
-                  userId: user.id,
-                  groupId: group.id,
-                  text: faker.lorem.sentences(3),
-                })
-              );
-              return user;
-            });
+          return bcrypt.hash(password, 10).then(hash =>
+            group
+              .createUser({
+                email: faker.internet.email(),
+                username: faker.internet.userName(),
+                password: hash,
+              })
+              .then(user => {
+                console.log('{email, username, password}', `{${user.email}, ${user.username}, ${password}}`);
+                _.times(MESSAGES_PER_USER, () =>
+                  MessageModel.create({
+                    userId: user.id,
+                    groupId: group.id,
+                    text: faker.lorem.sentences(3),
+                  })
+                );
+                return user;
+              })
+          );
         })
       )
       .then(userPromises => {
