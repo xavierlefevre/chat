@@ -27,7 +27,7 @@ app.use(
     context: {
       user: req.user
         ? User.findOne({
-            where: { id: req.user.id },
+            where: { id: req.user.id, version: req.user.version },
           })
         : null,
     },
