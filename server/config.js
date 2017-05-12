@@ -2,4 +2,6 @@ import dotenv from 'dotenv';
 
 dotenv.config({ silent: true });
 
-export default process.env.JWT_SECRET;
+export const { JWT_SECRET } = process.env;
+
+export default JWT_SECRET;

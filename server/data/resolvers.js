@@ -52,7 +52,7 @@ export const Resolvers = {
               // create jwt
               const token = jwt.sign({ id: user.id, email: user.email, version: user.version }, JWT_SECRET);
               user.jwt = token;
-              return { jwt: token, id: user.id };
+              return user;
             }
             return Promise.reject('password incorrect');
           });
@@ -78,7 +78,8 @@ export const Resolvers = {
             .then(user => {
               const { id } = user;
               const token = jwt.sign({ id, email, version: 1 }, JWT_SECRET);
-              return { jwt: token, id };
+              user.jwt = token;
+              return user;
             });
         }
         return Promise.reject('email already exists');
