@@ -2,12 +2,14 @@ import express from 'express';
 import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
 import bodyParser from 'body-parser';
 import { createServer } from 'http';
-import { SubscriptionServer } from 'subscriptions-transport-ws';
+import { SubscriptionServer } from 'subscriptions-transport-ws-authy';
 import jwt from 'express-jwt';
+import jsonwebtoken from 'jsonwebtoken';
 
 import JWT_SECRET from './config';
 import { User } from './data/connectors';
-import { subscriptionManager } from './subscriptions';
+import { subscriptionManager, getSubscriptionDetails } from './subscriptions';
+import { subscriptionLogic } from './data/logic';
 import { executableSchema } from './data/schema';
 
 const GRAPHQL_PORT = 8080;
@@ -51,6 +53,31 @@ graphQLServer.listen(GRAPHQL_PORT, () => {
 new SubscriptionServer(
   {
     subscriptionManager,
+    onSubscribe(parsedMessage, baseParams) {
+      const { subscriptionName, args } = getSubscriptionDetails({
+        baseParams,
+        schema: subscriptionManager.schema,
+      });
+      const user = new Promise((res, rej) => {
+        if (baseParams.context.jwt) {
+          jsonwebtoken.verify(baseParams.context.jwt, JWT_SECRET, (err, decoded) => {
+            if (err) {
+              rej('Invalid Token');
+            }
+            res(
+              User.findOne({
+                where: { id: decoded.id, version: decoded.version },
+              })
+            );
+          });
+        } else {
+          res(null);
+        }
+      });
+      return subscriptionLogic[subscriptionName](baseParams, args, {
+        user,
+      });
+    },
   },
   {
     server: graphQLServer,
