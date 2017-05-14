@@ -14,6 +14,8 @@ This repo contains my code while following the amazing tutorial of Simon Tucker 
 - [x] Tutorial: [Part 5: Pagination with GraphQL](https://medium.com/@simontucker/building-chatty-part-5-pagination-with-graphql-23a25fc9f0bf)
 - [x] Tutorial: [Part 6: GraphQL Subscriptions](https://medium.com/@simontucker/building-chatty-part-6-graphql-subscriptions-b54df7d63e27)
 - [ ] Tutorial: [Part 7: GraphQL Authentication](https://medium.com/@simontucker/building-chatty-part-7-authentication-in-graphql-cd37770e5ab3)
+- [ ] Personal: Server locally in Docker
+- [ ] Personal: Docker Online
 - [ ] Personal: Deploy on HockeyApp with Fastlane
-- [ ] Personal: Server Online
-- [ ] Personal: Server in Docker
+- [ ] Personal: Add FlowType to the Server
+- [ ] Personal: Replace SQLite by PSQL
