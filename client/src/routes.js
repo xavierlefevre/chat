@@ -9,6 +9,7 @@ import { NewGroup } from './pages/new-group';
 import { Messages } from './pages/messages';
 import { FinalizeGroup } from './pages/finalize-group';
 import { GroupDetails } from './pages/group-details';
+import { Signin } from './pages/signin';
 
 const styles = StyleSheet.create({
   container: {
@@ -61,6 +62,9 @@ export const Scenes = Actions.create(
       <Scene key="settingsTab" title="Settings" icon={TabIcon}>
         <Scene key="settings" component={TestScene} title="Settings" />
       </Scene>
+    </Scene>
+    <Scene key="signin" direction="vertical">
+      <Scene key="signinModal" component={Signin} title="Chatty" schema="modal" panHandlers={null} />
     </Scene>
     <Scene key="newGroup" direction="vertical">
       <Scene key="newGroupModal" component={NewGroup} title="New Group" schema="modal" panHandlers={null} />

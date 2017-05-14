@@ -9,6 +9,9 @@ import Group from './group.component';
 import styles from './groups.style';
 import { MESSAGE_ADDED_SUBSCRIPTION, GROUP_ADDED_SUBSCRIPTION } from '../../graphql';
 
+// we'll fake signin for now
+let IS_SIGNED_IN = false;
+
 function isDuplicateDocument(newDocument, existingDocuments) {
   return newDocument.id !== null && existingDocuments.some(doc => newDocument.id === doc.id);
 }
@@ -40,6 +43,14 @@ export default class Groups extends Component {
     ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
     refreshing: false,
   };
+
+  // faking unauthorized status
+  componentDidMount() {
+    if (!IS_SIGNED_IN) {
+      IS_SIGNED_IN = true;
+      Actions.signin();
+    }
+  }
 
   componentWillReceiveProps(nextProps: PropsType) {
     if (nextProps.user && !nextProps.loading && nextProps.user !== this.props.user) {
