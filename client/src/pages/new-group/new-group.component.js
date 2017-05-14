@@ -1,6 +1,6 @@
 // @flow
-/* eslint no-bitwise:0 */
-/* eslint no-param-reassign:0 */
+/* eslint no-bitwise: 0 */
+/* eslint no-param-reassign: 0 */
 import { _ } from 'lodash';
 import React, { Component } from 'react';
 import { ActivityIndicator, ListView, Text, View } from 'react-native';
