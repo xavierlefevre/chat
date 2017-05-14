@@ -7,6 +7,7 @@ import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import { SubscriptionClient, addGraphQLSubscriptions } from 'subscriptions-transport-ws-authy';
 
 import { Routes, Scenes } from './routes';
+import { auth } from './reducers';
 
 global.XMLHttpRequest = global.originalXMLHttpRequest ? global.originalXMLHttpRequest : global.XMLHttpRequest;
 global.FormData = global.originalFormData ? global.originalFormData : global.FormData;
@@ -30,6 +31,7 @@ const client = new ApolloClient({
 const store = createStore(
   combineReducers({
     apollo: client.reducer(),
+    auth,
   }),
   {}, // initial state
   composeWithDevTools(applyMiddleware(client.middleware()))
