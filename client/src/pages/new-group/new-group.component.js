@@ -35,10 +35,13 @@ type SectionItemPropsType = {
 const SectionItem = (props: SectionItemPropsType) => <Text style={{ color: 'blue' }}>{props.title}</Text>;
 
 type PropsType = {
-  data: {
-    loading: boolean,
-    user: UserType,
+  auth: {
+    id: number,
+    jwt: string,
   },
+  loading: boolean,
+  user: UserType,
+  selected: Array<FriendType>,
 };
 type StateType = {
   selected: Array<FriendType>,
@@ -53,10 +56,8 @@ export default class NewGroup extends Component {
   constructor(props: PropsType) {
     super(props);
     this.state = {
-      selected: [],
-      friends: !!props.data && !!props.data.user
-        ? _.groupBy(props.data.user.friends, friend => friend.username.charAt(0).toUpperCase())
-        : {},
+      selected: props.selected || [],
+      friends: props.user ? _.groupBy(props.user.friends, friend => friend.username.charAt(0).toUpperCase()) : [],
       ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
     };
   }
@@ -65,13 +66,17 @@ export default class NewGroup extends Component {
     this.refreshNavigation(this.state.selected);
   }
 
-  componentWillReceiveProps(nextProps: PropsType) {
-    const newData = nextProps.data;
-    const oldData = this.props.data;
-
+  componentWillReceiveProps(nextProps) {
     const state = {};
-    if (newData.user && newData.user.friends && newData.user !== oldData.user) {
-      state.friends = sortObject(_.groupBy(newData.user.friends, friend => friend.username.charAt(0).toUpperCase()));
+    if (nextProps.user && nextProps.user.friends && nextProps.user !== this.props.user) {
+      state.friends = sortObject(_.groupBy(nextProps.user.friends, friend => friend.username.charAt(0).toUpperCase()));
+    }
+
+    if (nextProps.selected) {
+      Object.assign(state, {
+        selected: nextProps.selected,
+        ds: this.state.ds.cloneWithRows(nextProps.selected),
+      });
     }
 
     this.setState(state);
@@ -87,8 +92,8 @@ export default class NewGroup extends Component {
     Actions.refresh({
       onLeft: Actions.pop,
       leftTitle: 'Back',
-      rightTitle: selected ? 'Next' : undefined,
-      onRight: selected ? () => this.finalizeGroup() : undefined,
+      rightTitle: selected && selected.length ? 'Next' : undefined,
+      onRight: selected && selected.length ? this.finalizeGroup : undefined,
       selected,
     });
   }
@@ -96,8 +101,8 @@ export default class NewGroup extends Component {
   finalizeGroup() {
     Actions.finalizeGroup({
       selected: this.state.selected,
-      friendCount: this.props.data.user.friends.length,
-      userId: this.props.data.user.id,
+      friendCount: this.props.user.friends.length,
+      userId: this.props.user.id,
     });
   }
 
@@ -125,9 +130,10 @@ export default class NewGroup extends Component {
   }
 
   render() {
-    const { data } = this.props;
+    const { user, loading } = this.props;
 
-    if (!data || data.loading) {
+    // render loading placeholder while we fetch messages
+    if (loading || !user) {
       return (
         <View style={[styles.loading, styles.container]}>
           <ActivityIndicator />
@@ -139,7 +145,7 @@ export default class NewGroup extends Component {
       <View style={styles.container}>
         {this.state.selected.length
           ? <View style={styles.selected}>
-              <SelectedUserList dataSource={this.state.ds} remove={user => this.toggle(user)} />
+              <SelectedUserList dataSource={this.state.ds} remove={removedUser => this.toggle(removedUser)} />
             </View>
           : undefined}
         {_.keys(this.state.friends).length
@@ -149,8 +155,8 @@ export default class NewGroup extends Component {
               cell={Cell}
               cellHeight={30}
               cellProps={{
-                isSelected: (user: any) => this.isSelected(user),
-                toggle: user => this.toggle(user),
+                isSelected: selectedUser => this.isSelected(selectedUser),
+                toggle: removedUser => this.toggle(removedUser),
               }}
               sectionListItem={SectionItem}
               sectionHeader={SectionHeader}
