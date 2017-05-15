@@ -15,9 +15,9 @@ function isDuplicateGroup(newGroup, existingGroups) {
 
 const createGroup = graphql(CREATE_GROUP_MUTATION, {
   props: ({ mutate }) => ({
-    createGroup: ({ name, userIds, userId }) =>
+    createGroup: ({ name, userIds }) =>
       mutate({
-        variables: { name, userIds, userId },
+        variables: { name, userIds },
         updateQueries: {
           user: (previousResult, { mutationResult }) => {
             const newGroup = mutationResult.data.createGroup;

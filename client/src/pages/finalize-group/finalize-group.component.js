@@ -37,12 +37,12 @@ export default class FinalizeGroup extends Component {
   }
 
   componentDidMount() {
-    this.refreshNavigation(!!this.state.selected.length && !!this.state.name);
+    this.refreshNavigation(this.state.selected.length && this.state.name);
   }
 
   componentWillUpdate(nextProps: PropsType, nextState: StateType) {
     if ((nextState.selected.length && nextState.name) !== (this.state.selected.length && this.state.name)) {
-      this.refreshNavigation(!!nextState.selected.length && !!nextState.name);
+      this.refreshNavigation(nextState.selected.length && nextState.name);
     }
   }
 
@@ -67,16 +67,13 @@ export default class FinalizeGroup extends Component {
     createGroup({
       name: this.state.name,
       userIds: _.map(this.state.selected, 'id'),
-      userId: 1, // fake user for now
     })
       .then(() => {
         // TODO: want to pop back to groups and then jump into messages
         Actions.tabs({ type: 'reset' });
       })
       .catch(error => {
-        Alert.alert('Error Creating New Group', error.message, [
-          { text: 'OK', onPress: () => console.log('OK pressed') },
-        ]);
+        Alert.alert('Error Creating New Group', error.message, [{ text: 'OK', onPress: () => {} }]);
       });
   }
 
