@@ -20,6 +20,10 @@ import MessageInput from './message-input.component';
 import { MESSAGE_ADDED_SUBSCRIPTION } from '../../graphql';
 
 type PropsType = {
+  auth: {
+    id: number,
+    jwt: string,
+  },
   group: GroupType,
   loading: boolean,
   groupId: number,
@@ -61,15 +65,14 @@ export default class Messages extends Component {
       if (newData.group.users) {
         newData.group.users.map(user => {
           usernameColors[user.username] = this.state.usernameColors[user.username] || randomColor();
+          return usernameColors[user.username];
         });
       }
+
       if (!!newData.group.messages && (!oldData.group || newData.group.messages !== oldData.group.messages)) {
         this.setState({
           ds: this.state.ds.cloneWithRows(newData.group.messages.slice().reverse()),
           usernameColors,
-        });
-        this.setState({
-          shouldScrollToBottom: true,
         });
       }
     }
@@ -80,12 +83,11 @@ export default class Messages extends Component {
         variables: { groupIds: [newData.groupId] },
         updateQuery: (previousResult, { subscriptionData }) => {
           const newMessage = subscriptionData.data.messageAdded;
-          // if it's our own mutation
-          // we might get the subscription result
-          // after the mutation result.
+
           if (isDuplicateMessage(newMessage, previousResult.group.messages)) {
             return previousResult;
           }
+
           return update(previousResult, {
             group: {
               messages: {
@@ -102,15 +104,33 @@ export default class Messages extends Component {
     this.renderTitle();
   }
 
+  onContentSizeChange(w, h) {
+    if (this.state.shouldScrollToBottom && this.state.height < h) {
+      this.listView.scrollToEnd({ animated: true });
+      this.setState({
+        shouldScrollToBottom: false,
+      });
+    }
+  }
+
+  onLayout(e) {
+    const { height } = e.nativeEvent.layout;
+    this.setState({ height });
+  }
+
   groupDetails() {
     Actions.groupDetails({ id: this.props.groupId });
   }
 
-  send(text: string) {
+  send(text) {
     this.props.createMessage({
       groupId: this.props.groupId,
-      userId: 1, // faking the user for now
+      userId: this.props.auth.id,
       text,
+    });
+
+    this.setState({
+      shouldScrollToBottom: true,
     });
   }
 
@@ -137,7 +157,7 @@ export default class Messages extends Component {
   }
 
   render() {
-    const { loading, group } = this.props;
+    const { auth, loading, group } = this.props;
 
     if (loading && !group) {
       return (
@@ -156,24 +176,18 @@ export default class Messages extends Component {
           style={styles.listView}
           enableEmptySections
           dataSource={this.state.ds}
-          onContentSizeChange={() => {
-            if (this.state.shouldScrollToBottom) {
-              this.listView.scrollToEnd({ animated: true });
-              this.setState({
-                shouldScrollToBottom: false,
-              });
-            }
-          }}
           refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.onRefresh()} />}
+          onContentSizeChange={(w, h) => this.onContentSizeChange(w, h)}
+          onLayout={e => this.onLayout(e)}
           renderRow={message => (
             <Message
               color={this.state.usernameColors[message.from.username]}
               message={message}
-              isCurrentUser={message.from.id === 1} // for now until we implement auth
+              isCurrentUser={message.from.id === auth.id}
             />
           )}
         />
-        <MessageInput send={(text: string) => this.send(text)} />
+        <MessageInput send={text => this.send(text)} />
       </KeyboardAvoidingView>
     );
   }

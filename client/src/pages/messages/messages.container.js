@@ -1,9 +1,17 @@
 // @flow
 import { graphql, compose } from 'react-apollo';
 import update from 'immutability-helper';
+import { connect } from 'react-redux';
 
 import Messages from './messages.component';
 import { GROUP_QUERY, CREATE_MESSAGE_MUTATION } from '../../graphql';
+
+// helper function checks for duplicate comments
+// TODO it's pretty inefficient to scan all the comments every time.
+// maybe only scan the first 10, or up to a certain timestamp
+function isDuplicateMessage(newMessage, existingMessages) {
+  return newMessage.id !== null && existingMessages.some(message => newMessage.id === message.id);
+}
 
 const ITEMS_PER_PAGE = 10;
 const groupQuery = graphql(GROUP_QUERY, {
@@ -38,36 +46,33 @@ const groupQuery = graphql(GROUP_QUERY, {
   }),
 });
 
-function isDuplicateMessage(newMessage, existingMessages) {
-  return newMessage.id !== null && existingMessages.some(message => newMessage.id === message.id);
-}
-
 const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
-  props: ({ mutate }) => ({
-    createMessage: ({ text, userId, groupId }) =>
+  props: ({ ownProps, mutate }) => ({
+    createMessage: ({ text, groupId }) =>
       mutate({
-        variables: { text, userId, groupId },
+        variables: { text, groupId },
         optimisticResponse: {
           __typename: 'Mutation',
           createMessage: {
             __typename: 'Message',
-            id: null, // don't know id yet, but it doesn't matter
-            text, // we know what the text will be
-            createdAt: new Date().toISOString(), // the time is now!
+            id: null,
+            text,
+            createdAt: new Date().toISOString(),
             from: {
               __typename: 'User',
-              id: 1, // still faking the user
-              username: 'Justyn.Kautzer', // still faking the user
-              // maybe we should stop faking the user soon!
+              id: ownProps.auth.id,
+              username: 'Justyn.Kautzer',
             },
           },
         },
         updateQueries: {
           group: (previousResult, { mutationResult }) => {
             const newMessage = mutationResult.data.createMessage;
+
             if (isDuplicateMessage(newMessage, previousResult.group.messages)) {
               return previousResult;
             }
+
             return update(previousResult, {
               group: {
                 messages: {
@@ -81,4 +86,8 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
   }),
 });
 
-export default compose(groupQuery, createMessage)(Messages);
+const mapStateToProps = ({ auth }) => ({
+  auth,
+});
+
+export default compose(connect(mapStateToProps), groupQuery, createMessage)(Messages);
