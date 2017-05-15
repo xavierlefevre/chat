@@ -10,6 +10,7 @@ import { Messages } from './pages/messages';
 import { FinalizeGroup } from './pages/finalize-group';
 import { GroupDetails } from './pages/group-details';
 import { Signin } from './pages/signin';
+import { Settings } from './pages/settings';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,16 +31,6 @@ const styles = StyleSheet.create({
   },
 });
 
-type TestScenePropsType = { title: string };
-
-const TestScene = (props: TestScenePropsType) => (
-  <View style={styles.container}>
-    <Text>
-      {props.title}
-    </Text>
-  </View>
-);
-
 type TabIconPropsType = {
   selected: boolean,
   title: string,
@@ -57,10 +48,10 @@ export const Scenes = Actions.create(
   <Scene key="root">
     <Scene key="tabs" tabBarStyle={styles.tabBarStyle} tabs>
       <Scene key="chatsTab" title="Chats" icon={TabIcon}>
-        <Scene key="groups" component={Groups} title="Chats" />
+        <Scene key="groups" component={Groups} title="Chats" hideBackImage />
       </Scene>
       <Scene key="settingsTab" title="Settings" icon={TabIcon}>
-        <Scene key="settings" component={TestScene} title="Settings" />
+        <Scene key="settings" component={Settings} title="Settings" hideBackImage />
       </Scene>
     </Scene>
     <Scene key="signin" direction="vertical">

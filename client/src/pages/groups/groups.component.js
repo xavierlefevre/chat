@@ -2,25 +2,21 @@
 import React, { Component } from 'react';
 import { ActivityIndicator, ListView, View, Button, Text, RefreshControl } from 'react-native';
 import { Actions } from 'react-native-router-flux';
-import update from 'immutability-helper';
-import { map } from 'lodash';
 
 import Group from './group.component';
 import styles from './groups.style';
-import { MESSAGE_ADDED_SUBSCRIPTION, GROUP_ADDED_SUBSCRIPTION } from '../../graphql';
-
-// we'll fake signin for now
-let IS_SIGNED_IN = false;
-
-function isDuplicateDocument(newDocument, existingDocuments) {
-  return newDocument.id !== null && existingDocuments.some(doc => newDocument.id === doc.id);
-}
 
 type PropsType = {
+  auth: {
+    loading: boolean,
+    id: number,
+    jwt: string,
+  },
   loading: boolean,
   user: UserType,
   refetch: () => Promise<any>,
-  subscribeToMore: () => void,
+  subscribeToGroups: () => void,
+  subscribeToMessages: () => void,
 };
 type StateType = {
   ds: any,
@@ -44,71 +40,35 @@ export default class Groups extends Component {
     refreshing: false,
   };
 
-  // faking unauthorized status
-  componentDidMount() {
-    if (!IS_SIGNED_IN) {
-      IS_SIGNED_IN = true;
-      Actions.signin();
-    }
-  }
-
   componentWillReceiveProps(nextProps: PropsType) {
-    if (nextProps.user && !nextProps.loading && nextProps.user !== this.props.user) {
+    if (!nextProps.auth.jwt && !nextProps.auth.loading) {
+      Actions.signin();
+    } else if (
+      nextProps.user &&
+      nextProps.user.groups &&
+      // check for new messages
+      (!this.props.user || nextProps.user.groups !== this.props.user.groups)
+    ) {
+      // convert groups Array to ListView.DataSource
+      // we will use this.state.ds to populate our ListView
       this.setState({
+        // cloneWithRows computes a diff and decides whether to rerender
         ds: this.state.ds.cloneWithRows(nextProps.user.groups),
       });
     }
 
-    if (!this.messagesSubscription && !nextProps.loading) {
-      this.messagesSubscription = nextProps.subscribeToMore({
-        document: MESSAGE_ADDED_SUBSCRIPTION,
-        variables: { groupIds: map(nextProps.user.groups, 'id') },
-        updateQuery: (previousResult, { subscriptionData }) => {
-          const previousGroups = previousResult.user.groups;
-          const newMessage = subscriptionData.data.messageAdded;
+    if (nextProps.user && (!this.props.user || nextProps.user.groups.length !== this.props.user.groups.length)) {
+      if (this.messagesSubscription) {
+        this.messagesSubscription(); // unsubscribe from old
+      }
 
-          const groupIndex = map(previousGroups, 'id').indexOf(newMessage.to.id);
-          // if it's our own mutation
-          // we might get the subscription result
-          // after the mutation result.
-          if (isDuplicateDocument(newMessage, previousGroups[groupIndex].messages)) {
-            return previousResult;
-          }
-          return update(previousResult, {
-            user: {
-              groups: {
-                [groupIndex]: {
-                  messages: { $set: [newMessage] },
-                },
-              },
-            },
-          });
-        },
-      });
+      if (nextProps.user.groups.length) {
+        this.messagesSubscription = nextProps.subscribeToMessages(); // subscribe to new
+      }
     }
 
-    if (!this.groupSubscription && !nextProps.loading) {
-      this.groupSubscription = nextProps.subscribeToMore({
-        document: GROUP_ADDED_SUBSCRIPTION,
-        variables: { userId: 1 }, // last time we'll fake the user!
-        updateQuery: (previousResult, { subscriptionData }) => {
-          console.log('previousResult', previousResult);
-          console.log('subscriptionData', subscriptionData);
-          const previousGroups = previousResult.user.groups;
-          const newGroup = subscriptionData.data.groupAdded;
-          // if it's our own mutation
-          // we might get the subscription result
-          // after the mutation result.
-          if (isDuplicateDocument(newGroup, previousGroups)) {
-            return previousResult;
-          }
-          return update(previousResult, {
-            user: {
-              groups: { $push: [newGroup] },
-            },
-          });
-        },
-      });
+    if (!this.groupSubscription && nextProps.user) {
+      this.groupSubscription = nextProps.subscribeToGroups();
     }
   }
 
@@ -124,9 +84,10 @@ export default class Groups extends Component {
   }
 
   render() {
-    const { loading, user } = this.props;
+    const { auth, loading, user } = this.props;
 
-    if (loading) {
+    // render loading placeholder while we fetch messages
+    if (auth.loading || loading) {
       return (
         <View style={[styles.loading, styles.container]}>
           <ActivityIndicator />
