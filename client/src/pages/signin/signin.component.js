@@ -73,19 +73,15 @@ export default class Signin extends Component {
           loading: false,
         });
         Alert.alert(`${capitalizeFirstLetter(this.state.view)} error`, error.message, [
-          { text: 'OK', onPress: () => console.log('OK') },
-          {
-            text: 'Forgot password',
-            onPress: () => console.log('Forgot Pressed'),
-            style: 'cancel',
-          },
+          { text: 'OK', onPress: () => console.log('OK pressed') }, // eslint-disable-line no-console
+          { text: 'Forgot password', onPress: () => console.log('Forgot Pressed'), style: 'cancel' }, // eslint-disable-line no-console
         ]);
       });
   }
 
   signup() {
-    const { email, password } = this.state;
     this.setState({ loading: true });
+    const { email, password } = this.state;
 
     this.props
       .signup({ email, password })
@@ -99,9 +95,11 @@ export default class Signin extends Component {
         this.setState({
           loading: false,
         });
-        Alert.alert(`${capitalizeFirstLetter(this.state.view)} error`, error.message, [
-          { text: 'OK', onPress: () => console.log('OK') },
-        ]);
+        Alert.alert(
+          `${capitalizeFirstLetter(this.state.view)} error`,
+          error.message,
+          [{ text: 'OK', onPress: () => console.log('OK pressed') }] // eslint-disable-line no-console
+        );
       });
   }
 

@@ -2,8 +2,8 @@
 import gql from 'graphql-tag';
 
 const LEAVE_GROUP_MUTATION = gql`
-  mutation leaveGroup($id: Int!, $userId: Int!) {
-    leaveGroup(id: $id, userId: $userId) {
+  mutation leaveGroup($id: Int!) {
+    leaveGroup(id: $id) {
       id
     }
   }
