@@ -5,8 +5,12 @@ import update from 'immutability-helper';
 import { GROUP_QUERY, DELETE_GROUP_MUTATION, LEAVE_GROUP_MUTATION } from '../../graphql';
 import GroupDetails from './group-details.component';
 
-const group = graphql(GROUP_QUERY, {
+const groupQuery = graphql(GROUP_QUERY, {
   options: ({ id }) => ({ variables: { groupId: id } }),
+  props: ({ data: { loading, group } }) => ({
+    loading,
+    group,
+  }),
 });
 
 const deleteGroup = graphql(DELETE_GROUP_MUTATION, {
@@ -35,10 +39,9 @@ const leaveGroup = graphql(LEAVE_GROUP_MUTATION, {
   props: ({ ownProps, mutate }) => ({
     leaveGroup: () =>
       mutate({
-        variables: { id: ownProps.id, userId: 1 }, // fake user for now
+        variables: { id: ownProps.id },
         updateQueries: {
           user: (previousResult, { mutationResult }) => {
-            console.log(previousResult);
             const removedGroup = mutationResult.data.leaveGroup;
 
             return update(previousResult, {
@@ -54,4 +57,4 @@ const leaveGroup = graphql(LEAVE_GROUP_MUTATION, {
   }),
 });
 
-export default compose(group, deleteGroup, leaveGroup)(GroupDetails);
+export default compose(groupQuery, deleteGroup, leaveGroup)(GroupDetails);

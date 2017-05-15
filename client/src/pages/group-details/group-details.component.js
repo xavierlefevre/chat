@@ -6,16 +6,16 @@ import { Actions } from 'react-native-router-flux';
 import styles from './group-details.style';
 
 type PropsType = {
-  data: {
-    loading: boolean,
-    group: GroupType,
-  },
+  loading: boolean,
+  group: GroupType,
   deleteGroup: () => Promise<any>,
   leaveGroup: () => Promise<any>,
   id: number,
+  selected: Array<any>,
 };
 type StateType = {
   ds: any,
+  selected: Array<any>,
 };
 
 export default class GroupDetails extends Component {
@@ -24,18 +24,20 @@ export default class GroupDetails extends Component {
 
   constructor(props: PropsType) {
     super(props);
-
     this.state = {
-      ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }).cloneWithRows(props.data.group.users),
+      ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }).cloneWithRows(
+        props.loading ? [] : props.group.users
+      ),
+      selected: [],
     };
   }
 
   componentWillReceiveProps(nextProps: PropsType) {
-    const newData = nextProps.data;
-    const oldData = this.props.data;
-
-    if (!!newData.group && !!newData.group.users && newData.group !== oldData.group) {
-      this.setState({ ds: this.state.ds.cloneWithRows(newData.group.users) });
+    if (nextProps.group && nextProps.group.users && nextProps.group !== this.props.group) {
+      this.setState({
+        selected: nextProps.selected,
+        ds: this.state.ds.cloneWithRows(nextProps.group.users),
+      });
     }
   }
 
@@ -62,10 +64,10 @@ export default class GroupDetails extends Component {
   }
 
   render() {
-    const { data } = this.props;
+    const { group, loading } = this.props;
 
     // render loading placeholder while we fetch messages
-    if (!data || data.loading) {
+    if (!group || loading) {
       return (
         <View style={[styles.loading, styles.container]}>
           <ActivityIndicator />
@@ -90,18 +92,18 @@ export default class GroupDetails extends Component {
                   <Text>edit</Text>
                 </TouchableOpacity>
                 <View style={styles.groupNameBorder}>
-                  <Text style={styles.groupName}>{data.group.name}</Text>
+                  <Text style={styles.groupName}>{group.name}</Text>
                 </View>
               </View>
               <Text style={styles.participants}>
-                {`participants: ${data.group.users.length}`.toUpperCase()}
+                {`participants: ${group.users.length}`.toUpperCase()}
               </Text>
             </View>
           )}
           renderFooter={() => (
             <View>
-              <Button title={'Leave Group'} onPress={() => this.leaveGroup()} />
-              <Button title={'Delete Group'} onPress={() => this.deleteGroup()} />
+              <Button title={'Leave Group'} onPress={this.leaveGroup} />
+              <Button title={'Delete Group'} onPress={this.deleteGroup} />
             </View>
           )}
           renderRow={user => (
