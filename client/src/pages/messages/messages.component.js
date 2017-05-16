@@ -37,6 +37,7 @@ type StateType = {
   usernameColors: {},
   shouldScrollToBottom: boolean,
   refreshing: boolean,
+  height: number,
 };
 
 function isDuplicateMessage(newMessage, existingMessages) {
@@ -54,6 +55,7 @@ export default class Messages extends Component {
     usernameColors: {},
     shouldScrollToBottom: false,
     refreshing: false,
+    height: 0,
   };
 
   componentWillReceiveProps(nextProps: PropsType) {
@@ -104,7 +106,7 @@ export default class Messages extends Component {
     this.renderTitle();
   }
 
-  onContentSizeChange(w, h) {
+  onContentSizeChange(w: number, h: number) {
     if (this.state.shouldScrollToBottom && this.state.height < h) {
       this.listView.scrollToEnd({ animated: true });
       this.setState({
@@ -113,7 +115,7 @@ export default class Messages extends Component {
     }
   }
 
-  onLayout(e) {
+  onLayout(e: { nativeEvent: { layout: { height: number } } }) {
     const { height } = e.nativeEvent.layout;
     this.setState({ height });
   }
@@ -122,7 +124,7 @@ export default class Messages extends Component {
     Actions.groupDetails({ id: this.props.groupId });
   }
 
-  send(text) {
+  send(text: string) {
     this.props.createMessage({
       groupId: this.props.groupId,
       userId: this.props.auth.id,
@@ -148,7 +150,12 @@ export default class Messages extends Component {
       renderTitle: () => (
         <TouchableOpacity style={styles.titleWrapper} onPress={() => this.groupDetails()}>
           <View style={styles.title}>
-            <Image style={styles.titleImage} source={{ uri: 'https://facebook.github.io/react/img/logo_og.png' }} />
+            <Image
+              style={styles.titleImage}
+              source={{
+                uri: 'https://facebook.github.io/react/img/logo_og.png',
+              }}
+            />
             <Text>{this.props.title}</Text>
           </View>
         </TouchableOpacity>

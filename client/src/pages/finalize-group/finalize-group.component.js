@@ -37,12 +37,12 @@ export default class FinalizeGroup extends Component {
   }
 
   componentDidMount() {
-    this.refreshNavigation(this.state.selected.length && this.state.name);
+    this.refreshNavigation(!!this.state.selected.length && !!this.state.name);
   }
 
   componentWillUpdate(nextProps: PropsType, nextState: StateType) {
     if ((nextState.selected.length && nextState.name) !== (this.state.selected.length && this.state.name)) {
-      this.refreshNavigation(nextState.selected.length && nextState.name);
+      this.refreshNavigation(!!nextState.selected.length && !!nextState.name);
     }
   }
 

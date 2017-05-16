@@ -57,7 +57,7 @@ export default class NewGroup extends Component {
     super(props);
     this.state = {
       selected: props.selected || [],
-      friends: props.user ? _.groupBy(props.user.friends, friend => friend.username.charAt(0).toUpperCase()) : [],
+      friends: props.user ? _.groupBy(props.user.friends, friend => friend.username.charAt(0).toUpperCase()) : {},
       ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
     };
   }
@@ -66,7 +66,7 @@ export default class NewGroup extends Component {
     this.refreshNavigation(this.state.selected);
   }
 
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps(nextProps: PropsType) {
     const state = {};
     if (nextProps.user && nextProps.user.friends && nextProps.user !== this.props.user) {
       state.friends = sortObject(_.groupBy(nextProps.user.friends, friend => friend.username.charAt(0).toUpperCase()));
@@ -93,7 +93,7 @@ export default class NewGroup extends Component {
       onLeft: Actions.pop,
       leftTitle: 'Back',
       rightTitle: selected && selected.length ? 'Next' : undefined,
-      onRight: selected && selected.length ? this.finalizeGroup : undefined,
+      onRight: selected && selected.length ? () => this.finalizeGroup() : undefined,
       selected,
     });
   }
