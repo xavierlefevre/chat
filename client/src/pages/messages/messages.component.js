@@ -12,12 +12,10 @@ import {
 } from 'react-native';
 import randomColor from 'randomcolor';
 import { Actions } from 'react-native-router-flux';
-import update from 'immutability-helper';
 
 import styles from './messages.style';
 import Message from './message.component';
 import MessageInput from './message-input.component';
-import { MESSAGE_ADDED_SUBSCRIPTION } from '../../graphql';
 
 type PropsType = {
   auth: {
@@ -30,7 +28,7 @@ type PropsType = {
   title: string,
   createMessage: () => void,
   loadMoreEntries: () => Promise<any>,
-  subscribeToMore: () => void,
+  subscribeToMessages: () => void,
 };
 type StateType = {
   ds: any,
@@ -39,10 +37,6 @@ type StateType = {
   refreshing: boolean,
   height: number,
 };
-
-function isDuplicateMessage(newMessage, existingMessages) {
-  return newMessage.id !== null && existingMessages.some(message => newMessage.id === message.id);
-}
 
 export default class Messages extends Component {
   props: PropsType;
@@ -80,25 +74,7 @@ export default class Messages extends Component {
     }
 
     if (!this.subscription && !newData.loading) {
-      this.subscription = newData.subscribeToMore({
-        document: MESSAGE_ADDED_SUBSCRIPTION,
-        variables: { groupIds: [newData.groupId] },
-        updateQuery: (previousResult, { subscriptionData }) => {
-          const newMessage = subscriptionData.data.messageAdded;
-
-          if (isDuplicateMessage(newMessage, previousResult.group.messages)) {
-            return previousResult;
-          }
-
-          return update(previousResult, {
-            group: {
-              messages: {
-                $unshift: [newMessage],
-              },
-            },
-          });
-        },
-      });
+      this.subscription = newData.subscribeToMessages(newData.groupId);
     }
   }
 

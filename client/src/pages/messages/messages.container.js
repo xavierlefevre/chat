@@ -4,7 +4,7 @@ import update from 'immutability-helper';
 import { connect } from 'react-redux';
 
 import Messages from './messages.component';
-import { GROUP_QUERY, CREATE_MESSAGE_MUTATION } from '../../graphql';
+import { GROUP_QUERY, CREATE_MESSAGE_MUTATION, MESSAGE_ADDED_SUBSCRIPTION } from '../../graphql';
 
 // helper function checks for duplicate comments
 // TODO it's pretty inefficient to scan all the comments every time.
@@ -25,7 +25,27 @@ const groupQuery = graphql(GROUP_QUERY, {
   props: ({ data: { fetchMore, loading, group, subscribeToMore } }) => ({
     loading,
     group,
-    subscribeToMore,
+    subscribeToMessages(groupId) {
+      return subscribeToMore({
+        document: MESSAGE_ADDED_SUBSCRIPTION,
+        variables: { groupIds: [groupId] },
+        updateQuery: (previousResult, { subscriptionData }) => {
+          const newMessage = subscriptionData.data.messageAdded;
+
+          if (isDuplicateMessage(newMessage, previousResult.group.messages)) {
+            return previousResult;
+          }
+
+          return update(previousResult, {
+            group: {
+              messages: {
+                $unshift: [newMessage],
+              },
+            },
+          });
+        },
+      });
+    },
     loadMoreEntries() {
       return fetchMore({
         variables: {
