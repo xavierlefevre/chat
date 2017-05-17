@@ -3,8 +3,9 @@ import React, { Component } from 'react';
 import { ActivityIndicator, Button, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
+import { logout } from 'ChatApp/src/redux/auth.actions';
+
 import styles from './settings.style';
-import { logout } from '../../redux/auth.actions';
 
 type PropsType = {
   auth: {
@@ -61,7 +62,12 @@ export default class Settings extends Component {
         <View style={styles.userContainer}>
           <View style={styles.userInner}>
             <TouchableOpacity style={styles.imageContainer}>
-              <Image style={styles.userImage} source={{ uri: 'https://facebook.github.io/react/img/logo_og.png' }} />
+              <Image
+                style={styles.userImage}
+                source={{
+                  uri: 'https://facebook.github.io/react/img/logo_og.png',
+                }}
+              />
               <Text>edit</Text>
             </TouchableOpacity>
             <Text style={styles.inputInstructions}>

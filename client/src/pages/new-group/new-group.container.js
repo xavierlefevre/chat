@@ -2,7 +2,8 @@
 import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 
-import { USER_QUERY } from '../../graphql';
+import { USER_QUERY } from 'ChatApp/src/graphql';
+
 import NewGroup from './new-group.component';
 
 const userQuery = graphql(USER_QUERY, {

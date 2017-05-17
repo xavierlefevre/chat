@@ -3,8 +3,9 @@ import { graphql, compose } from 'react-apollo';
 import update from 'immutability-helper';
 import { connect } from 'react-redux';
 
+import { GROUP_QUERY, CREATE_MESSAGE_MUTATION, MESSAGE_ADDED_SUBSCRIPTION } from 'ChatApp/src/graphql';
+
 import Messages from './messages.component';
-import { GROUP_QUERY, CREATE_MESSAGE_MUTATION, MESSAGE_ADDED_SUBSCRIPTION } from '../../graphql';
 
 // helper function checks for duplicate comments
 // TODO it's pretty inefficient to scan all the comments every time.

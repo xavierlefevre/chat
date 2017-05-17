@@ -2,8 +2,9 @@
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 
+import { USER_QUERY } from 'ChatApp/src/graphql';
+
 import Settings from './settings.component';
-import { USER_QUERY } from '../../graphql';
 
 // here is where the magic happens
 const userQuery = graphql(USER_QUERY, {

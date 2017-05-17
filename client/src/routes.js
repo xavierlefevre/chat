@@ -4,13 +4,13 @@ import { Router, Scene, Actions } from 'react-native-router-flux';
 import { Text, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
-import { Groups } from './pages/groups';
-import { NewGroup } from './pages/new-group';
-import { Messages } from './pages/messages';
-import { FinalizeGroup } from './pages/finalize-group';
-import { GroupDetails } from './pages/group-details';
-import { Signin } from './pages/signin';
-import { Settings } from './pages/settings';
+import { Groups } from 'ChatApp/src/pages/groups';
+import { NewGroup } from 'ChatApp/src/pages/new-group';
+import { Messages } from 'ChatApp/src/pages/messages';
+import { FinalizeGroup } from 'ChatApp/src/pages/finalize-group';
+import { GroupDetails } from 'ChatApp/src/pages/group-details';
+import { Signin } from 'ChatApp/src/pages/signin';
+import { Settings } from 'ChatApp/src/pages/settings';
 
 const styles = StyleSheet.create({
   container: {

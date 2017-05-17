@@ -4,8 +4,9 @@ import { connect } from 'react-redux';
 import { map } from 'lodash';
 import update from 'immutability-helper';
 
+import { USER_QUERY, MESSAGE_ADDED_SUBSCRIPTION, GROUP_ADDED_SUBSCRIPTION } from 'ChatApp/src//graphql';
+
 import Groups from './groups.component';
-import { USER_QUERY, MESSAGE_ADDED_SUBSCRIPTION, GROUP_ADDED_SUBSCRIPTION } from '../../graphql';
 
 function isDuplicateDocument(newDocument, existingDocuments) {
   return newDocument.id !== null && existingDocuments.some(doc => newDocument.id === doc.id);

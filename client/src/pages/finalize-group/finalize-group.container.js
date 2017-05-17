@@ -2,7 +2,8 @@
 import { graphql, compose } from 'react-apollo';
 import update from 'immutability-helper';
 
-import { USER_QUERY, CREATE_GROUP_MUTATION } from '../../graphql';
+import { USER_QUERY, CREATE_GROUP_MUTATION } from 'ChatApp/src/graphql';
+
 import FinalizeGroup from './finalize-group.component';
 
 // helper function checks for duplicate groups, which we receive because we

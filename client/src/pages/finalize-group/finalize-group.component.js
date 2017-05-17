@@ -6,8 +6,9 @@ import { Alert, Image, ListView, Text, TextInput, TouchableOpacity, View } from 
 import { Actions } from 'react-native-router-flux';
 import update from 'immutability-helper';
 
+import { SelectedUserList } from 'ChatApp/src/components';
+
 import styles from './finalize-group.style';
-import { SelectedUserList } from '../../components';
 
 type PropsType = {
   createGroup: () => Promise<any>,
@@ -91,7 +92,12 @@ export default class FinalizeGroup extends Component {
       <View style={styles.container}>
         <View style={styles.detailsContainer}>
           <TouchableOpacity style={styles.imageContainer}>
-            <Image style={styles.groupImage} source={{ uri: 'https://facebook.github.io/react/img/logo_og.png' }} />
+            <Image
+              style={styles.groupImage}
+              source={{
+                uri: 'https://facebook.github.io/react/img/logo_og.png',
+              }}
+            />
             <Text>edit</Text>
           </TouchableOpacity>
           <View style={styles.inputContainer}>

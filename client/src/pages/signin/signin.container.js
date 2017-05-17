@@ -2,8 +2,9 @@
 import { connect } from 'react-redux';
 import { graphql, compose } from 'react-apollo';
 
+import { LOGIN_MUTATION, SIGNUP_MUTATION } from 'ChatApp/src/graphql';
+
 import Signin from './signin.component';
-import { LOGIN_MUTATION, SIGNUP_MUTATION } from '../../graphql';
 
 const login = graphql(LOGIN_MUTATION, {
   props: ({ mutate }) => ({

@@ -12,8 +12,9 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
+import { setCurrentUser } from 'ChatApp/src/redux/auth.actions';
+
 import styles from './signin.style';
-import { setCurrentUser } from '../../redux/auth.actions';
 
 function capitalizeFirstLetter(string) {
   return string[0].toUpperCase() + string.slice(1);
@@ -74,7 +75,11 @@ export default class Signin extends Component {
         });
         Alert.alert(`${capitalizeFirstLetter(this.state.view)} error`, error.message, [
           { text: 'OK', onPress: () => console.log('OK pressed') }, // eslint-disable-line no-console
-          { text: 'Forgot password', onPress: () => console.log('Forgot Pressed'), style: 'cancel' }, // eslint-disable-line no-console
+          {
+            text: 'Forgot password',
+            onPress: () => console.log('Forgot Pressed'),
+            style: 'cancel',
+          }, // eslint-disable-line no-console
         ]);
       });
   }

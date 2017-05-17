@@ -8,7 +8,8 @@ import { Actions } from 'react-native-router-flux';
 import AlphabetListView from 'react-native-alphabetlistview';
 import update from 'immutability-helper';
 
-import { SelectedUserList } from '../../components';
+import { SelectedUserList } from 'ChatApp/src/components';
+
 import Cell from './cell.component';
 import styles, { sectionHeaderStyles } from './new-group.style';
 

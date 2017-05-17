@@ -10,9 +10,9 @@ import { persistStore, autoRehydrate } from 'redux-persist';
 import thunk from 'redux-thunk';
 import { AsyncStorage } from 'react-native';
 
-import { Routes, Scenes } from './routes';
-import { auth } from './redux';
-import { logout } from './redux/auth.actions';
+import { Routes, Scenes } from 'ChatApp/src/routes';
+import { auth } from 'ChatApp/src/redux';
+import { logout } from 'ChatApp/src/redux/auth.actions';
 
 global.XMLHttpRequest = global.originalXMLHttpRequest ? global.originalXMLHttpRequest : global.XMLHttpRequest;
 global.FormData = global.originalFormData ? global.originalFormData : global.FormData;
