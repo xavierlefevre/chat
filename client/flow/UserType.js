@@ -1,5 +1,4 @@
 // @flow
-
 declare type FriendType = {
   id: number,
   username: string,

@@ -17,12 +17,7 @@ declare module 'seamless-immutable' {
     asMutable(): Array<any> | Object,
   };
 
-  declare function from<T: Object | Array<*>>(spec: T): Immutable<T>;
+  declare type moduleDefault = (spec: Object | Array<*>) => Immutable<Object | Array<*>>;
 
-  declare type Default = {
-    from: typeof from,
-    isImmutable: (x: *) => boolean,
-  };
-
-  declare module.exports: Default;
+  declare module.exports: moduleDefault;
 }
