@@ -1,6 +1,6 @@
 // @flow
 import gql from 'graphql-tag';
-import MESSAGE_FRAGMENT from './message.fragment';
+import MESSAGE_FRAGMENT from '../fragments/message.fragment';
 
 const GROUP_QUERY = gql`
   query group($groupId: Int!, $limit: Int, $offset: Int) {

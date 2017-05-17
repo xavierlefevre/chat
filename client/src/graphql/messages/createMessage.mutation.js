@@ -1,6 +1,6 @@
 // @flow
 import gql from 'graphql-tag';
-import MESSAGE_FRAGMENT from './message.fragment';
+import MESSAGE_FRAGMENT from '../fragments/message.fragment';
 
 const CREATE_MESSAGE_MUTATION = gql`
   mutation createMessage($text: String!, $groupId: Int!) {

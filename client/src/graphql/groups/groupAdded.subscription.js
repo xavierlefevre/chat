@@ -1,7 +1,7 @@
 // @flow
 import gql from 'graphql-tag';
 
-import MESSAGE_FRAGMENT from './message.fragment';
+import MESSAGE_FRAGMENT from '../fragments/message.fragment';
 
 const GROUP_ADDED_SUBSCRIPTION = gql`
   subscription onGroupAdded($userId: Int){
