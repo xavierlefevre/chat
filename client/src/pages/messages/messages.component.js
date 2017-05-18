@@ -47,7 +47,7 @@ export default class Messages extends Component {
   state = {
     ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
     usernameColors: {},
-    shouldScrollToBottom: false,
+    shouldScrollToBottom: true,
     refreshing: false,
     height: 0,
   };
@@ -76,6 +76,11 @@ export default class Messages extends Component {
     if (!this.subscription && !newData.loading) {
       this.subscription = newData.subscribeToMessages(newData.groupId);
     }
+
+    if (this.state.shouldScrollToBottom && this.listView) {
+      this.setState({ shouldScrollToBottom: false });
+      this.listView.scrollToEnd({ animated: true });
+    }
   }
 
   componentDidMount() {
@@ -84,10 +89,8 @@ export default class Messages extends Component {
 
   onContentSizeChange(w: number, h: number) {
     if (this.state.shouldScrollToBottom && this.state.height < h) {
+      this.setState({ shouldScrollToBottom: false });
       this.listView.scrollToEnd({ animated: true });
-      this.setState({
-        shouldScrollToBottom: false,
-      });
     }
   }
 
@@ -101,15 +104,15 @@ export default class Messages extends Component {
   }
 
   send(text: string) {
-    this.props.createMessage({
-      groupId: this.props.groupId,
-      userId: this.props.auth.id,
-      text,
-    });
-
-    this.setState({
-      shouldScrollToBottom: true,
-    });
+    this.props
+      .createMessage({
+        groupId: this.props.groupId,
+        userId: this.props.auth.id,
+        text,
+      })
+      .then(() => {
+        this.setState({ shouldScrollToBottom: true });
+      });
   }
 
   onRefresh() {
