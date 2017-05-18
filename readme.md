@@ -16,6 +16,7 @@ This repo contains my code while following the amazing tutorial of Simon Tucker 
 - [x] Tutorial: [Part 7: GraphQL Authentication](https://medium.com/@simontucker/building-chatty-part-7-authentication-in-graphql-cd37770e5ab3)
 - [ ] Personal: Server locally in Docker
 - [ ] Personal: Docker Online
+- [ ] Personal: Test front end with Jest and Enzyme
 - [ ] Personal: Deploy on HockeyApp with Fastlane
 - [ ] Personal: Add FlowType to the Server
 - [ ] Personal: Replace SQLite by PSQL
