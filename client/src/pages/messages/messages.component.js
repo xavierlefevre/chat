@@ -26,7 +26,7 @@ type PropsType = {
   loading: boolean,
   groupId: number,
   title: string,
-  createMessage: () => void,
+  createMessage: () => Promise<any>,
   loadMoreEntries: () => Promise<any>,
   subscribeToMessages: () => void,
 };
@@ -47,7 +47,7 @@ export default class Messages extends Component {
   state = {
     ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
     usernameColors: {},
-    shouldScrollToBottom: true,
+    shouldScrollToBottom: false,
     refreshing: false,
     height: 0,
   };
@@ -75,11 +75,6 @@ export default class Messages extends Component {
 
     if (!this.subscription && !newData.loading) {
       this.subscription = newData.subscribeToMessages(newData.groupId);
-    }
-
-    if (this.state.shouldScrollToBottom && this.listView) {
-      this.setState({ shouldScrollToBottom: false });
-      this.listView.scrollToEnd({ animated: true });
     }
   }
 
@@ -156,9 +151,7 @@ export default class Messages extends Component {
     return (
       <KeyboardAvoidingView behavior={'position'} contentContainerStyle={styles.container} style={styles.container}>
         <ListView
-          ref={ref => {
-            this.listView = ref;
-          }}
+          ref={ref => (this.listView = ref)}
           style={styles.listView}
           enableEmptySections
           dataSource={this.state.ds}
