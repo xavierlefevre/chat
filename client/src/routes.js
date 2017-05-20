@@ -11,6 +11,7 @@ import { FinalizeGroup } from 'ChatApp/src/pages/finalize-group';
 import { GroupDetails } from 'ChatApp/src/pages/group-details';
 import { Signin } from 'ChatApp/src/pages/signin';
 import { Settings } from 'ChatApp/src/pages/settings';
+import { People } from 'ChatApp/src/pages/people';
 
 const styles = StyleSheet.create({
   container: {
@@ -48,6 +49,9 @@ export const Scenes = Actions.create(
     <Scene key="tabs" tabBarStyle={styles.tabBarStyle} tabs>
       <Scene key="chatsTab" title="Chats" icon={TabIcon}>
         <Scene key="groups" component={Groups} title="Chats" hideBackImage />
+      </Scene>
+      <Scene key="peopleTab" title="People" icon={TabIcon}>
+        <Scene key="people" component={People} title="People" hideBackImage />
       </Scene>
       <Scene key="settingsTab" title="Settings" icon={TabIcon}>
         <Scene key="settings" component={Settings} title="Settings" hideBackImage />

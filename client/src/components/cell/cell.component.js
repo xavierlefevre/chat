@@ -9,6 +9,7 @@ type PropsType = {
   isSelected: FriendType => number,
   item: FriendType,
   toggle: () => void,
+  toggleable: boolean,
 };
 type StateType = {
   isSelected: number,
@@ -20,17 +21,19 @@ export default class Cell extends Component {
 
   constructor(props: PropsType) {
     super(props);
-    this.state = { isSelected: props.isSelected(props.item) };
+    if (props.toggleable) this.state = { isSelected: props.isSelected(props.item) };
   }
 
   componentWillReceiveProps(nextProps: PropsType) {
-    this.setState({
-      isSelected: nextProps.isSelected(nextProps.item),
-    });
+    if (nextProps.toggleable) {
+      this.setState({
+        isSelected: nextProps.isSelected(nextProps.item),
+      });
+    }
   }
 
   toggle() {
-    this.props.toggle(this.props.item);
+    if (this.props.toggleable) this.props.toggle(this.props.item);
   }
 
   render() {
@@ -38,18 +41,20 @@ export default class Cell extends Component {
       <View style={styles.cellContainer}>
         <Image style={styles.cellImage} source={{ uri: 'https://facebook.github.io/react/img/logo_og.png' }} />
         <Text style={styles.cellLabel}>{this.props.item.username}</Text>
-        <View style={styles.checkButtonContainer}>
-          <Icon.Button
-            backgroundColor={this.state.isSelected ? 'blue' : 'white'}
-            borderRadius={12}
-            color={'white'}
-            iconStyle={styles.checkButtonIcon}
-            name={'check'}
-            onPress={() => this.toggle()}
-            size={16}
-            style={styles.checkButton}
-          />
-        </View>
+        {this.props.toggleable &&
+          <View style={styles.checkButtonContainer}>
+            <Icon.Button
+              backgroundColor={this.state.isSelected ? 'blue' : 'white'}
+              borderRadius={12}
+              color={'white'}
+              iconStyle={styles.checkButtonIcon}
+              name={'check'}
+              onPress={() => this.toggle()}
+              size={16}
+              style={styles.checkButton}
+            />
+          </View>}
+
       </View>
     );
   }

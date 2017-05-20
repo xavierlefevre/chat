@@ -3,37 +3,20 @@
 /* eslint no-param-reassign: 0 */
 import { _ } from 'lodash';
 import React, { Component } from 'react';
-import { ActivityIndicator, ListView, Text, View } from 'react-native';
+import { ActivityIndicator, ListView, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 import AlphabetListView from 'react-native-alphabetlistview';
 import update from 'immutability-helper';
 
-import { SelectedUserList } from 'ChatApp/src/components';
+import { SelectedUserList, Cell, SectionHeader, SectionItem } from 'ChatApp/src/components';
 
-import Cell from './cell.component';
-import styles, { sectionHeaderStyles } from './new-group.style';
+import styles from './new-group.style';
 
 const sortObject = obj =>
   Object.keys(obj).sort().reduce((reduced, key) => {
     reduced[key] = obj[key];
     return reduced;
   }, {});
-
-type SectionHeaderPropsType = {
-  title: string,
-};
-
-const SectionHeader = (props: SectionHeaderPropsType) => (
-  <View style={sectionHeaderStyles.view}>
-    <Text style={sectionHeaderStyles.text}>{props.title}</Text>
-  </View>
-);
-
-type SectionItemPropsType = {
-  title: string,
-};
-
-const SectionItem = (props: SectionItemPropsType) => <Text style={{ color: 'blue' }}>{props.title}</Text>;
 
 type PropsType = {
   auth: {
@@ -158,6 +141,7 @@ export default class NewGroup extends Component {
               cellProps={{
                 isSelected: selectedUser => this.isSelected(selectedUser),
                 toggle: removedUser => this.toggle(removedUser),
+                toggleable: true,
               }}
               sectionListItem={SectionItem}
               sectionHeader={SectionHeader}
