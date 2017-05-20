@@ -1,6 +1,5 @@
 // @flow
 /* eslint no-bitwise: 0 */
-/* eslint no-param-reassign: 0 */
 import { _ } from 'lodash';
 import React, { Component } from 'react';
 import { ActivityIndicator, ListView, View } from 'react-native';
@@ -9,14 +8,9 @@ import AlphabetListView from 'react-native-alphabetlistview';
 import update from 'immutability-helper';
 
 import { SelectedUserList, Cell, SectionHeader, SectionItem } from 'ChatApp/src/components';
+import { sortObject } from 'ChatApp/src/services/utils';
 
 import styles from './new-group.style';
-
-const sortObject = obj =>
-  Object.keys(obj).sort().reduce((reduced, key) => {
-    reduced[key] = obj[key];
-    return reduced;
-  }, {});
 
 type PropsType = {
   auth: {
@@ -41,7 +35,9 @@ export default class NewGroup extends Component {
     super(props);
     this.state = {
       selected: props.selected || [],
-      friends: props.user ? _.groupBy(props.user.friends, friend => friend.username.charAt(0).toUpperCase()) : {},
+      friends: props.user
+        ? sortObject(_.groupBy(props.user.friends, friend => friend.username.charAt(0).toUpperCase()))
+        : {},
       ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
     };
   }

@@ -1,2 +1,2 @@
 // @flow
-export { default as People } from './people.component';
+export { default as People } from './people.container';
