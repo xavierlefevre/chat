@@ -7,7 +7,7 @@ import { Groups, NewGroup, Messages, FinalizeGroup, GroupDetails, Signin, Settin
 
 import styles from './routes.style';
 import TabIcon from './tab-icon.component';
-import AddPeopleIcon from './add-people-icon.component';
+import AddPeopleIcon from './add-people-icon.container';
 
 export const Scenes = Actions.create(
   <Scene key="root">
@@ -16,7 +16,13 @@ export const Scenes = Actions.create(
         <Scene key="groups" component={Groups} title="Chats" hideBackImage />
       </Scene>
       <Scene key="peopleTab" title="People" icon={TabIcon}>
-        <Scene key="people" component={People} title="People" hideBackImage renderRightButton={AddPeopleIcon} />
+        <Scene
+          key="people"
+          component={People}
+          title="People"
+          hideBackImage
+          renderRightButton={() => <AddPeopleIcon />}
+        />
       </Scene>
       <Scene key="settingsTab" title="Settings" icon={TabIcon}>
         <Scene key="settings" component={Settings} title="Settings" hideBackImage />

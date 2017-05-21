@@ -3,6 +3,7 @@ import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 
 import { FRIENDS_QUERY } from 'ChatApp/src/graphql';
+import { togglePrompt } from 'ChatApp/src/redux';
 
 import People from './people.component';
 
@@ -14,8 +15,12 @@ const userQuery = graphql(FRIENDS_QUERY, {
   }),
 });
 
-const mapStateToProps = ({ auth }) => ({
+const mapStateToProps = ({ auth, people: { promptShown } }) => ({
   auth,
+  promptShown,
+});
+const mapDispatchToProps = dispatch => ({
+  togglePrompt: () => dispatch(togglePrompt()),
 });
 
-export default compose(connect(mapStateToProps), userQuery)(People);
+export default compose(connect(mapStateToProps, mapDispatchToProps), userQuery)(People);

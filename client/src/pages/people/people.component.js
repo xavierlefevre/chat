@@ -11,6 +11,8 @@ import styles from './people.style';
 
 type PropsType = {
   friends: Array<FriendType>,
+  promptShown: boolean,
+  togglePrompt: () => void,
 };
 type StateType = {
   friends: { A?: FriendType },
@@ -53,8 +55,8 @@ export default class People extends Component {
           title="Say something"
           placeholder="Start typing"
           defaultValue="Hello"
-          visible
-          onCancel={() => {}}
+          visible={this.props.promptShown}
+          onCancel={() => this.props.togglePrompt()}
           onSubmit={() => {}}
         />
       </View>

@@ -5,10 +5,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import globalStyles from 'ChatApp/src/styles/global.style';
 
-const showPopup = () => {};
+type PropsType = {
+  togglePrompt: () => void,
+};
 
-const AddPeopleIcon = () => (
-  <TouchableOpacity onPress={() => showPopup()} style={{ marginTop: 2 }}>
+const AddPeopleIcon = (props: PropsType) => (
+  <TouchableOpacity onPress={() => props.togglePrompt()} style={{ marginTop: 2 }}>
     <Icon name="plus" size={22} color={globalStyles.colors.blue} />
   </TouchableOpacity>
 );

@@ -11,7 +11,7 @@ import thunk from 'redux-thunk';
 import { AsyncStorage } from 'react-native';
 
 import { Routes, Scenes } from 'ChatApp/src/navigation/routes';
-import { authReducer, logout } from 'ChatApp/src/redux';
+import { authReducer, peopleReducer, logoutAction } from 'ChatApp/src/redux';
 
 global.XMLHttpRequest = global.originalXMLHttpRequest ? global.originalXMLHttpRequest : global.XMLHttpRequest;
 global.FormData = global.originalFormData ? global.originalFormData : global.FormData;
@@ -38,6 +38,7 @@ const store = createStore(
   combineReducers({
     apollo: client.reducer(),
     auth: authReducer,
+    people: peopleReducer,
   }),
   {}, // initial state
   composeWithDevTools(applyMiddleware(client.middleware(), thunk), autoRehydrate())
@@ -45,7 +46,7 @@ const store = createStore(
 
 persistStore(store, {
   storage: AsyncStorage,
-  blacklist: ['apollo'], // don't persist apollo
+  blacklist: ['apollo', 'people'], // don't persist apollo
 });
 
 export default function() {
@@ -100,7 +101,7 @@ networkInterface.useAfter([
           if (errors) {
             errors.map(e => {
               if (e.message === 'Unauthorized') {
-                return store.dispatch(logout());
+                return store.dispatch(logoutAction());
               }
               return console.log('GraphQL Error:', e.message);
             });
