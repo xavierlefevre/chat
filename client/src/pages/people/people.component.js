@@ -4,7 +4,7 @@ import { View } from 'react-native';
 import { _ } from 'lodash';
 import AlphabetListView from 'react-native-alphabetlistview';
 
-import { SectionItem, Cell } from 'ChatApp/src/components';
+import { SectionItem, Cell, Prompt } from 'ChatApp/src/components';
 import { sortObject } from 'ChatApp/src/services/utils';
 
 import styles from './people.style';
@@ -48,6 +48,14 @@ export default class People extends Component {
           cellHeight={30}
           sectionListItem={SectionItem}
           sectionHeaderHeight={22.5}
+        />
+        <Prompt
+          title="Say something"
+          placeholder="Start typing"
+          defaultValue="Hello"
+          visible
+          onCancel={() => {}}
+          onSubmit={() => {}}
         />
       </View>
     );

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { ActivityIndicator, Button, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
-import { logout } from 'ChatApp/src/redux/auth.actions';
+import { logoutAction } from 'ChatApp/src/redux';
 
 import styles from './settings.style';
 
@@ -39,7 +39,7 @@ export default class Settings extends Component {
   }
 
   logout() {
-    this.props.dispatch(logout());
+    this.props.dispatch(logoutAction());
   }
 
   // updateUsername(username) {

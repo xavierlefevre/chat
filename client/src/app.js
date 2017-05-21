@@ -11,8 +11,7 @@ import thunk from 'redux-thunk';
 import { AsyncStorage } from 'react-native';
 
 import { Routes, Scenes } from 'ChatApp/src/navigation/routes';
-import { auth } from 'ChatApp/src/redux';
-import { logout } from 'ChatApp/src/redux/auth.actions';
+import { authReducer, logout } from 'ChatApp/src/redux';
 
 global.XMLHttpRequest = global.originalXMLHttpRequest ? global.originalXMLHttpRequest : global.XMLHttpRequest;
 global.FormData = global.originalFormData ? global.originalFormData : global.FormData;
@@ -38,7 +37,7 @@ export const client = new ApolloClient({
 const store = createStore(
   combineReducers({
     apollo: client.reducer(),
-    auth,
+    auth: authReducer,
   }),
   {}, // initial state
   composeWithDevTools(applyMiddleware(client.middleware(), thunk), autoRehydrate())

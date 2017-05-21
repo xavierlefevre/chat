@@ -2,7 +2,7 @@
 import Immutable from 'seamless-immutable';
 import { REHYDRATE } from 'redux-persist/constants';
 
-import { LOGOUT, SET_CURRENT_USER } from './constants';
+import { LOGOUT, SET_CURRENT_USER } from './auth.constants';
 
 const initialState = Immutable({
   loading: true,
@@ -10,7 +10,7 @@ const initialState = Immutable({
   jwt: null,
 });
 
-const auth = (state: any = initialState, action: any) => {
+const authReducer = (state: any = initialState, action: any) => {
   switch (action.type) {
     case REHYDRATE:
       // convert persisted data to Immutable and confirm rehydration
@@ -27,4 +27,4 @@ const auth = (state: any = initialState, action: any) => {
   }
 };
 
-export default auth;
+export default authReducer;

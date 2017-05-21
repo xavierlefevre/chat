@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
-import { setCurrentUser } from 'ChatApp/src/redux/auth.actions';
+import { setCurrentUserAction } from 'ChatApp/src/redux';
 
 import styles from './signin.style';
 
@@ -64,7 +64,7 @@ export default class Signin extends Component {
     this.props
       .login({ email, password })
       .then(({ data: { login: user } }) => {
-        this.props.dispatch(setCurrentUser(user));
+        this.props.dispatch(setCurrentUserAction(user));
         this.setState({
           loading: false,
         });
@@ -91,7 +91,7 @@ export default class Signin extends Component {
     this.props
       .signup({ email, password })
       .then(({ data: { signup: user } }) => {
-        this.props.dispatch(setCurrentUser(user));
+        this.props.dispatch(setCurrentUserAction(user));
         this.setState({
           loading: false,
         });

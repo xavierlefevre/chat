@@ -1,2 +1,3 @@
 // @flow
-export { default as auth } from './auth.reducer';
+export { default as authReducer } from './auth/auth.reducer';
+export { logoutAction, setCurrentUserAction } from './auth/auth.actions';
