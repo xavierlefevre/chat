@@ -52,9 +52,8 @@ export default class People extends Component {
           sectionHeaderHeight={22.5}
         />
         <Prompt
-          title="Say something"
-          placeholder="Start typing"
-          defaultValue="Hello"
+          title="Add a friend"
+          placeholder="Enter your friend username"
           visible={this.props.promptShown}
           onCancel={() => this.props.togglePrompt()}
           onSubmit={() => {}}

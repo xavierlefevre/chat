@@ -15,7 +15,7 @@ This repo contains my code while following the amazing tutorial of Simon Tucker 
 - [x] Tutorial: [Part 6: GraphQL Subscriptions](https://medium.com/@simontucker/building-chatty-part-6-graphql-subscriptions-b54df7d63e27)
 - [x] Tutorial: [Part 7: GraphQL Authentication](https://medium.com/@simontucker/building-chatty-part-7-authentication-in-graphql-cd37770e5ab3)
 - [ ] Additional: New feature to see and add friends
-- [ ] Additional: Server site FlowType
+- [ ] Additional: Server side FlowType
 - [ ] Additional: Server locally in Docker
 - [ ] Additional: Docker Online
 - [ ] Additional: Test front end with Jest and Enzyme

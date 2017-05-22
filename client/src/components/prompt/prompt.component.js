@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { Modal, Text, TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import { Modal, Text, TextInput, TouchableWithoutFeedback, View, TouchableOpacity } from 'react-native';
 
 import styles from './prompt.style';
 
@@ -90,7 +90,9 @@ export default class Prompt extends Component {
     return (
       <Modal onRequestClose={() => this.close()} transparent visible={this.props.visible}>
         <View style={styles.dialog} key="prompt">
-          <View style={styles.dialogOverlay} />
+          <TouchableWithoutFeedback onPress={this.onCancelPress}>
+            <View style={styles.dialogOverlay} />
+          </TouchableWithoutFeedback>
           <View style={[styles.dialogContent, { borderColor: this.props.borderColor }, this.props.promptStyle]}>
             <View style={[styles.dialogTitle, { borderColor: this.props.borderColor }]}>
               <Text style={[styles.dialogTitleText, this.props.titleStyle]}>
@@ -109,20 +111,22 @@ export default class Prompt extends Component {
               />
             </View>
             <View style={[styles.dialogFooter, { borderColor: this.props.borderColor }]}>
-              <TouchableWithoutFeedback onPress={this.onCancelPress}>
-                <View style={[styles.dialogAction, this.props.buttonStyle, this.props.cancelButtonStyle]}>
-                  <Text style={[styles.dialogActionText, this.props.buttonTextStyle, this.props.cancelButtonTextStyle]}>
-                    {this.props.cancelText}
-                  </Text>
-                </View>
-              </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback onPress={this.onSubmitPress}>
-                <View style={[styles.dialogAction, this.props.buttonStyle, this.props.submitButtonStyle]}>
-                  <Text style={[styles.dialogActionText, this.props.buttonTextStyle, this.props.submitButtonTextStyle]}>
-                    {this.props.submitText}
-                  </Text>
-                </View>
-              </TouchableWithoutFeedback>
+              <TouchableOpacity
+                onPress={this.onCancelPress}
+                style={[styles.dialogAction, this.props.buttonStyle, this.props.cancelButtonStyle]}
+              >
+                <Text style={[styles.dialogActionText, this.props.buttonTextStyle, this.props.cancelButtonTextStyle]}>
+                  {this.props.cancelText}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={this.onSubmitPress}
+                style={[styles.dialogAction, this.props.buttonStyle, this.props.submitButtonStyle]}
+              >
+                <Text style={[styles.dialogActionText, this.props.buttonTextStyle, this.props.submitButtonTextStyle]}>
+                  {this.props.submitText}
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
