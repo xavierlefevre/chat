@@ -45,6 +45,7 @@ export const Schema = [
     updateGroup(id: Int!, name: String): Group
     login(email: String!, password: String!): User
     signup(email: String!, password: String!, username: String): User
+    addFriend(username: String!): User
   }
 
   type Subscription {

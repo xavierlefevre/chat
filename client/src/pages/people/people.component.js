@@ -13,6 +13,7 @@ type PropsType = {
   friends: Array<FriendType>,
   promptShown: boolean,
   togglePrompt: () => void,
+  addFriend: string => Promise<any>,
 };
 type StateType = {
   friends: { A?: FriendType },
@@ -56,7 +57,9 @@ export default class People extends Component {
           placeholder="Enter your friend username"
           visible={this.props.promptShown}
           onCancel={() => this.props.togglePrompt()}
-          onSubmit={() => {}}
+          onSubmit={value => {
+            this.props.addFriend(value).then(() => {});
+          }}
         />
       </View>
     );

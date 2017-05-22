@@ -85,6 +85,9 @@ export const Resolvers = {
         return Promise.reject('email already exists');
       });
     },
+    addFriend(_, args, ctx) {
+      return userLogic.addFriend(_, args, ctx);
+    },
   },
 
   Subscription: {

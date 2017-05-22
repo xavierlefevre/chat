@@ -203,6 +203,22 @@ export const userLogic = {
       return Promise.reject('Unauthorized');
     });
   },
+
+  addFriend(_, { username }, ctx) {
+    return getAuthenticatedUser(ctx).then(user => {
+      if (!user) {
+        return Promise.reject('Unauthorized');
+      }
+      return User.findOne({ where: { username } }).then(friend =>
+        user.addFriend(friend).then(newUser => {
+          if (!newUser) {
+            return Promise.reject('Unknown user');
+          }
+          return friend;
+        })
+      );
+    });
+  },
 };
 
 export const subscriptionLogic = {
@@ -215,6 +231,7 @@ export const subscriptionLogic = {
       return baseParams;
     });
   },
+
   messageAdded(baseParams, args, ctx) {
     return getAuthenticatedUser(ctx).then(user =>
       user
