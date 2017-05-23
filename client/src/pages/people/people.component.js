@@ -58,7 +58,14 @@ export default class People extends Component {
           visible={this.props.promptShown}
           onCancel={() => this.props.togglePrompt()}
           onSubmit={value => {
-            this.props.addFriend(value).then(() => {});
+            this.props
+              .addFriend(value)
+              .then(() => {
+                this.props.togglePrompt();
+              })
+              .catch(e => {
+                console.error(e);
+              });
           }}
         />
       </View>
