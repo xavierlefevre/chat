@@ -57,7 +57,7 @@ export default class People extends Component {
           placeholder="Enter your friend username"
           visible={this.props.promptShown}
           onCancel={() => this.props.togglePrompt()}
-          onSubmit={value => {
+          onSubmit={(value: string) => {
             this.props
               .addFriend(value)
               .then(() => {

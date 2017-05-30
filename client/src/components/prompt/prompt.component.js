@@ -11,7 +11,7 @@ type PropsType = {
   placeholder: string,
   onCancel: () => void,
   cancelText: string,
-  onSubmit: () => void,
+  onSubmit: string => void,
   submitText: string,
   onChangeText: () => void,
   borderColor: string,
