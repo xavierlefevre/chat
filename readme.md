@@ -14,7 +14,7 @@ This repo contains my code while following the amazing tutorial of Simon Tucker 
 - [x] Tutorial: [Part 5: Pagination with GraphQL](https://medium.com/@simontucker/building-chatty-part-5-pagination-with-graphql-23a25fc9f0bf)
 - [x] Tutorial: [Part 6: GraphQL Subscriptions](https://medium.com/@simontucker/building-chatty-part-6-graphql-subscriptions-b54df7d63e27)
 - [x] Tutorial: [Part 7: GraphQL Authentication](https://medium.com/@simontucker/building-chatty-part-7-authentication-in-graphql-cd37770e5ab3)
-- [ ] Additional: New feature to see and add friends
+- [x] Additional: New feature to see and add friends
 - [ ] Additional: Server side FlowType
 - [ ] Additional: Server locally in Docker
 - [ ] Additional: Docker Online
@@ -22,3 +22,27 @@ This repo contains my code while following the amazing tutorial of Simon Tucker 
 - [ ] Additional: Deploy on HockeyApp with Fastlane
 - [ ] Additional: Add FlowType to the Server
 - [ ] Additional: Replace SQLite by PSQL
+
+## Project Install
+
+### Clone the repository
+
+```bash
+git clone https://github.com/xavierlefevre/chat.git
+```
+
+### Install and launch the back-end
+
+```bash
+cd chat/server
+yarn install
+yarn start # To launch the server with fixtures for the moment, you can see the users in the terminal logs
+```
+
+### Install and launch the frond-end
+
+```bash
+cd chat/client
+yarn install
+react-native run-ios
+```
