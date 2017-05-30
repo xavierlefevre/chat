@@ -25,9 +25,9 @@ export default class GroupDetails extends Component {
   constructor(props: PropsType) {
     super(props);
     this.state = {
-      ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }).cloneWithRows(
-        props.loading ? [] : props.group.users
-      ),
+      ds: new ListView.DataSource({
+        rowHasChanged: (r1, r2) => r1 !== r2,
+      }).cloneWithRows(props.loading ? [] : props.group.users),
       selected: [],
     };
   }
@@ -87,7 +87,9 @@ export default class GroupDetails extends Component {
                 <TouchableOpacity style={styles.groupImageContainer} onPress={() => {}}>
                   <Image
                     style={styles.groupImage}
-                    source={{ uri: 'https://facebook.github.io/react/img/logo_og.png' }}
+                    source={{
+                      uri: 'https://facebook.github.io/react/img/logo_og.png',
+                    }}
                   />
                   <Text>edit</Text>
                 </TouchableOpacity>
@@ -102,13 +104,18 @@ export default class GroupDetails extends Component {
           )}
           renderFooter={() => (
             <View>
-              <Button title={'Leave Group'} onPress={this.leaveGroup} />
-              <Button title={'Delete Group'} onPress={this.deleteGroup} />
+              <Button title={'Leave Group'} onPress={() => this.leaveGroup()} />
+              <Button title={'Delete Group'} onPress={() => this.deleteGroup()} />
             </View>
           )}
           renderRow={user => (
             <View style={styles.user}>
-              <Image style={styles.avatar} source={{ uri: 'https://facebook.github.io/react/img/logo_og.png' }} />
+              <Image
+                style={styles.avatar}
+                source={{
+                  uri: 'https://facebook.github.io/react/img/logo_og.png',
+                }}
+              />
               <Text style={styles.username}>{user.username}</Text>
             </View>
           )}
