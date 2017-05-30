@@ -64,7 +64,7 @@ export default class People extends Component {
                 this.props.togglePrompt();
               })
               .catch(e => {
-                console.error(e);
+                console.log(e);
               });
           }}
         />

@@ -3,7 +3,7 @@ import { graphql, compose } from 'react-apollo';
 import { connect } from 'react-redux';
 import update from 'immutability-helper';
 
-import { FRIENDS_QUERY, ADD_FRIEND_MUTATION } from 'ChatApp/src/graphql';
+import { USER_QUERY, ADD_FRIEND_MUTATION } from 'ChatApp/src/graphql';
 import { togglePrompt } from 'ChatApp/src/redux';
 
 import People from './people.component';
@@ -29,7 +29,7 @@ const addFriend = graphql(ADD_FRIEND_MUTATION, {
   }),
 });
 
-const userQuery = graphql(FRIENDS_QUERY, {
+const userQuery = graphql(USER_QUERY, {
   options: ({ auth }) => ({ variables: { id: auth.id } }),
   props: ({ data: { loading, user } }) => ({
     loading,

@@ -6,7 +6,6 @@ export { default as DELETE_GROUP_MUTATION } from './groups/delete-group.mutation
 export { default as GROUP_ADDED_SUBSCRIPTION } from './groups/group-added.subscription';
 
 export { default as USER_QUERY } from './user/user.query';
-export { default as FRIENDS_QUERY } from './user/friends.query';
 export { default as LOGIN_MUTATION } from './user/login.mutation';
 export { default as SIGNUP_MUTATION } from './user/signup.mutation';
 export { default as ADD_FRIEND_MUTATION } from './user/add-friend.mutation';

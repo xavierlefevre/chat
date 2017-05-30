@@ -2,6 +2,7 @@
 import gql from 'graphql-tag';
 
 import MESSAGE_FRAGMENT from '../fragments/message.fragment';
+import FRIEND_FRAGMENT from '../fragments/friend.fragment';
 
 const USER_QUERY = gql`
   query user($id: Int) {
@@ -10,8 +11,7 @@ const USER_QUERY = gql`
       email
       username
       friends {
-        id
-        username
+        ... FriendFragment
       }
       groups {
         id
@@ -23,6 +23,7 @@ const USER_QUERY = gql`
     }
   }
   ${MESSAGE_FRAGMENT}
+  ${FRIEND_FRAGMENT}
 `;
 
 export default USER_QUERY;
