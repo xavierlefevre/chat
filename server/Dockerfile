@@ -9,10 +9,10 @@ WORKDIR /usr/src/app
 COPY . /usr/src/app
 
 # Installs app dependencies
-RUN npm install
+RUN yarn install
 
 # Exposes the server
 EXPOSE 8080
 
 # Starts the server
-CMD [ "npm", "start" ]
+CMD [ "yarn", "start" ]
