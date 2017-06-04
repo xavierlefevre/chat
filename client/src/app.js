@@ -12,16 +12,17 @@ import { AsyncStorage } from 'react-native';
 
 import { Routes, Scenes } from 'ChatApp/src/navigation/routes';
 import { authReducer, peopleReducer, logoutAction } from 'ChatApp/src/redux';
+import ENV from 'ChatApp/src/environment';
 
 global.XMLHttpRequest = global.originalXMLHttpRequest ? global.originalXMLHttpRequest : global.XMLHttpRequest;
 global.FormData = global.originalFormData ? global.originalFormData : global.FormData;
 
 const networkInterface = createNetworkInterface({
-  uri: 'http://localhost:8080/graphql',
+  uri: `http://${ENV.url}:${ENV.port}/graphql`,
 });
 
 // Create WebSocket client
-const wsClient = new SubscriptionClient('ws://localhost:8080/subscriptions', {
+const wsClient = new SubscriptionClient(`ws://${ENV.url}:${ENV.port}/subscriptions`, {
   reconnect: true,
   connectionParams: {
     // Pass any arguments you want for initialization
