@@ -30,10 +30,11 @@ const addFriend = graphql(ADD_FRIEND_MUTATION, {
 });
 
 const userQuery = graphql(USER_QUERY, {
+  skip: ownProps => !ownProps.auth || !ownProps.auth.jwt,
   options: ({ auth }) => ({ variables: { id: auth.id } }),
   props: ({ data: { loading, user } }) => ({
     loading,
-    friends: user.friends,
+    friends: (user && user.friends) || [],
   }),
 });
 

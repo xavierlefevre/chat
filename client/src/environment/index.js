@@ -1,2 +1,2 @@
 // @flow
-export { default } from './env.local';
+export { default } from './env.prod';

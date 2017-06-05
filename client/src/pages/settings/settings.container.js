@@ -6,7 +6,6 @@ import { USER_QUERY } from 'ChatApp/src/graphql';
 
 import Settings from './settings.component';
 
-// here is where the magic happens
 const userQuery = graphql(USER_QUERY, {
   skip: ownProps => !ownProps.auth || !ownProps.auth.jwt,
   options: ({ auth }) => ({ variables: { id: auth.id } }),
