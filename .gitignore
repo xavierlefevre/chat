@@ -51,9 +51,9 @@ buck-out/
 # For more information about the recommended setup visit:
 # https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Gitignore.md
 
-fastlane/report.xml
-fastlane/Preview.html
-fastlane/screenshots
+client/fastlane/report.xml
+client/fastlane/Preview.html
+client/fastlane/screenshots
 
 # Env
-.env
+.env*

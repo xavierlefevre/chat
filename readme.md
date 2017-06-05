@@ -41,7 +41,7 @@ react-native run-ios
 - [x] New feature to see and add friends
 - [x] Server locally in Docker
 - [x] Docker Online
-- [ ] Deploy on HockeyApp with Fastlane
+- [x] Deploy on HockeyApp with Fastlane
 - [ ] SQlite to PSQL
 - [ ] Server side FlowType
 - [ ] Test front end with Jest and Enzyme
@@ -53,6 +53,9 @@ react-native run-ios
 - Redux
 - Apollo Client
 - Web Sockets
+- Deployment
+  - HockeyApp
+  - Fastlane
 
 ### Back-end
 - SQlite
@@ -61,8 +64,7 @@ react-native run-ios
 - GraphQL
 - JWT
 - Web Sockets
-
-### Hosting
-- Scaleway
-- Rancher
-- Docker
+- Hosting and Deployment
+  - Scaleway
+  - Rancher
+  - Docker

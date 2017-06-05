@@ -1,0 +1,35 @@
+require 'dotenv'
+fastlane_version '2.36.0'
+
+default_platform :ios
+
+lane :prod do
+  # retrieves ENV
+  Dotenv.load('.env', '.env.prod')
+
+  # code sign the app
+  match(shallow_clone: true, force: true)
+
+  # prepare the ios App settings
+  xcodeproj_path = "./#{ENV['IOS_PROJECT_PATH']}/#{ENV['IOS_PROJECT_NAME']}.xcodeproj"
+
+  disable_automatic_code_signing(path: xcodeproj_path)
+  update_info_plist(
+    xcodeproj: xcodeproj_path,
+    display_name: ENV['IOS_APP_NAME'],
+    app_identifier: ENV['IOS_APP_ID'],
+    plist_path: "#{ENV['IOS_APP_NAME']}/Info.plist",
+  )
+
+  # build your iOS app
+  gym(
+    silent: true,
+    scheme: ENV['IOS_APP_NAME'],
+    export_method: 'ad-hoc',
+    project: xcodeproj_path,
+    xcargs: "DEVELOPMENT_TEAM='#{ENV['IOS_TEAM_ID']}'"
+  )
+
+  # upload to HockeyApp
+  hockey(notify: '0')
+end
