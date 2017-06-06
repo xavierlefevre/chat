@@ -34,7 +34,7 @@ const USERS_PER_GROUP = 5;
 const MESSAGES_PER_USER = 5;
 faker.seed(123); // get consistent data every time we reload app
 
-db.sync({ force: true }).then(() =>
+db.sync({ force: true }).then(() => {
   _.times(GROUPS, () =>
     GroupModel.create({ name: faker.lorem.words(3) })
       .then(group =>
@@ -73,8 +73,30 @@ db.sync({ force: true }).then(() =>
           });
         });
       })
-  )
-);
+  );
+
+  bcrypt.hash('test', 10).then(hashl =>
+    UserModel.create({
+      email: 'luma@test.com',
+      username: 'luma',
+      password: hashl,
+      version: 1,
+    }).then(userl => {
+      console.log('{email, username, password}', `{${userl.email}, ${userl.username}, test}`);
+      bcrypt.hash('test', 10).then(hashx =>
+        UserModel.create({
+          email: 'xavier@test.com',
+          username: 'xavier',
+          password: hashx,
+          version: 1,
+        }).then(userx => {
+          console.log('{email, username, password}', `{${userx.email}, ${userx.username}, test}`);
+          userx.addFriend(userl);
+        })
+      );
+    })
+  );
+});
 
 const Group = db.models.group;
 const Message = db.models.message;

@@ -2,7 +2,7 @@ import GraphQLDate from 'graphql-date';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import { JWT_SECRET } from '../config';
+import JWT_SECRET from '../config';
 import { User } from './connectors';
 import { groupLogic, messageLogic, userLogic } from './logic';
 import { pubsub } from '../subscriptions';
