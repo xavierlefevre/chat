@@ -43,8 +43,9 @@ export const Resolvers = {
       return groupLogic.updateGroup(_, args, ctx);
     },
     login(_, { email, password }) {
+      const lowerCaseEmail = email.toLowerCase();
       // find user by email
-      return User.findOne({ where: { email } }).then(user => {
+      return User.findOne({ where: { email: lowerCaseEmail } }).then(user => {
         if (user) {
           // validate password
           return bcrypt.compare(password, user.password).then(res => {
@@ -61,23 +62,27 @@ export const Resolvers = {
       });
     },
     signup(_, { email, password, username }) {
+      // TODO: put a constraint on the column in the DB
+      const lowerCaseEmail = email.toLowerCase();
       // find user by email
-      return User.findOne({ where: { email } }).then(existing => {
+      return User.findOne({
+        where: { email: lowerCaseEmail },
+      }).then(existing => {
         if (!existing) {
           // hash password and create user
           return bcrypt
             .hash(password, 10)
             .then(hash =>
               User.create({
-                email,
+                email: lowerCaseEmail,
                 password: hash,
-                username: username || email,
+                username: username || lowerCaseEmail,
                 version: 1,
               })
             )
             .then(user => {
               const { id } = user;
-              const token = jwt.sign({ id, email, version: 1 }, JWT_SECRET);
+              const token = jwt.sign({ id, lowerCaseEmail, version: 1 }, JWT_SECRET);
               user.jwt = token;
               return user;
             });

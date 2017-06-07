@@ -43,7 +43,7 @@ db.sync({ force: true }).then(() => {
           return bcrypt.hash(password, 10).then(hash =>
             group
               .createUser({
-                email: faker.internet.email(),
+                email: faker.internet.email().toLowerCase(),
                 username: faker.internet.userName(),
                 password: hash,
                 version: 1,
