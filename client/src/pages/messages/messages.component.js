@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Image,
   Text,
+  Dimensions,
 } from 'react-native';
 import randomColor from 'randomcolor';
 import { Actions } from 'react-native-router-flux';
@@ -33,9 +34,15 @@ type PropsType = {
 type StateType = {
   ds: any,
   usernameColors: {},
-  shouldScrollToBottom: boolean,
   refreshing: boolean,
   height: number,
+};
+type LayoutEventType = { nativeEvent: { layout: { height: number } } };
+type ScrollEventType = {
+  nativeEvent: {
+    contentSize: { height: number },
+    contentOffset: { y: number },
+  },
 };
 
 export default class Messages extends Component {
@@ -43,14 +50,17 @@ export default class Messages extends Component {
   state: StateType;
   listView: any;
   subscription: any;
+  reachedBottom: boolean;
+  shouldScrollToBottom: boolean;
 
   state = {
     ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
     usernameColors: {},
-    shouldScrollToBottom: false,
     refreshing: false,
     height: 0,
   };
+  reachedBottom = false;
+  shouldScrollToBottom = false;
 
   componentWillReceiveProps(nextProps: PropsType) {
     const oldData = this.props;
@@ -83,15 +93,26 @@ export default class Messages extends Component {
   }
 
   onContentSizeChange(w: number, h: number) {
-    if (this.state.shouldScrollToBottom && this.state.height < h) {
-      this.setState({ shouldScrollToBottom: false });
+    if (this.shouldScrollToBottom && this.state.height < h) {
+      this.shouldScrollToBottom = false;
       this.listView.scrollToEnd({ animated: true });
     }
+    if (this.reachedBottom) this.listView.scrollToEnd({ animated: true });
   }
 
-  onLayout(e: { nativeEvent: { layout: { height: number } } }) {
+  onLayout(e: LayoutEventType) {
     const { height } = e.nativeEvent.layout;
     this.setState({ height });
+  }
+
+  onScroll({ nativeEvent: { contentSize, contentOffset } }: ScrollEventType) {
+    const headerBarHeight = 64;
+    const messageInputHeight = 32 + 13;
+    const endThreshold = 25;
+
+    this.reachedBottom =
+      contentSize.height - contentOffset.y - endThreshold <
+      Dimensions.get('window').height - (headerBarHeight + messageInputHeight);
   }
 
   groupDetails() {
@@ -106,7 +127,7 @@ export default class Messages extends Component {
         text,
       })
       .then(() => {
-        this.setState({ shouldScrollToBottom: true });
+        this.shouldScrollToBottom = true;
       });
   }
 
@@ -158,6 +179,8 @@ export default class Messages extends Component {
           refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.onRefresh()} />}
           onContentSizeChange={(w, h) => this.onContentSizeChange(w, h)}
           onLayout={e => this.onLayout(e)}
+          onScroll={e => this.onScroll(e)}
+          scrollEventThrottle={500}
           renderRow={message => (
             <Message
               color={this.state.usernameColors[message.from.username]}
