@@ -5,25 +5,37 @@ This repo contains my code while following the amazing tutorial of Simon Tucker 
 ## Project Install
 
 ### Clone the repository
-
 ```bash
 git clone https://github.com/xavierlefevre/chat.git
 ```
 
-### Install and launch the back-end
-
+### Install and launch the API
 ```bash
 cd chat/server
-yarn install
-yarn start # To launch the server with fixtures for the moment, you can see the users in the terminal logs
+yarn
+yarn watch # To launch and watch on your machine with fixtures (users logged in terminal)
+# or
+yarn run up # To launch the local docker
 ```
 
-### Install and launch the frond-end
-
+### Install and launch the app
 ```bash
 cd chat/client
-yarn install
+yarn
 react-native run-ios
+```
+
+## Deployment
+
+### Deploy the API in production
+- Build the image in docker hub
+- Retrieve the image on the server
+- Start the container with Rancher
+
+### Deploy the app in hockey app
+```bash
+cd chat/client
+fastlane prod
 ```
 
 ## Roadmap
@@ -42,9 +54,15 @@ react-native run-ios
 - [x] Server locally in Docker
 - [x] Docker Online
 - [x] Deploy on HockeyApp with Fastlane
+- [ ] Back-end deploy process
+- [ ] Domain for Server IP
+- [ ] HTTPS
+- [ ] Fastlane repo private
 - [ ] SQlite to PSQL
 - [ ] Server side FlowType
 - [ ] Test front end with Jest and Enzyme
+- [ ] ElasticSearch for friend search
+- [ ] Chatbot
 
 ## Stack
 
