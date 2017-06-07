@@ -1,2 +1,5 @@
 // @flow
-export { default } from './env.local';
+export default {
+  url: 'localhost',
+  port: '8080',
+};

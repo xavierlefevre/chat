@@ -7,6 +7,8 @@ lane :prod do
   # retrieves ENV
   Dotenv.load('.env', '.env.prod')
 
+  set_javascript_environment
+
   # code sign the app
   match(shallow_clone: true, force: true)
 
@@ -32,4 +34,16 @@ lane :prod do
 
   # upload to HockeyApp
   hockey(notify: '0')
+end
+
+lane :set_javascript_environment do
+  backup_file(path: 'src/environment/index.js')
+  sh "cp ../src/environment/env.#{ENV['ENV']}.js ../src/environment/index.js"
+end
+
+# roll back JS environment file
+after_all do |lane, options|
+  if File.exist?('../src/environment/index.js.back')
+    restore_file(path: 'src/environment/index.js')
+  end
 end

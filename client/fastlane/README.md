@@ -34,6 +34,11 @@ xcode-select --install
 fastlane prod
 ```
 
+### set_javascript_environment
+```
+fastlane set_javascript_environment
+```
+
 
 ----
 
