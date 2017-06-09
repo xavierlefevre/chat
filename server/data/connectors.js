@@ -76,25 +76,31 @@ db.sync({ force: true }).then(() => {
   );
 
   bcrypt.hash('test', 10).then(hashl =>
-    UserModel.create({
-      email: 'luma@test.com',
-      username: 'luma',
-      password: hashl,
-      version: 1,
-    }).then(userl => {
-      console.log('{email, username, password}', `{${userl.email}, ${userl.username}, test}`);
-      bcrypt.hash('test', 10).then(hashx =>
-        UserModel.create({
-          email: 'xavier@test.com',
-          username: 'xavier',
-          password: hashx,
+    GroupModel.create({ name: 'Global Chat' }).then(group =>
+      group
+        .createUser({
+          email: 'luma@test.com',
+          username: 'luma',
+          password: hashl,
           version: 1,
-        }).then(userx => {
-          console.log('{email, username, password}', `{${userx.email}, ${userx.username}, test}`);
-          userx.addFriend(userl);
         })
-      );
-    })
+        .then(userl => {
+          console.log('{email, username, password}', `{${userl.email}, ${userl.username}, test}`);
+          bcrypt.hash('test', 10).then(hashx =>
+            group
+              .createUser({
+                email: 'xavier@test.com',
+                username: 'xavier',
+                password: hashx,
+                version: 1,
+              })
+              .then(userx => {
+                console.log('{email, username, password}', `{${userx.email}, ${userx.username}, test}`);
+                userx.addFriend(userl);
+              })
+          );
+        })
+    )
   );
 });
 
