@@ -82,6 +82,7 @@ const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
             from: {
               __typename: 'User',
               id: ownProps.auth.id,
+              // TODO: wait what ?
               username: 'Justyn.Kautzer',
             },
           },
