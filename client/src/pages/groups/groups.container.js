@@ -15,8 +15,9 @@ function isDuplicateDocument(newDocument, existingDocuments) {
 const userQuery = graphql(USER_QUERY, {
   skip: ownProps => !ownProps.auth || !ownProps.auth.jwt,
   options: ownProps => ({ variables: { id: ownProps.auth.id } }),
-  props: ({ data: { loading, refetch, user, subscribeToMore } }) => ({
+  props: ({ data: { loading, networkStatus, refetch, user, subscribeToMore } }) => ({
     loading,
+    networkStatus,
     refetch,
     user,
     subscribeToMessages() {

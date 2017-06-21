@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react';
-import { ActivityIndicator, ListView, View, Button, Text, RefreshControl } from 'react-native';
+import { ActivityIndicator, FlatList, View, Button, Text } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
 import Group from './group.component';
@@ -13,14 +13,15 @@ type PropsType = {
     jwt: string,
   },
   loading: boolean,
+  networkStatus: number,
   user: UserType,
   refetch: () => Promise<any>,
   subscribeToGroups: () => void,
   subscribeToMessages: () => void,
 };
-type StateType = {
-  ds: any,
-  refreshing: boolean,
+type FlatListItemType = {
+  index: number,
+  item: GroupType,
 };
 
 const Header = () => (
@@ -31,30 +32,12 @@ const Header = () => (
 
 export default class Groups extends Component {
   props: PropsType;
-  state: StateType;
   messagesSubscription: any;
   groupSubscription: any;
-
-  state = {
-    ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
-    refreshing: false,
-  };
 
   componentWillReceiveProps(nextProps: PropsType) {
     if (!nextProps.auth.jwt && !nextProps.auth.loading) {
       Actions.signin();
-    } else if (
-      nextProps.user &&
-      nextProps.user.groups &&
-      // check for new messages
-      (!this.props.user || nextProps.user.groups !== this.props.user.groups)
-    ) {
-      // convert groups Array to ListView.DataSource
-      // we will use this.state.ds to populate our ListView
-      this.setState({
-        // cloneWithRows computes a diff and decides whether to rerender
-        ds: this.state.ds.cloneWithRows(nextProps.user.groups),
-      });
     }
 
     if (nextProps.user && (!this.props.user || nextProps.user.groups.length !== this.props.user.groups.length)) {
@@ -76,18 +59,11 @@ export default class Groups extends Component {
     Actions.messages({ groupId: group.id, title: group.name });
   }
 
-  onRefresh() {
-    this.setState({ refreshing: true });
-    this.props.refetch().then(() => {
-      this.setState({ refreshing: false });
-    });
-  }
-
   render() {
-    const { auth, loading, user } = this.props;
+    const { loading, networkStatus, user, refetch } = this.props;
 
     // render loading placeholder while we fetch messages
-    if (auth.loading || loading) {
+    if (loading || !user) {
       return (
         <View style={[styles.loading, styles.container]}>
           <ActivityIndicator />
@@ -106,12 +82,15 @@ export default class Groups extends Component {
 
     return (
       <View style={styles.container}>
-        <ListView
-          enableEmptySections
-          dataSource={this.state.ds}
-          refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.onRefresh()} />}
-          renderHeader={() => <Header />}
-          renderRow={(group: GroupType) => <Group group={group} goToMessages={() => this.goToMessages(group)} />}
+        <FlatList
+          data={user.groups}
+          keyExtractor={(group: GroupType) => group.id}
+          renderItem={({ item: group }: FlatListItemType) => (
+            <Group group={group} goToMessages={() => this.goToMessages(group)} />
+          )}
+          ListHeaderComponent={() => <Header />}
+          onRefresh={() => refetch()}
+          refreshing={networkStatus === 4}
         />
       </View>
     );
