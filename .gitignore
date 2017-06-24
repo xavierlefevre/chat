@@ -57,3 +57,6 @@ client/fastlane/screenshots
 
 # Env
 .env*
+
+# VS Code
+jsconfig.json

@@ -4,7 +4,7 @@
 3. New subscription code
 4. Fix friend list when empty array
 5. Upgrade packages
-6. Automate Deployment
+6. Automate server deployment
 7. Secure JWT key (no .env in image)
 8. Domain on server IP
 9. HTTPS
