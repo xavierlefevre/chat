@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable no-undef */
 declare type FriendType = {
   id: number,
   username: string,

@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable no-undef */
 declare module 'seamless-immutable' {
   declare type Immutable<T: Object | Array<*>> = T & {
     // Array methods

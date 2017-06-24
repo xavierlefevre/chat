@@ -27,6 +27,8 @@
 .*node_modules/react-native-experimental-navigation/.*
 .*/node_modules/react-static-container/.*
 
+.*/node_modules/react-navigation/.*
+
 <PROJECT_ROOT>/lib
 <PROJECT_ROOT>/lib-rn
 <PROJECT_ROOT>/examples

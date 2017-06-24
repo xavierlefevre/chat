@@ -1,4 +1,5 @@
 // @flow
+/* eslint-disable no-undef */
 declare type GroupType = {
   name: string,
   id: number,
