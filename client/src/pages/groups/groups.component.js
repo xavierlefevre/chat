@@ -17,7 +17,9 @@ type PropsType = {
   refetch: () => Promise<any>,
   subscribeToGroups: () => void,
   subscribeToMessages: () => void,
-  navigation: Object,
+  navigation: {
+    navigate: string => void,
+  },
 };
 type FlatListItemType = {
   index: number,
@@ -34,6 +36,10 @@ export default class Groups extends Component {
   props: PropsType;
   messagesSubscription: any;
   groupSubscription: any;
+
+  static navigationOptions = {
+    title: 'Chats',
+  };
 
   componentWillReceiveProps(nextProps: PropsType) {
     if (nextProps.user && (!this.props.user || nextProps.user.groups.length !== this.props.user.groups.length)) {
