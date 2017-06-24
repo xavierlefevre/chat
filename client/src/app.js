@@ -10,7 +10,7 @@ import { persistStore, autoRehydrate } from 'redux-persist';
 import thunk from 'redux-thunk';
 import { AsyncStorage } from 'react-native';
 
-import { Routes, Scenes } from 'ChatApp/src/navigation/routes';
+import AppWithNavigationState, { navigationReducer } from 'ChatApp/src/navigation/navigation';
 import { authReducer, peopleReducer, logoutAction } from 'ChatApp/src/redux';
 import ENV from 'ChatApp/src/environment';
 
@@ -38,6 +38,7 @@ export const client = new ApolloClient({
 const store = createStore(
   combineReducers({
     apollo: client.reducer(),
+    nav: navigationReducer,
     auth: authReducer,
     people: peopleReducer,
   }),
@@ -53,7 +54,7 @@ persistStore(store, {
 export default function() {
   return (
     <ApolloProvider store={store} client={client}>
-      <Routes scenes={Scenes} />
+      <AppWithNavigationState />
     </ApolloProvider>
   );
 }

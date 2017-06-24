@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react';
 import { ActivityIndicator, FlatList, View, Button, Text } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 
 import Group from './group.component';
 import styles from './groups.style';
@@ -18,15 +17,16 @@ type PropsType = {
   refetch: () => Promise<any>,
   subscribeToGroups: () => void,
   subscribeToMessages: () => void,
+  navigation: Object,
 };
 type FlatListItemType = {
   index: number,
   item: GroupType,
 };
 
-const Header = () => (
+const Header = ({ onPress }: { onPress: () => void }) => (
   <View style={styles.header}>
-    <Button title={'New Group'} onPress={Actions.newGroup} />
+    <Button title={'New Group'} onPress={() => onPress()} />
   </View>
 );
 
@@ -36,10 +36,6 @@ export default class Groups extends Component {
   groupSubscription: any;
 
   componentWillReceiveProps(nextProps: PropsType) {
-    if (!nextProps.auth.jwt && !nextProps.auth.loading) {
-      Actions.signin();
-    }
-
     if (nextProps.user && (!this.props.user || nextProps.user.groups.length !== this.props.user.groups.length)) {
       if (this.messagesSubscription) {
         this.messagesSubscription(); // unsubscribe from old
@@ -56,7 +52,14 @@ export default class Groups extends Component {
   }
 
   goToMessages(group: GroupType) {
-    Actions.messages({ groupId: group.id, title: group.name });
+    this.props.navigation.navigate('Messages', {
+      groupId: group.id,
+      title: group.name,
+    });
+  }
+
+  goToNewGroup() {
+    this.props.navigation.navigate('NewGroup');
   }
 
   render() {
@@ -74,7 +77,7 @@ export default class Groups extends Component {
     if (user && !user.groups.length) {
       return (
         <View style={styles.container}>
-          <Header />
+          <Header onPress={() => this.goToNewGroup()} />
           <Text style={styles.warning}>{'You do not have any groups.'}</Text>
         </View>
       );
@@ -88,7 +91,7 @@ export default class Groups extends Component {
           renderItem={({ item: group }: FlatListItemType) => (
             <Group group={group} goToMessages={() => this.goToMessages(group)} />
           )}
-          ListHeaderComponent={() => <Header />}
+          ListHeaderComponent={() => <Header onPress={() => this.goToNewGroup()} />}
           onRefresh={() => refetch()}
           refreshing={networkStatus === 4}
         />
