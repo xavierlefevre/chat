@@ -116,7 +116,7 @@ export default class Messages extends Component {
   }
 
   groupDetails() {
-    Actions.groupDetails({ id: this.props.groupId });
+    // Actions.groupDetails({ id: this.props.groupId });
   }
 
   send(text: string) {
@@ -141,21 +141,21 @@ export default class Messages extends Component {
   }
 
   renderTitle() {
-    Actions.refresh({
-      renderTitle: () => (
-        <TouchableOpacity style={styles.titleWrapper} onPress={() => this.groupDetails()}>
-          <View style={styles.title}>
-            <Image
-              style={styles.titleImage}
-              source={{
-                uri: 'https://facebook.github.io/react/img/logo_og.png',
-              }}
-            />
-            <Text>{this.props.title}</Text>
-          </View>
-        </TouchableOpacity>
-      ),
-    });
+    // Actions.refresh({
+    //   renderTitle: () => (
+    //     <TouchableOpacity style={styles.titleWrapper} onPress={() => this.groupDetails()}>
+    //       <View style={styles.title}>
+    //         <Image
+    //           style={styles.titleImage}
+    //           source={{
+    //             uri: 'https://facebook.github.io/react/img/logo_og.png',
+    //           }}
+    //         />
+    //         <Text>{this.props.title}</Text>
+    //       </View>
+    //     </TouchableOpacity>
+    //   ),
+    // });
   }
 
   render() {

@@ -53,7 +53,7 @@ export default class Signin extends Component {
 
   componentWillReceiveProps(nextProps: PropsType) {
     if (nextProps.auth.jwt) {
-      Actions.pop();
+      // Actions.pop();
     }
   }
 

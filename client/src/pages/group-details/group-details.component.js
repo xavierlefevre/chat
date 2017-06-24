@@ -45,7 +45,7 @@ export default class GroupDetails extends Component {
     this.props
       .deleteGroup({ id: this.props.id })
       .then(() => {
-        Actions.tabs({ type: 'reset' });
+        // Actions.tabs({ type: 'reset' });
       })
       .catch(e => {
         console.error(e);
@@ -56,7 +56,7 @@ export default class GroupDetails extends Component {
     this.props
       .leaveGroup({ id: this.props.id, userId: 1 }) // fake user for now
       .then(() => {
-        Actions.tabs({ type: 'reset' });
+        // Actions.tabs({ type: 'reset' });
       })
       .catch(e => {
         console.error(e);

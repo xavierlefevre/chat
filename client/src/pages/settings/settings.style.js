@@ -1,10 +1,9 @@
 // @flow
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: Platform.OS === 'ios' ? 64 : 54, //nav bar height
   },
   email: {
     borderColor: '#777',

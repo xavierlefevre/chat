@@ -48,7 +48,7 @@ export default class FinalizeGroup extends Component {
   }
 
   pop() {
-    Actions.pop({ refresh: { selected: this.state.selected } });
+    // Actions.pop({ refresh: { selected: this.state.selected } });
   }
 
   remove(user: FriendType) {
@@ -71,7 +71,7 @@ export default class FinalizeGroup extends Component {
     })
       .then(() => {
         // TODO: want to pop back to groups and then jump into messages
-        Actions.tabs({ type: 'reset' });
+        // Actions.tabs({ type: 'reset' });
       })
       .catch(error => {
         Alert.alert('Error Creating New Group', error.message, [{ text: 'OK', onPress: () => {} }]);
@@ -79,12 +79,12 @@ export default class FinalizeGroup extends Component {
   }
 
   refreshNavigation(enabled: boolean) {
-    Actions.refresh({
-      onBack: () => this.pop(),
-      backTitle: 'Back',
-      rightTitle: enabled ? 'Create' : undefined,
-      onRight: enabled ? () => this.create() : undefined,
-    });
+    // Actions.refresh({
+    //   onBack: () => this.pop(),
+    //   backTitle: 'Back',
+    //   rightTitle: enabled ? 'Create' : undefined,
+    //   onRight: enabled ? () => this.create() : undefined,
+    // });
   }
 
   render() {

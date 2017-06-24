@@ -34,7 +34,7 @@ export default class Settings extends Component {
   componentWillReceiveProps(nextProps: PropsType) {
     // logout successful, go back to groups/login
     if (!nextProps.auth.jwt) {
-      Actions.groups();
+      // Actions.groups();
     }
   }
 

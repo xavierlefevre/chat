@@ -69,21 +69,21 @@ export default class NewGroup extends Component {
   }
 
   refreshNavigation(selected: Array<any>) {
-    Actions.refresh({
-      onLeft: Actions.pop,
-      leftTitle: 'Back',
-      rightTitle: selected && selected.length ? 'Next' : undefined,
-      onRight: selected && selected.length ? () => this.finalizeGroup() : undefined,
-      selected,
-    });
+    // Actions.refresh({
+    //   onLeft: Actions.pop,
+    //   leftTitle: 'Back',
+    //   rightTitle: selected && selected.length ? 'Next' : undefined,
+    //   onRight: selected && selected.length ? () => this.finalizeGroup() : undefined,
+    //   selected,
+    // });
   }
 
   finalizeGroup() {
-    Actions.finalizeGroup({
-      selected: this.state.selected,
-      friendCount: this.props.user.friends.length,
-      userId: this.props.user.id,
-    });
+    // Actions.finalizeGroup({
+    //   selected: this.state.selected,
+    //   friendCount: this.props.user.friends.length,
+    //   userId: this.props.user.id,
+    // });
   }
 
   isSelected(user: FriendType) {
