@@ -17,9 +17,7 @@ type PropsType = {
   refetch: () => Promise<any>,
   subscribeToGroups: () => void,
   subscribeToMessages: () => void,
-  navigation: {
-    navigate: string => void,
-  },
+  navigation: NavigationPropsType,
 };
 type FlatListItemType = {
   index: number,

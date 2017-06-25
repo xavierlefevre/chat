@@ -28,6 +28,7 @@ type PropsType = {
   dispatch: () => void,
   login: () => Promise<any>,
   signup: () => Promise<any>,
+  navigation: NavigationPropsType,
 };
 
 type StateType = {
@@ -41,6 +42,11 @@ export default class Signin extends Component {
   props: PropsType;
   state: StateType;
 
+  static navigationOptions = {
+    title: 'ChatApp',
+    headerLeft: null,
+  };
+
   constructor() {
     super();
     this.state = {
@@ -51,9 +57,15 @@ export default class Signin extends Component {
     };
   }
 
+  componentDidMount() {
+    if (this.props.auth.jwt) {
+      this.props.navigation.goBack();
+    }
+  }
+
   componentWillReceiveProps(nextProps: PropsType) {
     if (nextProps.auth.jwt) {
-      // Actions.pop();
+      nextProps.navigation.goBack();
     }
   }
 
@@ -141,7 +153,7 @@ export default class Signin extends Component {
         />
         <View style={styles.switchContainer}>
           <Text>
-            {view === 'signup' ? 'Already have an account?' : 'New to Chatty?'}
+            {view === 'signup' ? 'Already have an account?' : 'New to ChatApp?'}
           </Text>
           <TouchableOpacity onPress={() => this.switchView()}>
             <Text style={styles.switchAction}>
