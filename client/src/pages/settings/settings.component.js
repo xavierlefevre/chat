@@ -24,6 +24,10 @@ export default class Settings extends Component {
   props: PropsType;
   state: StateType;
 
+  static navigationOptions = {
+    title: 'Settings',
+  };
+
   constructor(props: PropsType) {
     super(props);
     this.state = {

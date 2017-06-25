@@ -23,6 +23,10 @@ export default class People extends Component {
   props: PropsType;
   state: StateType;
 
+  static navigationOptions = {
+    title: 'People',
+  };
+
   constructor(props: PropsType) {
     super(props);
     this.state = {
