@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
   container: {
+    backgroundColor: 'white',
     flex: 1,
   },
   loading: {
@@ -18,10 +19,6 @@ export default StyleSheet.create({
     borderBottomWidth: 1,
     paddingHorizontal: 12,
     paddingVertical: 8,
-  },
-  groupName: {
-    fontWeight: 'bold',
-    flex: 0.7,
   },
   header: {
     alignItems: 'flex-end',
