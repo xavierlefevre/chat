@@ -12,7 +12,6 @@ import {
   Dimensions,
 } from 'react-native';
 import randomColor from 'randomcolor';
-import { Actions } from 'react-native-router-flux';
 
 import styles from './messages.style';
 import Message from './message.component';
@@ -30,6 +29,13 @@ type PropsType = {
   createMessage: () => Promise<any>,
   loadMoreEntries: () => Promise<any>,
   subscribeToMessages: () => void,
+  navigation: NavigationPropsType & {
+    state: {
+      params: {
+        groupId: number,
+      },
+    },
+  },
 };
 type StateType = {
   ds: any,
@@ -52,6 +58,33 @@ export default class Messages extends Component {
   subscription: any;
   reachedBottom: boolean;
   shouldScrollToBottom: boolean;
+
+  static navigationOptions = ({ navigation }) => {
+    const { state, navigate } = navigation;
+
+    const goToGroupDetails = () =>
+      navigate('GroupDetails', {
+        id: state.params.groupId,
+        title: state.params.title,
+      });
+
+    // TODO: Seperate in a proper function
+    return {
+      headerTitle: (
+        <TouchableOpacity style={styles.titleWrapper} onPress={() => goToGroupDetails()}>
+          <View style={styles.title}>
+            <Image
+              style={styles.titleImage}
+              source={{
+                uri: 'https://facebook.github.io/react/img/logo_og.png',
+              }}
+            />
+            <Text>{state.params.title}</Text>
+          </View>
+        </TouchableOpacity>
+      ),
+    };
+  };
 
   state = {
     ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
@@ -84,12 +117,8 @@ export default class Messages extends Component {
     }
 
     if (!this.subscription && !newData.loading) {
-      this.subscription = newData.subscribeToMessages(newData.groupId);
+      this.subscription = newData.subscribeToMessages(newData.navigation.state.params.groupId);
     }
-  }
-
-  componentDidMount() {
-    this.renderTitle();
   }
 
   onContentSizeChange(w: number, h: number) {
@@ -122,8 +151,7 @@ export default class Messages extends Component {
   send(text: string) {
     this.props
       .createMessage({
-        groupId: this.props.groupId,
-        userId: this.props.auth.id,
+        groupId: this.props.navigation.state.params.groupId,
         text,
       })
       .then(() => {
@@ -138,24 +166,6 @@ export default class Messages extends Component {
         refreshing: false,
       });
     });
-  }
-
-  renderTitle() {
-    // Actions.refresh({
-    //   renderTitle: () => (
-    //     <TouchableOpacity style={styles.titleWrapper} onPress={() => this.groupDetails()}>
-    //       <View style={styles.title}>
-    //         <Image
-    //           style={styles.titleImage}
-    //           source={{
-    //             uri: 'https://facebook.github.io/react/img/logo_og.png',
-    //           }}
-    //         />
-    //         <Text>{this.props.title}</Text>
-    //       </View>
-    //     </TouchableOpacity>
-    //   ),
-    // });
   }
 
   render() {

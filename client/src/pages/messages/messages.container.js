@@ -16,9 +16,9 @@ function isDuplicateMessage(newMessage, existingMessages) {
 
 const ITEMS_PER_PAGE = 10;
 const groupQuery = graphql(GROUP_QUERY, {
-  options: ({ groupId }) => ({
+  options: ({ navigation }) => ({
     variables: {
-      groupId,
+      groupId: navigation.state.params.groupId,
       offset: 0,
       limit: ITEMS_PER_PAGE,
     },
@@ -67,42 +67,57 @@ const groupQuery = graphql(GROUP_QUERY, {
   }),
 });
 
-const createMessage = graphql(CREATE_MESSAGE_MUTATION, {
+const createMessageMutation = graphql(CREATE_MESSAGE_MUTATION, {
   props: ({ ownProps, mutate }) => ({
-    createMessage: ({ text, groupId }) =>
+    createMessage: message =>
       mutate({
-        variables: { text, groupId },
+        variables: { text: message.text, groupId: message.groupId },
         optimisticResponse: {
           __typename: 'Mutation',
           createMessage: {
             __typename: 'Message',
-            id: null,
-            text,
-            createdAt: new Date().toISOString(),
+            id: -1, // don't know id yet, but it doesn't matter
+            text: message.text, // we know what the text will be
+            createdAt: new Date().toISOString(), // the time is now!
             from: {
               __typename: 'User',
               id: ownProps.auth.id,
-              // TODO: wait what ?
-              username: 'Justyn.Kautzer',
+              username: ownProps.auth.username,
+            },
+            to: {
+              __typename: 'Group',
+              id: message.groupId,
             },
           },
         },
-        updateQueries: {
-          group: (previousResult, { mutationResult }) => {
-            const newMessage = mutationResult.data.createMessage;
+        update: (store, { data: { createMessage } }) => {
+          // Read the data from our cache for this query.
+          const data = store.readQuery({
+            query: GROUP_QUERY,
+            variables: {
+              groupId: message.groupId,
+              offset: 0,
+              limit: ITEMS_PER_PAGE,
+            },
+          });
 
-            if (isDuplicateMessage(newMessage, previousResult.group.messages)) {
-              return previousResult;
-            }
+          if (isDuplicateMessage(createMessage, data.group.messages)) {
+            return data;
+          }
 
-            return update(previousResult, {
-              group: {
-                messages: {
-                  $unshift: [newMessage],
-                },
-              },
-            });
-          },
+          // Add our message from the mutation to the end.
+          data.group.messages.unshift(createMessage);
+
+          // Write our data back to the cache.
+          store.writeQuery({
+            query: GROUP_QUERY,
+            variables: {
+              groupId: message.groupId,
+              offset: 0,
+              limit: ITEMS_PER_PAGE,
+            },
+            data,
+          });
         },
       }),
   }),
@@ -112,4 +127,4 @@ const mapStateToProps = ({ auth }) => ({
   auth,
 });
 
-export default compose(connect(mapStateToProps), groupQuery, createMessage)(Messages);
+export default compose(connect(mapStateToProps), groupQuery, createMessageMutation)(Messages);

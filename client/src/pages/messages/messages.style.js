@@ -7,23 +7,13 @@ export default StyleSheet.create({
     backgroundColor: '#e5ddd5',
     flex: 1,
     flexDirection: 'column',
-    paddingTop: 32,
   },
   loading: {
     justifyContent: 'center',
   },
   titleWrapper: {
     alignItems: 'center',
-    marginTop: 10,
     position: 'absolute',
-    ...Platform.select({
-      ios: {
-        top: 15,
-      },
-      android: {
-        top: 5,
-      },
-    }),
     left: 0,
     right: 0,
   },

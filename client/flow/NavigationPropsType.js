@@ -3,4 +3,7 @@
 declare type NavigationPropsType = {
   navigate: string => void,
   goBack: () => void,
+  state: {
+    params: {},
+  },
 };
