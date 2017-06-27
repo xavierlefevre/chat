@@ -1,0 +1,8 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+  "flow.enabled": true,
+  "flow.useNPMPackagedFlow": true,
+  "flow.runOnEdit": true,
+  "flow.pathToFlow": "/Users/xavierlefevre/dev/chat/client/node_modules/.bin/flow",
+  "javascript.validate.enable": false
+}
