@@ -6,12 +6,7 @@
       "jsx": true
     }
   },
-  "plugins": [
-    "prettier",
-    "react",
-    "jsx-a11y",
-    "flowtype"
-  ],
+  "plugins": ["prettier", "react", "jsx-a11y", "flowtype"],
   "globals": {
     "React": true,
     "__DEV__": true,
@@ -38,13 +33,16 @@
     "class-methods-use-this": 0,
     "space-before-function-paren": 0,
     "max-len": 0,
-    "comma-dangle": ["error", {
+    "comma-dangle": [
+      "error",
+      {
         "arrays": "always-multiline",
         "objects": "always-multiline",
         "imports": "always-multiline",
         "exports": "always-multiline",
         "functions": "never"
-    }],
+      }
+    ],
     "react/jsx-filename-extension": 0,
     "react/sort-comp": 0,
     "react/no-unused-prop-types": 0,
