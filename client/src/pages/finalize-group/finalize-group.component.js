@@ -2,8 +2,8 @@
 /* eslint no-bitwise:0 */
 import { _ } from 'lodash';
 import React, { Component } from 'react';
-import { Alert, Image, ListView, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import { Alert, Button, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { NavigationActions } from 'react-navigation';
 import update from 'immutability-helper';
 
 import { SelectedUserList } from 'ChatApp/src/components';
@@ -26,15 +26,20 @@ export default class FinalizeGroup extends Component {
   props: PropsType;
   state: StateType;
 
+  static navigationOptions = ({ navigation }) => {
+    const { state } = navigation;
+    const isReady = state.params && state.params.mode === 'ready';
+    return {
+      title: 'New Group',
+      headerRight: isReady ? <Button title="Create" onPress={state.params.create} /> : undefined,
+    };
+  };
+
   constructor(props: PropsType) {
     super(props);
-    this.state = {
-      selected: props.selected,
-      ds: new ListView.DataSource({
-        rowHasChanged: (r1, r2) => r1 !== r2,
-      }).cloneWithRows(props.selected),
-      name: '',
-    };
+
+    const { selected } = props.navigation.state.params;
+    this.state = { selected };
   }
 
   componentDidMount() {
@@ -48,17 +53,14 @@ export default class FinalizeGroup extends Component {
   }
 
   pop() {
-    // Actions.pop({ refresh: { selected: this.state.selected } });
+    this.props.navigation.goBack();
   }
 
   remove(user: FriendType) {
     const index = this.state.selected.indexOf(user);
     if (~index) {
       const selected = update(this.state.selected, { $splice: [[index, 1]] });
-      this.setState({
-        selected,
-        ds: this.state.ds.cloneWithRows(selected),
-      });
+      this.setState({ selected });
     }
   }
 
@@ -69,23 +71,33 @@ export default class FinalizeGroup extends Component {
       name: this.state.name,
       userIds: _.map(this.state.selected, 'id'),
     })
-      .then(() => {
-        // TODO: want to pop back to groups and then jump into messages
-        // Actions.tabs({ type: 'reset' });
+      .then(res => {
+        this.props.navigation.dispatch(this.goToNewGroup(res.data.createGroup));
       })
       .catch(error => {
         Alert.alert('Error Creating New Group', error.message, [{ text: 'OK', onPress: () => {} }]);
       });
   }
 
-  refreshNavigation(enabled: boolean) {
-    // Actions.refresh({
-    //   onBack: () => this.pop(),
-    //   backTitle: 'Back',
-    //   rightTitle: enabled ? 'Create' : undefined,
-    //   onRight: enabled ? () => this.create() : undefined,
-    // });
+  refreshNavigation(ready) {
+    const { navigation } = this.props;
+    navigation.setParams({
+      mode: ready ? 'ready' : undefined,
+      create: this.create,
+    });
   }
+
+  goToNewGroup = group =>
+    NavigationActions.reset({
+      index: 1,
+      actions: [
+        NavigationActions.navigate({ routeName: 'Main' }),
+        NavigationActions.navigate({
+          routeName: 'Messages',
+          params: { groupId: group.id, title: group.name },
+        }),
+      ],
+    });
 
   render() {
     return (
@@ -119,7 +131,7 @@ export default class FinalizeGroup extends Component {
         </Text>
         <View style={styles.selected}>
           {this.state.selected.length
-            ? <SelectedUserList dataSource={this.state.ds} remove={user => this.remove(user)} />
+            ? <SelectedUserList data={this.state.selected} remove={user => this.remove(user)} />
             : undefined}
         </View>
       </View>
