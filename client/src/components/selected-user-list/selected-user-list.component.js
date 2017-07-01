@@ -1,27 +1,30 @@
 // @flow
 import React, { Component } from 'react';
-import { ListView } from 'react-native';
+import { FlatList } from 'react-native';
 
 import SelectedUserListItem from './selected-user-list-item.component';
 import styles from './selected-user-list.style';
 
 type PropsType = {
-  dataSource: {},
+  data: Array<any>,
   remove: any => void,
 };
 
 export default class SelectedUserList extends Component {
   props: PropsType;
 
-  renderRow(user: any) {
+  keyExtractor = (item: { id: * }) => item.id;
+
+  renderItem({ item: user }: any) {
     return <SelectedUserListItem user={user} remove={this.props.remove} />;
   }
 
   render() {
     return (
-      <ListView
-        dataSource={this.props.dataSource}
-        renderRow={user => this.renderRow(user)}
+      <FlatList
+        data={this.props.data}
+        keyExtractor={this.keyExtractor}
+        renderItem={this.renderItem}
         horizontal
         style={styles.list}
       />

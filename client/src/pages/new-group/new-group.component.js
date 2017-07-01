@@ -2,8 +2,7 @@
 /* eslint no-bitwise: 0 */
 import { _ } from 'lodash';
 import React, { Component } from 'react';
-import { ActivityIndicator, ListView, View } from 'react-native';
-import { Actions } from 'react-native-router-flux';
+import { ActivityIndicator, View, Button } from 'react-native';
 import AlphabetListView from 'react-native-alphabetlistview';
 import update from 'immutability-helper';
 
@@ -20,25 +19,42 @@ type PropsType = {
   loading: boolean,
   user: UserType,
   selected: Array<FriendType>,
+  navigation: NavigationPropsType & {
+    state: {
+      params: {
+        selected: Array<FriendType>,
+        mode: string,
+      },
+    },
+  },
 };
 type StateType = {
   selected: Array<FriendType>,
   friends: { A?: FriendType },
-  ds: any,
 };
 
 export default class NewGroup extends Component {
   props: PropsType;
   state: StateType;
 
+  static navigationOptions = ({ navigation: { state } }: { navigation: { state: any } }) => {
+    const isReady = state.params && state.params.mode === 'ready';
+    return {
+      title: 'New Group',
+      headerRight: isReady ? <Button title="Next" onPress={state.params.finalizeGroup} /> : undefined,
+    };
+  };
+
   constructor(props: PropsType) {
     super(props);
+    let selected = [];
+    if (this.props.navigation.state.params) {
+      selected = this.props.navigation.state.params.selected;
+    }
+
     this.state = {
-      selected: props.selected || [],
-      friends: props.user
-        ? sortObject(_.groupBy(props.user.friends, friend => friend.username.charAt(0).toUpperCase()))
-        : {},
-      ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
+      selected: selected || [],
+      friends: props.user ? _.groupBy(props.user.friends, friend => friend.username.charAt(0).toUpperCase()) : {},
     };
   }
 
@@ -53,10 +69,7 @@ export default class NewGroup extends Component {
     }
 
     if (nextProps.selected) {
-      Object.assign(state, {
-        selected: nextProps.selected,
-        ds: this.state.ds.cloneWithRows(nextProps.selected),
-      });
+      Object.assign(state, { selected: nextProps.selected });
     }
 
     this.setState(state);
@@ -69,21 +82,20 @@ export default class NewGroup extends Component {
   }
 
   refreshNavigation(selected: Array<any>) {
-    // Actions.refresh({
-    //   onLeft: Actions.pop,
-    //   leftTitle: 'Back',
-    //   rightTitle: selected && selected.length ? 'Next' : undefined,
-    //   onRight: selected && selected.length ? () => this.finalizeGroup() : undefined,
-    //   selected,
-    // });
+    const { navigation } = this.props;
+    navigation.setParams({
+      mode: selected && selected.length ? 'ready' : undefined,
+      finalizeGroup: this.finalizeGroup,
+    });
   }
 
   finalizeGroup() {
-    // Actions.finalizeGroup({
-    //   selected: this.state.selected,
-    //   friendCount: this.props.user.friends.length,
-    //   userId: this.props.user.id,
-    // });
+    const { navigate } = this.props.navigation;
+    navigate('FinalizeGroup', {
+      selected: this.state.selected,
+      friendCount: this.props.user.friends.length,
+      userId: this.props.user.id,
+    });
   }
 
   isSelected(user: FriendType) {
@@ -92,21 +104,14 @@ export default class NewGroup extends Component {
 
   toggle(user: FriendType) {
     const index = this.state.selected.indexOf(user);
+
     if (~index) {
       const selected = update(this.state.selected, { $splice: [[index, 1]] });
-
-      return this.setState({
-        selected,
-        ds: this.state.ds.cloneWithRows(selected),
-      });
+      return this.setState({ selected });
     }
 
     const selected = [...this.state.selected, user];
-
-    return this.setState({
-      selected,
-      ds: this.state.ds.cloneWithRows(selected),
-    });
+    return this.setState({ selected });
   }
 
   render() {
@@ -125,7 +130,7 @@ export default class NewGroup extends Component {
       <View style={styles.container}>
         {this.state.selected.length
           ? <View style={styles.selected}>
-              <SelectedUserList dataSource={this.state.ds} remove={removedUser => this.toggle(removedUser)} />
+              <SelectedUserList data={this.state.selected} remove={this.toggle} />
             </View>
           : undefined}
         {_.keys(this.state.friends).length
@@ -135,9 +140,8 @@ export default class NewGroup extends Component {
               cell={Cell}
               cellHeight={30}
               cellProps={{
-                isSelected: selectedUser => this.isSelected(selectedUser),
-                toggle: removedUser => this.toggle(removedUser),
-                toggleable: true,
+                isSelected: this.isSelected,
+                toggle: this.toggle,
               }}
               sectionListItem={SectionItem}
               sectionHeader={SectionHeader}
