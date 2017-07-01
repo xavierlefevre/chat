@@ -42,7 +42,7 @@
 		"eslint-plugin-react": "^6.10.3",
 		"flow-bin": "0.42.0",
 		"jest": "19.0.2",
-		"prettier": "^1.2.2",
+		"prettier": "1.5.2",
 		"react-test-renderer": "16.0.0-alpha.6"
 	},
 	"jest": {

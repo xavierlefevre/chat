@@ -83,9 +83,8 @@ type PropsType = {
   nav: {},
 };
 
-const AppWithNavigationState = ({ dispatch, nav }: PropsType) => (
-  <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav })} />
-);
+const AppWithNavigationState = ({ dispatch, nav }: PropsType) =>
+  <AppNavigator navigation={addNavigationHelpers({ dispatch, state: nav })} />;
 
 const mapStateToProps = ({ auth, nav }) => ({ auth, nav });
 

@@ -9,10 +9,9 @@ type PropsType = {
   togglePrompt: () => void,
 };
 
-const AddPeopleIcon = (props: PropsType) => (
+const AddPeopleIcon = (props: PropsType) =>
   <TouchableOpacity onPress={() => props.togglePrompt()} style={{ marginTop: 2 }}>
     <Icon name="plus" size={22} color={globalStyles.colors.blue} />
-  </TouchableOpacity>
-);
+  </TouchableOpacity>;
 
 export default AddPeopleIcon;
