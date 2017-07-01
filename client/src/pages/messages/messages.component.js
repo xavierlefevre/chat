@@ -79,7 +79,9 @@ export default class Messages extends Component {
                 uri: 'https://facebook.github.io/react/img/logo_og.png',
               }}
             />
-            <Text>{state.params.title}</Text>
+            <Text>
+              {state.params.title}
+            </Text>
           </View>
         </TouchableOpacity>
       ),
@@ -135,13 +137,11 @@ export default class Messages extends Component {
   }
 
   onScroll({ nativeEvent: { contentSize, contentOffset } }: ScrollEventType) {
-    const headerBarHeight = 64;
     const messageInputHeight = 32 + 13;
     const endThreshold = 25;
 
     this.reachedBottom =
-      contentSize.height - contentOffset.y - endThreshold <
-      Dimensions.get('window').height - (headerBarHeight + messageInputHeight);
+      contentSize.height - contentOffset.y - endThreshold < Dimensions.get('window').height - messageInputHeight;
   }
 
   groupDetails() {
@@ -191,13 +191,12 @@ export default class Messages extends Component {
           onLayout={e => this.onLayout(e)}
           onScroll={e => this.onScroll(e)}
           scrollEventThrottle={500}
-          renderRow={message => (
+          renderRow={message =>
             <Message
               color={this.state.usernameColors[message.from.username]}
               message={message}
               isCurrentUser={message.from.id === auth.id}
-            />
-          )}
+            />}
         />
         <MessageInput send={text => this.send(text)} />
       </KeyboardAvoidingView>

@@ -47,7 +47,7 @@ export default class Cell extends Component {
             color={'white'}
             iconStyle={styles.checkButtonIcon}
             name={'check'}
-            onPress={this.toggle}
+            onPress={() => this.toggle()}
             size={16}
             style={styles.checkButton}
           />

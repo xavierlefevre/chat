@@ -6,7 +6,7 @@ import SelectedUserListItem from './selected-user-list-item.component';
 import styles from './selected-user-list.style';
 
 type PropsType = {
-  data: Array<any>,
+  data: any[],
   remove: any => void,
 };
 
@@ -23,8 +23,8 @@ export default class SelectedUserList extends Component {
     return (
       <FlatList
         data={this.props.data}
-        keyExtractor={this.keyExtractor}
-        renderItem={this.renderItem}
+        keyExtractor={(item: any) => this.keyExtractor(item)}
+        renderItem={(item: any) => this.renderItem(item)}
         horizontal
         style={styles.list}
       />
