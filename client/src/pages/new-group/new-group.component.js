@@ -41,7 +41,7 @@ export default class NewGroup extends Component {
     const isReady = state.params && state.params.mode === 'ready';
     return {
       title: 'New Group',
-      headerRight: isReady ? <Button title="Next" onPress={state.params.finalizeGroup} /> : undefined,
+      headerRight: isReady ? <Button title="Next" onPress={() => state.params.finalizeGroup()} /> : undefined,
     };
   };
 
@@ -85,7 +85,7 @@ export default class NewGroup extends Component {
     const { navigation } = this.props;
     navigation.setParams({
       mode: selected && selected.length ? 'ready' : undefined,
-      finalizeGroup: this.finalizeGroup,
+      finalizeGroup: () => this.finalizeGroup(),
     });
   }
 
