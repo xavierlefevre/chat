@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react';
 import { ActivityIndicator, Button, Image, ListView, Text, TouchableOpacity, View } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 
 import styles from './group-details.style';
 
@@ -81,7 +80,7 @@ export default class GroupDetails extends Component {
           style={styles.listView}
           enableEmptySections
           dataSource={this.state.ds}
-          renderHeader={() => (
+          renderHeader={() =>
             <View>
               <View style={styles.detailsContainer}>
                 <TouchableOpacity style={styles.groupImageContainer} onPress={() => {}}>
@@ -94,21 +93,21 @@ export default class GroupDetails extends Component {
                   <Text>edit</Text>
                 </TouchableOpacity>
                 <View style={styles.groupNameBorder}>
-                  <Text style={styles.groupName}>{group.name}</Text>
+                  <Text style={styles.groupName}>
+                    {group.name}
+                  </Text>
                 </View>
               </View>
               <Text style={styles.participants}>
                 {`participants: ${group.users.length}`.toUpperCase()}
               </Text>
-            </View>
-          )}
-          renderFooter={() => (
+            </View>}
+          renderFooter={() =>
             <View>
               <Button title={'Leave Group'} onPress={() => this.leaveGroup()} />
               <Button title={'Delete Group'} onPress={() => this.deleteGroup()} />
-            </View>
-          )}
-          renderRow={user => (
+            </View>}
+          renderRow={user =>
             <View style={styles.user}>
               <Image
                 style={styles.avatar}
@@ -116,9 +115,10 @@ export default class GroupDetails extends Component {
                   uri: 'https://facebook.github.io/react/img/logo_og.png',
                 }}
               />
-              <Text style={styles.username}>{user.username}</Text>
-            </View>
-          )}
+              <Text style={styles.username}>
+                {user.username}
+              </Text>
+            </View>}
         />
       </View>
     );

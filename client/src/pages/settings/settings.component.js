@@ -1,7 +1,6 @@
 // @flow
 import React, { Component } from 'react';
 import { ActivityIndicator, Button, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 
 import { logoutAction } from 'ChatApp/src/redux';
 
@@ -74,9 +73,7 @@ export default class Settings extends Component {
               />
               <Text>edit</Text>
             </TouchableOpacity>
-            <Text style={styles.inputInstructions}>
-              Enter your name and add an optional profile picture
-            </Text>
+            <Text style={styles.inputInstructions}>Enter your name and add an optional profile picture</Text>
           </View>
           <View style={styles.inputBorder}>
             <TextInput
@@ -87,8 +84,12 @@ export default class Settings extends Component {
             />
           </View>
         </View>
-        <Text style={styles.emailHeader}>{'EMAIL'}</Text>
-        <Text style={styles.email}>{user.email}</Text>
+        <Text style={styles.emailHeader}>
+          {'EMAIL'}
+        </Text>
+        <Text style={styles.email}>
+          {user.email}
+        </Text>
         <Button title={'Logout'} onPress={() => this.logout()} />
       </View>
     );

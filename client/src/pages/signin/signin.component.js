@@ -10,7 +10,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Actions } from 'react-native-router-flux';
 
 import { setCurrentUserAction } from 'ChatApp/src/redux';
 
