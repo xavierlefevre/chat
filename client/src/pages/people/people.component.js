@@ -52,6 +52,10 @@ export default class People extends Component {
           style={{ flex: 1 }}
           data={this.state.friends}
           cell={Cell}
+          cellProps={{
+            isSelected: () => {},
+            toggle: () => {},
+          }}
           cellHeight={30}
           sectionListItem={SectionItem}
           sectionHeaderHeight={22.5}

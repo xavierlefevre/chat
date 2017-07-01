@@ -140,8 +140,8 @@ export default class NewGroup extends Component {
               cell={Cell}
               cellHeight={30}
               cellProps={{
-                isSelected: this.isSelected,
-                toggle: this.toggle,
+                isSelected: (item: FriendType) => this.isSelected(item),
+                toggle: (item: FriendType) => this.toggle(item),
               }}
               sectionListItem={SectionItem}
               sectionHeader={SectionHeader}
