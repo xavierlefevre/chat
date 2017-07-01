@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import { addNavigationHelpers, StackNavigator, TabNavigator, NavigationActions } from 'react-navigation';
+import { addNavigationHelpers, StackNavigator, TabNavigator, NavigationActions, TabBarBottom } from 'react-navigation';
 import { connect } from 'react-redux';
 import { REHYDRATE } from 'redux-persist/constants';
 
@@ -8,11 +8,27 @@ import { Groups, NewGroup, Messages, FinalizeGroup, GroupDetails, Signin, Settin
 import { LOGOUT } from 'ChatApp/src/redux/auth/auth.constants';
 
 // tabs in main screen
-const MainScreenNavigator = TabNavigator({
-  Chats: { screen: Groups },
-  People: { screen: People },
-  Settings: { screen: Settings },
-});
+const MainScreenNavigator = TabNavigator(
+  {
+    Chats: { screen: Groups },
+    People: { screen: People },
+    Settings: { screen: Settings },
+  },
+  {
+    tabBarPosition: 'bottom',
+    tabBarComponent: TabBarBottom,
+    animationEnabled: false,
+    swipeEnabled: false,
+    tabBarOptions: {
+      showIcon: true,
+      labelStyle: {
+        fontSize: 10,
+        fontWeight: 'bold',
+        marginBottom: 18,
+      },
+    },
+  }
+);
 
 const AppNavigator = StackNavigator(
   {
