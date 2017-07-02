@@ -34,25 +34,14 @@ export default class Settings extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps: PropsType) {
-    // logout successful, go back to groups/login
-    if (!nextProps.auth.jwt) {
-      // Actions.groups();
-    }
-  }
-
   logout() {
     this.props.dispatch(logoutAction());
   }
 
-  // updateUsername(username) {
-  //   console.log('TODO: update username');
-  // }
-
   render() {
-    const { user } = this.props;
+    const { loading, user } = this.props;
     // render loading placeholder while we fetch data
-    if (!user) {
+    if (loading || !user) {
       return (
         <View style={[styles.loading, styles.container]}>
           <ActivityIndicator />
