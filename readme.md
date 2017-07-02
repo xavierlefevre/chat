@@ -10,10 +10,14 @@ git clone https://github.com/xavierlefevre/chat.git
 ```
 
 ### Install and launch the API
+In server, make sure to create an `.env` file following the `.env.example`
+
 ```bash
 cd chat/server
 yarn
-yarn watch # To launch and watch on your machine with fixtures (users logged in terminal)
+yarn start # To start the server on your machine with fixtures (users logged in terminal)
+# or
+yarn watch # Same as start, but watches changes
 # or
 yarn run up # To launch the local docker
 ```
