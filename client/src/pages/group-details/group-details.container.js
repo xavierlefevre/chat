@@ -7,7 +7,7 @@ import { GROUP_QUERY, DELETE_GROUP_MUTATION, LEAVE_GROUP_MUTATION } from 'ChatAp
 import GroupDetails from './group-details.component';
 
 const groupQuery = graphql(GROUP_QUERY, {
-  options: ({ id }) => ({ variables: { groupId: id } }),
+  options: ownProps => ({ variables: { groupId: ownProps.navigation.state.params.id } }),
   props: ({ data: { loading, group } }) => ({
     loading,
     group,
