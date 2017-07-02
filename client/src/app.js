@@ -10,7 +10,7 @@ import { persistStore, autoRehydrate } from 'redux-persist';
 import thunk from 'redux-thunk';
 import { AsyncStorage } from 'react-native';
 
-import AppWithNavigationState, { navigationReducer } from 'ChatApp/src/navigation/navigation';
+import AppWithNavigationState, { navigationReducer } from 'ChatApp/src/navigation';
 import { authReducer, peopleReducer, logoutAction } from 'ChatApp/src/redux';
 import ENV from 'ChatApp/src/environment';
 
