@@ -15,10 +15,17 @@ type PropsType = {
   friendCount: number,
   selected: Array<FriendType>,
   user: UserType,
+  navigation: NavigationPropsType & {
+    state: {
+      params: {
+        selected: Array<FriendType>,
+        mode: string,
+      },
+    },
+  },
 };
 type StateType = {
   selected: Array<FriendType>,
-  ds: any,
   name: string,
 };
 
@@ -26,8 +33,7 @@ export default class FinalizeGroup extends Component {
   props: PropsType;
   state: StateType;
 
-  static navigationOptions = ({ navigation }) => {
-    const { state } = navigation;
+  static navigationOptions = ({ navigation: { state } }: { navigation: { state: any } }) => {
     const isReady = state.params && state.params.mode === 'ready';
     return {
       title: 'New Group',
@@ -38,8 +44,10 @@ export default class FinalizeGroup extends Component {
   constructor(props: PropsType) {
     super(props);
 
-    const { selected } = props.navigation.state.params;
-    this.state = { selected };
+    this.state = {
+      selected: props.navigation.state.params.selected,
+      name: '',
+    };
   }
 
   componentDidMount() {
@@ -79,7 +87,7 @@ export default class FinalizeGroup extends Component {
       });
   }
 
-  refreshNavigation(ready) {
+  refreshNavigation(ready: boolean) {
     const { navigation } = this.props;
     navigation.setParams({
       mode: ready ? 'ready' : undefined,
@@ -87,7 +95,7 @@ export default class FinalizeGroup extends Component {
     });
   }
 
-  goToNewGroup = group =>
+  goToNewGroup = (group: GroupType) =>
     NavigationActions.reset({
       index: 1,
       actions: [
@@ -116,7 +124,7 @@ export default class FinalizeGroup extends Component {
             <View style={styles.inputBorder}>
               <TextInput
                 autoFocus
-                onChangeText={name => this.setState({ name })}
+                onChangeText={(name: string) => this.setState({ name })}
                 placeholder="Group Subject"
                 style={styles.input}
               />

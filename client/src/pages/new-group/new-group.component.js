@@ -47,9 +47,10 @@ export default class NewGroup extends Component {
 
   constructor(props: PropsType) {
     super(props);
+
     let selected = [];
-    if (this.props.navigation.state.params) {
-      selected = this.props.navigation.state.params.selected;
+    if (props.navigation.state.params) {
+      selected = props.navigation.state.params.selected;
     }
 
     this.state = {
