@@ -8,6 +8,7 @@ import { SectionItem, Cell, Prompt } from 'ChatApp/src/components';
 import { sortObject } from 'ChatApp/src/services/utils';
 
 import styles from './people.style';
+import AddPeopleIcon from './add-people-icon.container';
 
 type PropsType = {
   friends: Array<FriendType>,
@@ -25,6 +26,7 @@ export default class People extends Component {
 
   static navigationOptions = {
     title: 'People',
+    headerRight: <AddPeopleIcon />,
   };
 
   constructor(props: PropsType) {
