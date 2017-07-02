@@ -54,9 +54,11 @@ buck-out/
 client/fastlane/report.xml
 client/fastlane/Preview.html
 client/fastlane/screenshots
+index.js.back
 
 # Env
-.env*
+.env
+.env.prod
 
 # VS Code
 jsconfig.json

@@ -1,5 +1,5 @@
 require 'dotenv'
-fastlane_version '2.36.0'
+fastlane_version '2.44.1'
 
 default_platform :ios
 

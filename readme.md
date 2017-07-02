@@ -10,7 +10,7 @@ git clone https://github.com/xavierlefevre/chat.git
 ```
 
 ### Install and launch the API
-In server, make sure to create an `.env` file following the `.env.example`
+In `server`, make sure to create an `.env` file following the `.env.example`
 
 ```bash
 cd chat/server
@@ -37,6 +37,8 @@ react-native run-ios
 - Start the container with Rancher
 
 ### Deploy the app in hockey app
+In `client/fastlane`, make sure to create an `.env` and `.env.prod` file following the examples
+
 ```bash
 cd chat/client
 fastlane prod
