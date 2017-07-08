@@ -15,7 +15,7 @@
 		"moment": "^2.18.1",
 		"randomcolor": "^0.5.3",
 		"react": "16.0.0-alpha.6",
-		"react-apollo": "^1.4.2",
+		"react-apollo": "^1.4.3",
 		"react-native": "0.44.0",
 		"react-native-alphabetlistview": "https://github.com/xavierlefevre/react-native-alphabetlistview",
 		"react-native-vector-icons": "^4.2.0",
