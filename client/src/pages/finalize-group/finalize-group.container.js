@@ -1,6 +1,6 @@
 // @flow
 import { graphql, compose } from 'react-apollo';
-import update from 'immutability-helper';
+import { connect } from 'react-redux';
 
 import { USER_QUERY, CREATE_GROUP_MUTATION } from 'ChatApp/src/graphql';
 
@@ -14,38 +14,48 @@ function isDuplicateGroup(newGroup, existingGroups) {
   return newGroup.id !== null && existingGroups.some(group => newGroup.id === group.id);
 }
 
-const createGroup = graphql(CREATE_GROUP_MUTATION, {
-  props: ({ mutate }) => ({
-    createGroup: ({ name, userIds }) =>
+const createGroupMutation = graphql(CREATE_GROUP_MUTATION, {
+  props: ({ ownProps, mutate }) => ({
+    createGroup: group =>
       mutate({
-        variables: { name, userIds },
-        updateQueries: {
-          user: (previousResult, { mutationResult }) => {
-            const newGroup = mutationResult.data.createGroup;
+        variables: { ...group },
+        update: (store, { data: { createGroup } }) => {
+          // Read the data from our cache for this query.
+          console.log('ownProps', ownProps);
+          const data = store.readQuery({ query: USER_QUERY, variables: { id: ownProps.auth.id } });
 
-            if (!previousResult.user.groups || isDuplicateGroup(newGroup, previousResult.user.groups)) {
-              return previousResult;
-            }
+          if (isDuplicateGroup(createGroup, data.user.groups)) {
+            return;
+          }
 
-            return update(previousResult, {
-              user: {
-                groups: {
-                  $push: [newGroup],
-                },
-              },
-            });
-          },
+          // Add our message from the mutation to the end.
+          data.user.groups.push(createGroup);
+
+          // Write our data back to the cache.
+          store.writeQuery({
+            query: USER_QUERY,
+            variables: { id: ownProps.auth.id },
+            data,
+          });
         },
       }),
   }),
 });
 
 const userQuery = graphql(USER_QUERY, {
-  options: ({ userId }) => ({ variables: { id: userId } }),
+  options: ownProps => ({
+    variables: {
+      id: ownProps.navigation.state.params.userId,
+    },
+  }),
   props: ({ data: { loading, user } }) => ({
     loading,
     user,
   }),
 });
 
-export default compose(userQuery, createGroup)(FinalizeGroup);
+const mapStateToProps = ({ auth }) => ({
+  auth,
+});
+
+export default compose(connect(mapStateToProps), userQuery, createGroupMutation)(FinalizeGroup);
