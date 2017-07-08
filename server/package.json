@@ -5,7 +5,8 @@
   "scripts": {
     "watch": "nodemon --watch src --watch package.json src/index.js --exec babel-node --presets es2015,stage-2",
     "start": "babel-node src/index.js --presets es2015,stage-2",
-    "up": "docker run -p 8080:8080 -d xavierlefevre/chat-server"
+    "up": "docker run -p 8080:8080 -d xavierlefevre/chat-server",
+    "test:lint": "eslint ."
   },
   "license": "MIT",
   "devDependencies": {
@@ -13,10 +14,10 @@
     "babel-eslint": "^7.2.3",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
-    "eslint": "^3.19.0",
-    "eslint-config-airbnb-base": "^11.1.3",
-    "eslint-plugin-import": "^2.2.0",
-    "eslint-plugin-prettier": "^2.0.1",
+    "eslint": "^4.1.1",
+    "eslint-config-airbnb-base": "^11.2.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-prettier": "^2.1.2",
     "nodemon": "^1.11.0",
     "prettier": "1.5.2"
   },
