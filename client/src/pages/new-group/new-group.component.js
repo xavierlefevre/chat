@@ -131,7 +131,7 @@ export default class NewGroup extends Component {
       <View style={styles.container}>
         {this.state.selected.length
           ? <View style={styles.selected}>
-              <SelectedUserList data={this.state.selected} remove={this.toggle} />
+              <SelectedUserList data={this.state.selected} remove={removedUser => this.toggle(removedUser)} />
             </View>
           : undefined}
         {_.keys(this.state.friends).length
