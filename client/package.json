@@ -30,8 +30,8 @@
 	},
 	"devDependencies": {
 		"babel-eslint": "^7.2.3",
-		"babel-jest": "19.0.0",
-		"babel-preset-react-native": "1.9.1",
+		"babel-jest": "^20.0.3",
+		"babel-preset-react-native": "^2.1.0",
 		"eslint": "^3.19.0",
 		"eslint-config-airbnb": "^14.1.0",
 		"eslint-plugin-flowtype": "^2.32.1",
