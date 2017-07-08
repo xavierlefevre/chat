@@ -60,15 +60,28 @@ fastlane prod
 - [x] Server locally in Docker
 - [x] Docker Online
 - [x] Deploy on HockeyApp with Fastlane
-- [ ] Back-end deploy process
-- [ ] Domain for Server IP
-- [ ] HTTPS
-- [ ] Fastlane repo private
-- [ ] SQlite to PSQL
-- [ ] Server side FlowType
+- [x] Finish transition to React Navigation
+- [x] Update most packages except graphql for server and RN for front
+- [x] Clean every file js, flow, etc.
+- [ ] **Review progressively new version of tutorial**
+- [ ] New subscription code
+- [ ] Upgrade graphql
+- [ ] Full test the app
+- [ ] Upgrade react native
+- [ ] Use Travis
+- [ ] Automate server deployment
+- [ ] Secure JWT key (no .env in image)
+- [ ] Domain on server IP
+- [ ] HTTPS
+- [ ] Fastlane in a private repo
+- [ ] Migration to psql
+- [ ] Flow back-end
 - [ ] Test front end with Jest and Enzyme
+- [ ] Add notifications
 - [ ] ElasticSearch for friend search
 - [ ] Chatbot
+- [ ] Infinite up loading
+- [ ] Other listviews
 
 ## Stack
 
