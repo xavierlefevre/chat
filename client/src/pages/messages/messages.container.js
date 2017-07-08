@@ -3,7 +3,11 @@ import { graphql, compose } from 'react-apollo';
 import update from 'immutability-helper';
 import { connect } from 'react-redux';
 
-import { GROUP_QUERY, CREATE_MESSAGE_MUTATION, MESSAGE_ADDED_SUBSCRIPTION } from 'ChatApp/src/graphql';
+import {
+  GROUP_QUERY,
+  CREATE_MESSAGE_MUTATION,
+  MESSAGE_ADDED_SUBSCRIPTION,
+} from 'ChatApp/src/graphql';
 
 import Messages from './messages.component';
 
@@ -11,7 +15,10 @@ import Messages from './messages.component';
 // TODO it's pretty inefficient to scan all the comments every time.
 // maybe only scan the first 10, or up to a certain timestamp
 function isDuplicateMessage(newMessage, existingMessages) {
-  return newMessage.id !== null && existingMessages.some(message => newMessage.id === message.id);
+  return (
+    newMessage.id !== null &&
+    existingMessages.some(message => newMessage.id === message.id)
+  );
 }
 
 const ITEMS_PER_PAGE = 10;
@@ -127,4 +134,8 @@ const mapStateToProps = ({ auth }) => ({
   auth,
 });
 
-export default compose(connect(mapStateToProps), groupQuery, createMessageMutation)(Messages);
+export default compose(
+  connect(mapStateToProps),
+  groupQuery,
+  createMessageMutation
+)(Messages);

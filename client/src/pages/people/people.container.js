@@ -46,4 +46,8 @@ const mapDispatchToProps = dispatch => ({
   togglePrompt: () => dispatch(togglePrompt()),
 });
 
-export default compose(connect(mapStateToProps, mapDispatchToProps), userQuery, addFriend)(People);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  userQuery,
+  addFriend
+)(People);

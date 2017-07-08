@@ -1,6 +1,14 @@
 // @flow
 import React, { Component } from 'react';
-import { ActivityIndicator, Button, Image, FlatList, Text, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Button,
+  Image,
+  FlatList,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { NavigationActions } from 'react-navigation';
 
 import styles from './group-details.style';
@@ -63,7 +71,10 @@ export default class GroupDetails extends Component {
 
   renderItem = ({ item: user }: { item: FriendType }) =>
     <View style={styles.user}>
-      <Image style={styles.avatar} source={{ uri: 'https://facebook.github.io/react/img/logo_og.png' }} />
+      <Image
+        style={styles.avatar}
+        source={{ uri: 'https://facebook.github.io/react/img/logo_og.png' }}
+      />
       <Text style={styles.username}>
         {user.username}
       </Text>
@@ -90,10 +101,15 @@ export default class GroupDetails extends Component {
           ListHeaderComponent={() =>
             <View>
               <View style={styles.detailsContainer}>
-                <TouchableOpacity style={styles.groupImageContainer} onPress={() => {}}>
+                <TouchableOpacity
+                  style={styles.groupImageContainer}
+                  onPress={() => {}}
+                >
                   <Image
                     style={styles.groupImage}
-                    source={{ uri: 'https://facebook.github.io/react/img/logo_og.png' }}
+                    source={{
+                      uri: 'https://facebook.github.io/react/img/logo_og.png',
+                    }}
                   />
                   <Text>edit</Text>
                 </TouchableOpacity>
@@ -110,7 +126,10 @@ export default class GroupDetails extends Component {
           ListFooterComponent={() =>
             <View>
               <Button title={'Leave Group'} onPress={() => this.leaveGroup()} />
-              <Button title={'Delete Group'} onPress={() => this.deleteGroup()} />
+              <Button
+                title={'Delete Group'}
+                onPress={() => this.deleteGroup()}
+              />
             </View>}
         />
       </View>

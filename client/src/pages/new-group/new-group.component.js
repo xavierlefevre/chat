@@ -6,7 +6,12 @@ import { ActivityIndicator, View, Button } from 'react-native';
 import AlphabetListView from 'react-native-alphabetlistview';
 import update from 'immutability-helper';
 
-import { SelectedUserList, Cell, SectionHeader, SectionItem } from 'ChatApp/src/components';
+import {
+  SelectedUserList,
+  Cell,
+  SectionHeader,
+  SectionItem,
+} from 'ChatApp/src/components';
 import { sortObject } from 'ChatApp/src/services/utils';
 
 import styles from './new-group.style';
@@ -37,11 +42,17 @@ export default class NewGroup extends Component {
   props: PropsType;
   state: StateType;
 
-  static navigationOptions = ({ navigation: { state } }: { navigation: { state: any } }) => {
+  static navigationOptions = ({
+    navigation: { state },
+  }: {
+    navigation: { state: any },
+  }) => {
     const isReady = state.params && state.params.mode === 'ready';
     return {
       title: 'New Group',
-      headerRight: isReady ? <Button title="Next" onPress={() => state.params.finalizeGroup()} /> : undefined,
+      headerRight: isReady
+        ? <Button title="Next" onPress={() => state.params.finalizeGroup()} />
+        : undefined,
     };
   };
 
@@ -55,7 +66,11 @@ export default class NewGroup extends Component {
 
     this.state = {
       selected: selected || [],
-      friends: props.user ? _.groupBy(props.user.friends, friend => friend.username.charAt(0).toUpperCase()) : {},
+      friends: props.user
+        ? _.groupBy(props.user.friends, friend =>
+            friend.username.charAt(0).toUpperCase()
+          )
+        : {},
     };
   }
 
@@ -65,8 +80,16 @@ export default class NewGroup extends Component {
 
   componentWillReceiveProps(nextProps: PropsType) {
     const state = {};
-    if (nextProps.user && nextProps.user.friends && nextProps.user !== this.props.user) {
-      state.friends = sortObject(_.groupBy(nextProps.user.friends, friend => friend.username.charAt(0).toUpperCase()));
+    if (
+      nextProps.user &&
+      nextProps.user.friends &&
+      nextProps.user !== this.props.user
+    ) {
+      state.friends = sortObject(
+        _.groupBy(nextProps.user.friends, friend =>
+          friend.username.charAt(0).toUpperCase()
+        )
+      );
     }
 
     if (nextProps.selected) {
@@ -131,7 +154,10 @@ export default class NewGroup extends Component {
       <View style={styles.container}>
         {this.state.selected.length
           ? <View style={styles.selected}>
-              <SelectedUserList data={this.state.selected} remove={removedUser => this.toggle(removedUser)} />
+              <SelectedUserList
+                data={this.state.selected}
+                remove={removedUser => this.toggle(removedUser)}
+              />
             </View>
           : undefined}
         {_.keys(this.state.friends).length

@@ -5,32 +5,47 @@ import { ApolloProvider } from 'react-apollo';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import ApolloClient, { createNetworkInterface } from 'apollo-client';
-import { SubscriptionClient, addGraphQLSubscriptions } from 'subscriptions-transport-ws-authy';
+import {
+  SubscriptionClient,
+  addGraphQLSubscriptions,
+} from 'subscriptions-transport-ws-authy';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import thunk from 'redux-thunk';
 import { AsyncStorage } from 'react-native';
 
-import AppWithNavigationState, { navigationReducer } from 'ChatApp/src/navigation';
+import AppWithNavigationState, {
+  navigationReducer,
+} from 'ChatApp/src/navigation';
 import { authReducer, peopleReducer, logoutAction } from 'ChatApp/src/redux';
 import ENV from 'ChatApp/src/environment';
 
-global.XMLHttpRequest = global.originalXMLHttpRequest ? global.originalXMLHttpRequest : global.XMLHttpRequest;
-global.FormData = global.originalFormData ? global.originalFormData : global.FormData;
+global.XMLHttpRequest = global.originalXMLHttpRequest
+  ? global.originalXMLHttpRequest
+  : global.XMLHttpRequest;
+global.FormData = global.originalFormData
+  ? global.originalFormData
+  : global.FormData;
 
 const networkInterface = createNetworkInterface({
   uri: `http://${ENV.url}:${ENV.port}/graphql`,
 });
 
 // Create WebSocket client
-const wsClient = new SubscriptionClient(`ws://${ENV.url}:${ENV.port}/subscriptions`, {
-  reconnect: true,
-  connectionParams: {
-    // Pass any arguments you want for initialization
-  },
-});
+const wsClient = new SubscriptionClient(
+  `ws://${ENV.url}:${ENV.port}/subscriptions`,
+  {
+    reconnect: true,
+    connectionParams: {
+      // Pass any arguments you want for initialization
+    },
+  }
+);
 
 // Extend the network interface with the WebSocket
-const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(networkInterface, wsClient);
+const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
+  networkInterface,
+  wsClient
+);
 export const client = new ApolloClient({
   networkInterface: networkInterfaceWithSubscriptions,
 });
@@ -43,7 +58,10 @@ const store = createStore(
     people: peopleReducer,
   }),
   {}, // initial state
-  composeWithDevTools(applyMiddleware(client.middleware(), thunk), autoRehydrate())
+  composeWithDevTools(
+    applyMiddleware(client.middleware(), thunk),
+    autoRehydrate()
+  )
 );
 
 persistStore(store, {
@@ -95,7 +113,9 @@ networkInterface.useAfter([
     applyAfterware({ response }, next) {
       if (!response.ok) {
         response.clone().text().then(bodyText => {
-          console.log(`Network Error: ${response.status} (${response.statusText}) - ${bodyText}`);
+          console.log(
+            `Network Error: ${response.status} (${response.statusText}) - ${bodyText}`
+          );
           next();
         });
       } else {
@@ -105,7 +125,7 @@ networkInterface.useAfter([
               if (e.message === 'Unauthorized') {
                 return store.dispatch(logoutAction());
               }
-              return console.log('GraphQL Error:', e.message);
+              return console.log('GraphQL Error:', e.message); // eslint-disable-line no-console
             });
           }
           next();

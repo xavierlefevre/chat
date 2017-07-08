@@ -6,4 +6,7 @@ type SectionItemPropsType = {
   title: string,
 };
 
-export default (props: SectionItemPropsType) => <Text style={{ color: 'blue' }}>{props.title}</Text>;
+export default (props: SectionItemPropsType) =>
+  <Text style={{ color: 'blue' }}>
+    {props.title}
+  </Text>;

@@ -4,18 +4,27 @@ import { connect } from 'react-redux';
 import { map } from 'lodash';
 import update from 'immutability-helper';
 
-import { USER_QUERY, MESSAGE_ADDED_SUBSCRIPTION, GROUP_ADDED_SUBSCRIPTION } from 'ChatApp/src//graphql';
+import {
+  USER_QUERY,
+  MESSAGE_ADDED_SUBSCRIPTION,
+  GROUP_ADDED_SUBSCRIPTION,
+} from 'ChatApp/src//graphql';
 
 import Groups from './groups.component';
 
 function isDuplicateDocument(newDocument, existingDocuments) {
-  return newDocument.id !== null && existingDocuments.some(doc => newDocument.id === doc.id);
+  return (
+    newDocument.id !== null &&
+    existingDocuments.some(doc => newDocument.id === doc.id)
+  );
 }
 
 const userQuery = graphql(USER_QUERY, {
   skip: ownProps => !ownProps.auth || !ownProps.auth.jwt,
   options: ownProps => ({ variables: { id: ownProps.auth.id } }),
-  props: ({ data: { loading, networkStatus, refetch, user, subscribeToMore } }) => ({
+  props: ({
+    data: { loading, networkStatus, refetch, user, subscribeToMore },
+  }) => ({
     loading,
     networkStatus,
     refetch,
@@ -28,11 +37,15 @@ const userQuery = graphql(USER_QUERY, {
           const previousGroups = previousResult.user.groups;
           const newMessage = subscriptionData.data.messageAdded;
 
-          const groupIndex = map(previousGroups, 'id').indexOf(newMessage.to.id);
+          const groupIndex = map(previousGroups, 'id').indexOf(
+            newMessage.to.id
+          );
 
           // if it's our own mutation, we might get the subscription result
           // after the mutation result.
-          if (isDuplicateDocument(newMessage, previousGroups[groupIndex].messages)) {
+          if (
+            isDuplicateDocument(newMessage, previousGroups[groupIndex].messages)
+          ) {
             return previousResult;
           }
 

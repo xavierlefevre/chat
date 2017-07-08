@@ -23,12 +23,20 @@ export default class SelectedUserListItem extends Component {
     return (
       <View style={styles.itemContainer}>
         <View>
-          <Image style={styles.itemImage} source={{ uri: 'https://facebook.github.io/react/img/logo_og.png' }} />
-          <TouchableOpacity onPress={() => this.remove()} style={styles.itemIcon}>
+          <Image
+            style={styles.itemImage}
+            source={{ uri: 'https://facebook.github.io/react/img/logo_og.png' }}
+          />
+          <TouchableOpacity
+            onPress={() => this.remove()}
+            style={styles.itemIcon}
+          >
             <Icon color={'white'} name={'times'} size={12} />
           </TouchableOpacity>
         </View>
-        <Text>{username}</Text>
+        <Text>
+          {username}
+        </Text>
       </View>
     );
   }

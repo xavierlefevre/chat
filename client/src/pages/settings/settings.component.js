@@ -1,6 +1,14 @@
 // @flow
 import React, { Component } from 'react';
-import { ActivityIndicator, Button, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  Button,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import { logoutAction } from 'ChatApp/src/redux';
 
@@ -62,7 +70,9 @@ export default class Settings extends Component {
               />
               <Text>edit</Text>
             </TouchableOpacity>
-            <Text style={styles.inputInstructions}>Enter your name and add an optional profile picture</Text>
+            <Text style={styles.inputInstructions}>
+              Enter your name and add an optional profile picture
+            </Text>
           </View>
           <View style={styles.inputBorder}>
             <TextInput

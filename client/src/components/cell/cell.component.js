@@ -36,7 +36,10 @@ export default class Cell extends Component {
   render() {
     return (
       <View style={styles.cellContainer}>
-        <Image style={styles.cellImage} source={{ uri: 'https://facebook.github.io/react/img/logo_og.png' }} />
+        <Image
+          style={styles.cellImage}
+          source={{ uri: 'https://facebook.github.io/react/img/logo_og.png' }}
+        />
         <Text style={styles.cellLabel}>
           {this.props.item.username}
         </Text>

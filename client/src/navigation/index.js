@@ -1,10 +1,25 @@
 // @flow
 import React from 'react';
-import { addNavigationHelpers, StackNavigator, TabNavigator, NavigationActions, TabBarBottom } from 'react-navigation';
+import {
+  addNavigationHelpers,
+  StackNavigator,
+  TabNavigator,
+  NavigationActions,
+  TabBarBottom,
+} from 'react-navigation';
 import { connect } from 'react-redux';
 import { REHYDRATE } from 'redux-persist/constants';
 
-import { Groups, NewGroup, Messages, FinalizeGroup, GroupDetails, Signin, Settings, People } from 'ChatApp/src/pages';
+import {
+  Groups,
+  NewGroup,
+  Messages,
+  FinalizeGroup,
+  GroupDetails,
+  Signin,
+  Settings,
+  People,
+} from 'ChatApp/src/pages';
 import { LOGOUT } from 'ChatApp/src/redux/auth/auth.constants';
 
 // tabs in main screen
@@ -64,7 +79,10 @@ type ActionType = {
 };
 
 // reducer code
-export const navigationReducer = (state: StateType = initialNavState, action: ActionType) => {
+export const navigationReducer = (
+  state: StateType = initialNavState,
+  action: ActionType
+) => {
   let nextState;
   switch (action.type) {
     case REHYDRATE: {
@@ -72,7 +90,10 @@ export const navigationReducer = (state: StateType = initialNavState, action: Ac
       if (!action.payload.auth || !action.payload.auth.jwt) {
         const { routes, index } = state;
         if (routes[index].routeName !== 'Signin') {
-          nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'Signin' }), state);
+          nextState = AppNavigator.router.getStateForAction(
+            NavigationActions.navigate({ routeName: 'Signin' }),
+            state
+          );
         }
       }
       break;
@@ -80,7 +101,10 @@ export const navigationReducer = (state: StateType = initialNavState, action: Ac
     case LOGOUT: {
       const { routes, index } = state;
       if (routes[index].routeName !== 'Signin') {
-        nextState = AppNavigator.router.getStateForAction(NavigationActions.navigate({ routeName: 'Signin' }), state);
+        nextState = AppNavigator.router.getStateForAction(
+          NavigationActions.navigate({ routeName: 'Signin' }),
+          state
+        );
       }
       break;
     }

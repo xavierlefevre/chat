@@ -71,7 +71,10 @@ export default class Messages extends Component {
     // TODO: Seperate in a proper function
     return {
       headerTitle: (
-        <TouchableOpacity style={styles.titleWrapper} onPress={() => goToGroupDetails()}>
+        <TouchableOpacity
+          style={styles.titleWrapper}
+          onPress={() => goToGroupDetails()}
+        >
           <View style={styles.title}>
             <Image
               style={styles.titleImage}
@@ -105,21 +108,29 @@ export default class Messages extends Component {
     if (newData.group) {
       if (newData.group.users) {
         newData.group.users.map(user => {
-          usernameColors[user.username] = this.state.usernameColors[user.username] || randomColor();
+          usernameColors[user.username] =
+            this.state.usernameColors[user.username] || randomColor();
           return usernameColors[user.username];
         });
       }
 
-      if (!!newData.group.messages && (!oldData.group || newData.group.messages !== oldData.group.messages)) {
+      if (
+        !!newData.group.messages &&
+        (!oldData.group || newData.group.messages !== oldData.group.messages)
+      ) {
         this.setState({
-          ds: this.state.ds.cloneWithRows(newData.group.messages.slice().reverse()),
+          ds: this.state.ds.cloneWithRows(
+            newData.group.messages.slice().reverse()
+          ),
           usernameColors,
         });
       }
     }
 
     if (!this.subscription && !newData.loading) {
-      this.subscription = newData.subscribeToMessages(newData.navigation.state.params.groupId);
+      this.subscription = newData.subscribeToMessages(
+        newData.navigation.state.params.groupId
+      );
     }
   }
 
@@ -141,7 +152,8 @@ export default class Messages extends Component {
     const endThreshold = 25;
 
     this.reachedBottom =
-      contentSize.height - contentOffset.y - endThreshold < Dimensions.get('window').height - messageInputHeight;
+      contentSize.height - contentOffset.y - endThreshold <
+      Dimensions.get('window').height - messageInputHeight;
   }
 
   groupDetails() {
@@ -180,13 +192,22 @@ export default class Messages extends Component {
     }
 
     return (
-      <KeyboardAvoidingView behavior={'position'} contentContainerStyle={styles.container} style={styles.container}>
+      <KeyboardAvoidingView
+        behavior={'position'}
+        contentContainerStyle={styles.container}
+        style={styles.container}
+      >
         <ListView
           ref={ref => (this.listView = ref)}
           style={styles.listView}
           enableEmptySections
           dataSource={this.state.ds}
-          refreshControl={<RefreshControl refreshing={this.state.refreshing} onRefresh={() => this.onRefresh()} />}
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.refreshing}
+              onRefresh={() => this.onRefresh()}
+            />
+          }
           onContentSizeChange={(w, h) => this.onContentSizeChange(w, h)}
           onLayout={e => this.onLayout(e)}
           onScroll={e => this.onScroll(e)}

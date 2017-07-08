@@ -1,9 +1,7 @@
 {
   "extends": "airbnb-base",
   "parser": "babel-eslint",
-  "plugins": [
-    "prettier"
-  ],
+  "plugins": ["prettier"],
   "env": {
     "browser": true,
     "node": true,
@@ -24,13 +22,16 @@
     "prefer-default-export": 0,
     "import/no-unresolved": 0,
     "import/prefer-default-export": 0,
-    "comma-dangle": ["error", {
+    "comma-dangle": [
+      "error",
+      {
         "arrays": "always-multiline",
         "objects": "always-multiline",
         "imports": "always-multiline",
         "exports": "always-multiline",
         "functions": "never"
-    }],
+      }
+    ],
     "prettier/prettier": [
       "error",
       {

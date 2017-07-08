@@ -1,5 +1,5 @@
 {
-  "extends": "airbnb",
+  "extends": ["airbnb", "prettier"],
   "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
@@ -24,37 +24,28 @@
     "es6": true
   },
   "rules": {
-    "no-duplicate-imports": "error",
-    "no-undef": "warn",
-    "no-unused-vars": "warn",
-    "no-else-return": "warn",
-    "arrow-parens": 0,
-    "array-callback-return": 0,
-    "class-methods-use-this": 0,
-    "space-before-function-paren": 0,
-    "max-len": 0,
-    "comma-dangle": [
-      "error",
-      {
-        "arrays": "always-multiline",
-        "objects": "always-multiline",
-        "imports": "always-multiline",
-        "exports": "always-multiline",
-        "functions": "never"
-      }
-    ],
-    "react/jsx-filename-extension": 0,
-    "react/sort-comp": 0,
-    "react/no-unused-prop-types": 0,
-    "react/jsx-indent-props": 0,
-    "react/jsx-indent": 0,
-    "react/jsx-closing-bracket-location": 0,
-    "flowtype/define-flow-type": 1,
-    "flowtype/use-flow-type": 1,
-    "import/prefer-default-export": 0,
-    "import/no-unresolved": 0,
-    "import/no-extraneous-dependencies": 0,
-    "import/extensions": 0,
+    "no-undef": "error",
+    "no-unused-vars": "error",
+    "no-else-return": "error",
+    "no-duplicate-imports": "off",
+    "no-mixed-operators": "off",
+    "consistent-return": "off",
+    "class-methods-use-this": "off",
+    "jsx-a11y/href-no-hash": "off",
+    "react/jsx-filename-extension": "off",
+    "react/sort-comp": "off",
+    "react/no-unused-prop-types": "off",
+    "react/jsx-indent-props": "off",
+    "react/jsx-indent": "off",
+    "react/prop-types": "off",
+    "react/jsx-closing-bracket-location": "off",
+    "react/jsx-wrap-multilines": "off",
+    "flowtype/define-flow-type": "error",
+    "flowtype/use-flow-type": "error",
+    "import/prefer-default-export": "off",
+    "import/no-unresolved": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/extensions": "off",
     "prettier/prettier": [
       "error",
       {
@@ -62,7 +53,7 @@
         "singleQuote": true,
         "bracketSpacing": true,
         "tabWidth": 2,
-        "printWidth": 120
+        "printWidth": 80
       }
     ]
   },

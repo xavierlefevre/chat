@@ -2,7 +2,15 @@
 /* eslint no-bitwise:0 */
 import { _ } from 'lodash';
 import React, { Component } from 'react';
-import { Alert, Button, Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+  Alert,
+  Button,
+  Image,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import { NavigationActions } from 'react-navigation';
 import update from 'immutability-helper';
 
@@ -33,11 +41,17 @@ export default class FinalizeGroup extends Component {
   props: PropsType;
   state: StateType;
 
-  static navigationOptions = ({ navigation: { state } }: { navigation: { state: any } }) => {
+  static navigationOptions = ({
+    navigation: { state },
+  }: {
+    navigation: { state: any },
+  }) => {
     const isReady = state.params && state.params.mode === 'ready';
     return {
       title: 'New Group',
-      headerRight: isReady ? <Button title="Create" onPress={() => state.params.create()} /> : undefined,
+      headerRight: isReady
+        ? <Button title="Create" onPress={() => state.params.create()} />
+        : undefined,
     };
   };
 
@@ -55,7 +69,10 @@ export default class FinalizeGroup extends Component {
   }
 
   componentWillUpdate(nextProps: PropsType, nextState: StateType) {
-    if ((nextState.selected.length && nextState.name) !== (this.state.selected.length && this.state.name)) {
+    if (
+      (nextState.selected.length && nextState.name) !==
+      (this.state.selected.length && this.state.name)
+    ) {
       this.refreshNavigation(!!nextState.selected.length && !!nextState.name);
     }
   }
@@ -83,7 +100,9 @@ export default class FinalizeGroup extends Component {
         this.props.navigation.dispatch(this.goToNewGroup(res.data.createGroup));
       })
       .catch(error => {
-        Alert.alert('Error Creating New Group', error.message, [{ text: 'OK', onPress: () => {} }]);
+        Alert.alert('Error Creating New Group', error.message, [
+          { text: 'OK', onPress: () => {} },
+        ]);
       });
   }
 
@@ -135,11 +154,15 @@ export default class FinalizeGroup extends Component {
           </View>
         </View>
         <Text style={styles.participants}>
-          {`participants: ${this.state.selected.length} of ${this.props.friendCount}`.toUpperCase()}
+          {`participants: ${this.state.selected.length} of ${this.props
+            .friendCount}`.toUpperCase()}
         </Text>
         <View style={styles.selected}>
           {this.state.selected.length
-            ? <SelectedUserList data={this.state.selected} remove={user => this.remove(user)} />
+            ? <SelectedUserList
+                data={this.state.selected}
+                remove={user => this.remove(user)}
+              />
             : undefined}
         </View>
       </View>

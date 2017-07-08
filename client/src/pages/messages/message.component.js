@@ -11,18 +11,19 @@ type PropsType = {
   isCurrentUser: boolean,
 };
 
-export default ({ color, message, isCurrentUser }: PropsType) => (
+export default ({ color, message, isCurrentUser }: PropsType) =>
   <View key={message.id} style={styles.container}>
     {isCurrentUser ? <View style={styles.messageSpacer} /> : undefined}
     <View style={[styles.message, isCurrentUser && styles.myMessage]}>
       <Text style={[styles.messageUsername, { color }]}>
         {message.from.username}
       </Text>
-      <Text>{message.text}</Text>
+      <Text>
+        {message.text}
+      </Text>
       <Text style={styles.messageTime}>
         {moment(message.createdAt).format('h:mm A')}
       </Text>
     </View>
     {!isCurrentUser ? <View style={styles.messageSpacer} /> : undefined}
-  </View>
-);
+  </View>;

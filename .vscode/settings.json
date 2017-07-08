@@ -4,7 +4,7 @@
   "prettier.bracketSpacing": true,
   "prettier.singleQuote": true,
   "prettier.tabWidth": 2,
-  "prettier.printWidth": 120,
+  "prettier.printWidth": 80,
   "prettier.trailingComma": "es5",
   "flow.enabled": true,
   "flow.useNPMPackagedFlow": true,

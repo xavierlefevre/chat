@@ -33,7 +33,11 @@ export default class People extends Component {
     super(props);
     this.state = {
       friends: props.friends
-        ? sortObject(_.groupBy(props.friends, friend => friend.username.charAt(0).toUpperCase()))
+        ? sortObject(
+            _.groupBy(props.friends, friend =>
+              friend.username.charAt(0).toUpperCase()
+            )
+          )
         : {},
     };
   }
@@ -41,7 +45,11 @@ export default class People extends Component {
   componentWillReceiveProps(nextProps: PropsType) {
     const state = {};
     if (nextProps.friends && nextProps.friends !== this.props.friends) {
-      state.friends = sortObject(_.groupBy(nextProps.friends, friend => friend.username.charAt(0).toUpperCase()));
+      state.friends = sortObject(
+        _.groupBy(nextProps.friends, friend =>
+          friend.username.charAt(0).toUpperCase()
+        )
+      );
     }
 
     this.setState(state);
@@ -74,7 +82,7 @@ export default class People extends Component {
                 this.props.togglePrompt();
               })
               .catch(e => {
-                console.log(e);
+                console.log(e); // eslint-disable-line no-console
               });
           }}
         />

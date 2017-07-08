@@ -11,7 +11,10 @@ import FinalizeGroup from './finalize-group.component';
 // TODO it's pretty inefficient to scan all the groups every time.
 // maybe only scan the first 10, or up to a certain timestamp
 function isDuplicateGroup(newGroup, existingGroups) {
-  return newGroup.id !== null && existingGroups.some(group => newGroup.id === group.id);
+  return (
+    newGroup.id !== null &&
+    existingGroups.some(group => newGroup.id === group.id)
+  );
 }
 
 const createGroupMutation = graphql(CREATE_GROUP_MUTATION, {
@@ -21,8 +24,11 @@ const createGroupMutation = graphql(CREATE_GROUP_MUTATION, {
         variables: { ...group },
         update: (store, { data: { createGroup } }) => {
           // Read the data from our cache for this query.
-          console.log('ownProps', ownProps);
-          const data = store.readQuery({ query: USER_QUERY, variables: { id: ownProps.auth.id } });
+
+          const data = store.readQuery({
+            query: USER_QUERY,
+            variables: { id: ownProps.auth.id },
+          });
 
           if (isDuplicateGroup(createGroup, data.user.groups)) {
             return;
@@ -58,4 +64,8 @@ const mapStateToProps = ({ auth }) => ({
   auth,
 });
 
-export default compose(connect(mapStateToProps), userQuery, createGroupMutation)(FinalizeGroup);
+export default compose(
+  connect(mapStateToProps),
+  userQuery,
+  createGroupMutation
+)(FinalizeGroup);

@@ -84,14 +84,18 @@ export default class Signin extends Component {
         this.setState({
           loading: false,
         });
-        Alert.alert(`${capitalizeFirstLetter(this.state.view)} error`, error.message, [
-          { text: 'OK', onPress: () => console.log('OK pressed') }, // eslint-disable-line no-console
-          {
-            text: 'Forgot password',
-            onPress: () => console.log('Forgot Pressed'),
-            style: 'cancel',
-          }, // eslint-disable-line no-console
-        ]);
+        Alert.alert(
+          `${capitalizeFirstLetter(this.state.view)} error`,
+          error.message,
+          [
+            { text: 'OK', onPress: () => console.log('OK pressed') }, // eslint-disable-line no-console
+            {
+              text: 'Forgot password',
+              onPress: () => console.log('Forgot Pressed'), // eslint-disable-line no-console
+              style: 'cancel',
+            },
+          ]
+        );
       });
   }
 
@@ -136,7 +140,11 @@ export default class Signin extends Component {
             </View>
           : undefined}
         <View style={styles.inputContainer}>
-          <TextInput onChangeText={email => this.setState({ email })} placeholder={'Email'} style={styles.input} />
+          <TextInput
+            onChangeText={email => this.setState({ email })}
+            placeholder={'Email'}
+            style={styles.input}
+          />
           <TextInput
             onChangeText={password => this.setState({ password })}
             placeholder={'Password'}

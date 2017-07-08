@@ -18,7 +18,9 @@ declare module 'seamless-immutable' {
     asMutable(): Array<any> | Object,
   };
 
-  declare type moduleDefault = (spec: Object | Array<*>) => Immutable<Object | Array<*>>;
+  declare type moduleDefault = (
+    spec: Object | Array<*>
+  ) => Immutable<Object | Array<*>>;
 
   declare module.exports: moduleDefault;
 }

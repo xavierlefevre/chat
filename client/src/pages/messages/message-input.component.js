@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import styles from './message-input.style';
 
-const sendButton = send => (
+const sendButton = send =>
   <Icon.Button
     backgroundColor={'blue'}
     borderRadius={16}
@@ -15,8 +15,7 @@ const sendButton = send => (
     onPress={send}
     size={16}
     style={styles.sendButton}
-  />
-);
+  />;
 
 type PropsType = { send: string => void };
 type StateType = { text: string };

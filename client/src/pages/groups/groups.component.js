@@ -24,11 +24,10 @@ type FlatListItemType = {
   item: GroupType,
 };
 
-const Header = ({ onPress }: { onPress: () => void }) => (
+const Header = ({ onPress }: { onPress: () => void }) =>
   <View style={styles.header}>
     <Button title={'New Group'} onPress={() => onPress()} />
-  </View>
-);
+  </View>;
 
 export default class Groups extends Component {
   props: PropsType;
@@ -40,7 +39,11 @@ export default class Groups extends Component {
   };
 
   componentWillReceiveProps(nextProps: PropsType) {
-    if (nextProps.user && (!this.props.user || nextProps.user.groups.length !== this.props.user.groups.length)) {
+    if (
+      nextProps.user &&
+      (!this.props.user ||
+        nextProps.user.groups.length !== this.props.user.groups.length)
+    ) {
       if (this.messagesSubscription) {
         this.messagesSubscription(); // unsubscribe from old
       }
@@ -82,7 +85,9 @@ export default class Groups extends Component {
       return (
         <View style={styles.container}>
           <Header onPress={() => this.goToNewGroup()} />
-          <Text style={styles.warning}>{'You do not have any groups.'}</Text>
+          <Text style={styles.warning}>
+            {'You do not have any groups.'}
+          </Text>
         </View>
       );
     }
@@ -92,10 +97,13 @@ export default class Groups extends Component {
         <FlatList
           data={user.groups}
           keyExtractor={(group: GroupType) => group.id}
-          renderItem={({ item: group }: FlatListItemType) => (
-            <Group group={group} goToMessages={() => this.goToMessages(group)} />
-          )}
-          ListHeaderComponent={() => <Header onPress={() => this.goToNewGroup()} />}
+          renderItem={({ item: group }: FlatListItemType) =>
+            <Group
+              group={group}
+              goToMessages={() => this.goToMessages(group)}
+            />}
+          ListHeaderComponent={() =>
+            <Header onPress={() => this.goToNewGroup()} />}
           onRefresh={() => refetch()}
           refreshing={networkStatus === 4}
         />
