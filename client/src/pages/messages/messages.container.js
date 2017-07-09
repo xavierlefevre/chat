@@ -30,9 +30,12 @@ const groupQuery = graphql(GROUP_QUERY, {
       limit: ITEMS_PER_PAGE,
     },
   }),
-  props: ({ data: { fetchMore, loading, group, subscribeToMore } }) => ({
+  props: ({
+    data: { fetchMore, loading, group, subscribeToMore, networkStatus },
+  }) => ({
     loading,
     group,
+    networkStatus,
     subscribeToMessages(groupId) {
       return subscribeToMore({
         document: MESSAGE_ADDED_SUBSCRIPTION,

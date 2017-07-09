@@ -24,6 +24,7 @@ type PropsType = {
   },
   group: GroupType,
   loading: boolean,
+  networkStatus: number,
   groupId: number,
   title: string,
   createMessage: () => Promise<any>,
@@ -40,7 +41,6 @@ type PropsType = {
 type StateType = {
   ds: any,
   usernameColors: {},
-  refreshing: boolean,
   height: number,
 };
 type LayoutEventType = { nativeEvent: { layout: { height: number } } };
@@ -94,7 +94,6 @@ export default class Messages extends Component {
   state = {
     ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
     usernameColors: {},
-    refreshing: false,
     height: 0,
   };
   reachedBottom = false;
@@ -156,10 +155,6 @@ export default class Messages extends Component {
       Dimensions.get('window').height - messageInputHeight;
   }
 
-  groupDetails() {
-    // Actions.groupDetails({ id: this.props.groupId });
-  }
-
   send(text: string) {
     this.props
       .createMessage({
@@ -171,17 +166,8 @@ export default class Messages extends Component {
       });
   }
 
-  onRefresh() {
-    this.setState({ refreshing: true });
-    this.props.loadMoreEntries().then(() => {
-      this.setState({
-        refreshing: false,
-      });
-    });
-  }
-
   render() {
-    const { auth, loading, group } = this.props;
+    const { auth, loading, group, networkStatus } = this.props;
 
     if (loading && !group) {
       return (
@@ -204,8 +190,8 @@ export default class Messages extends Component {
           dataSource={this.state.ds}
           refreshControl={
             <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={() => this.onRefresh()}
+              refreshing={networkStatus === 4}
+              onRefresh={() => this.props.loadMoreEntries()}
             />
           }
           onContentSizeChange={(w, h) => this.onContentSizeChange(w, h)}
