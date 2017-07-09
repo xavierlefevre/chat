@@ -14,7 +14,6 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  listView: {},
   groupImageContainer: {
     paddingTop: 20,
     paddingHorizontal: 20,

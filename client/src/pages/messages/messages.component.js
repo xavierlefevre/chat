@@ -2,9 +2,8 @@
 import React, { Component } from 'react';
 import {
   ActivityIndicator,
-  RefreshControl,
   KeyboardAvoidingView,
-  ListView,
+  FlatList,
   View,
   TouchableOpacity,
   Image,
@@ -54,7 +53,7 @@ type ScrollEventType = {
 export default class Messages extends Component {
   props: PropsType;
   state: StateType;
-  listView: any;
+  flatList: any;
   subscription: any;
   reachedBottom: boolean;
   shouldScrollToBottom: boolean;
@@ -92,7 +91,6 @@ export default class Messages extends Component {
   };
 
   state = {
-    ds: new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 }),
     usernameColors: {},
     height: 0,
   };
@@ -117,12 +115,7 @@ export default class Messages extends Component {
         !!newData.group.messages &&
         (!oldData.group || newData.group.messages !== oldData.group.messages)
       ) {
-        this.setState({
-          ds: this.state.ds.cloneWithRows(
-            newData.group.messages.slice().reverse()
-          ),
-          usernameColors,
-        });
+        this.setState({ usernameColors });
       }
     }
 
@@ -136,9 +129,9 @@ export default class Messages extends Component {
   onContentSizeChange(w: number, h: number) {
     if (this.shouldScrollToBottom && this.state.height < h) {
       this.shouldScrollToBottom = false;
-      this.listView.scrollToEnd({ animated: true });
+      this.flatList.scrollToEnd({ animated: true });
     }
-    if (this.reachedBottom) this.listView.scrollToEnd({ animated: true });
+    if (this.reachedBottom) this.flatList.scrollToEnd({ animated: true });
   }
 
   onLayout(e: LayoutEventType) {
@@ -166,6 +159,8 @@ export default class Messages extends Component {
       });
   }
 
+  keyExtractor = (item: MessageType) => item.id;
+
   render() {
     const { auth, loading, group, networkStatus } = this.props;
 
@@ -183,22 +178,18 @@ export default class Messages extends Component {
         contentContainerStyle={styles.container}
         style={styles.container}
       >
-        <ListView
-          ref={ref => (this.listView = ref)}
-          style={styles.listView}
+        <FlatList
+          ref={ref => (this.flatList = ref)}
           enableEmptySections
-          dataSource={this.state.ds}
-          refreshControl={
-            <RefreshControl
-              refreshing={networkStatus === 4}
-              onRefresh={() => this.props.loadMoreEntries()}
-            />
-          }
+          data={this.props.group.messages.slice().reverse()}
+          keyExtractor={this.keyExtractor}
+          refreshing={networkStatus === 4}
+          onRefresh={() => this.props.loadMoreEntries()}
           onContentSizeChange={(w, h) => this.onContentSizeChange(w, h)}
           onLayout={e => this.onLayout(e)}
           onScroll={e => this.onScroll(e)}
           scrollEventThrottle={500}
-          renderRow={message =>
+          renderItem={({ item: message }) =>
             <Message
               color={this.state.usernameColors[message.from.username]}
               message={message}
