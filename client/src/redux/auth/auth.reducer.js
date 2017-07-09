@@ -8,6 +8,7 @@ const initialState = Immutable({
   loading: true,
   id: null,
   jwt: null,
+  username: '',
 });
 
 const authReducer = (state: any = initialState, action: any) => {

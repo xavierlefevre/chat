@@ -74,7 +74,9 @@ fastlane prod
 - [ ] Domain on server IP
 - [ ] HTTPS
 - [ ] Fastlane in a private repo
+- [ ] Check the repo of Tycho
 - [ ] Migration to psql
+- [ ] How to do sql join with graphql
 - [ ] Flow back-end
 - [ ] Test front end with Jest and Enzyme
 - [ ] Add notifications
