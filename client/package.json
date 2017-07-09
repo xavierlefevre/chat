@@ -7,7 +7,7 @@
     "test": "yarn test:flow && yarn test:lint && yarn test:unit",
     "test:flow": "flow",
     "test:unit": "jest",
-		"test:lint": "eslint ."
+    "test:lint": "eslint ."
   },
   "dependencies": {
     "apollo-client": "^1.7.0",
@@ -34,7 +34,7 @@
     "babel-eslint": "^7.2.3",
     "babel-jest": "^20.0.3",
     "babel-preset-react-native": "^2.1.0",
-    "eslint": "^4.1.1",
+    "eslint": "^4.2.0",
     "eslint-config-airbnb": "^15.0.2",
     "eslint-config-prettier": "^2.3.0",
     "eslint-plugin-flowtype": "^2.34.1",
