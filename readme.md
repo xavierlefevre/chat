@@ -66,7 +66,7 @@ fastlane prod
 - [ ] **Review progressively new version of tutorial**
 - [ ] New subscription code
 - [ ] Upgrade graphql
-- [ ] Full test the app
+- [ ] Full test the app (Android + iOS devices)
 - [ ] Upgrade react native
 - [ ] Use Travis
 - [ ] Automate server deployment
