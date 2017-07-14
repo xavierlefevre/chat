@@ -1,11 +1,16 @@
 import GraphQLDate from 'graphql-date';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import { withFilter } from 'graphql-subscriptions';
+import { map } from 'lodash';
 
 import JWT_SECRET from '../config';
 import { User } from './connectors';
 import { groupLogic, messageLogic, userLogic } from './logic';
 import { pubsub } from '../subscriptions';
+
+const MESSAGE_ADDED_TOPIC = 'messageAdded';
+const GROUP_ADDED_TOPIC = 'groupAdded';
 
 export const Resolvers = {
   Date: GraphQLDate,
@@ -23,13 +28,13 @@ export const Resolvers = {
     createMessage(_, args, ctx) {
       return messageLogic.createMessage(_, args, ctx).then(message => {
         // Publish subscription notification with message
-        pubsub.publish('messageAdded', message);
+        pubsub.publish(MESSAGE_ADDED_TOPIC, { [MESSAGE_ADDED_TOPIC]: message });
         return message;
       });
     },
     createGroup(_, args, ctx) {
       return groupLogic.createGroup(_, args, ctx).then(group => {
-        pubsub.publish('groupAdded', group);
+        pubsub.publish(GROUP_ADDED_TOPIC, { [GROUP_ADDED_TOPIC]: group });
         return group;
       });
     },
@@ -51,7 +56,10 @@ export const Resolvers = {
           return bcrypt.compare(password, user.password).then(res => {
             if (res) {
               // create jwt
-              const token = jwt.sign({ id: user.id, email: user.email, version: user.version }, JWT_SECRET);
+              const token = jwt.sign(
+                { id: user.id, email: user.email, version: user.version },
+                JWT_SECRET
+              );
               user.jwt = token;
               return user;
             }
@@ -82,7 +90,10 @@ export const Resolvers = {
             )
             .then(user => {
               const { id } = user;
-              const token = jwt.sign({ id, lowerCaseEmail, version: 1 }, JWT_SECRET);
+              const token = jwt.sign(
+                { id, lowerCaseEmail, version: 1 },
+                JWT_SECRET
+              );
               user.jwt = token;
               return user;
             });
@@ -96,12 +107,25 @@ export const Resolvers = {
   },
 
   Subscription: {
-    messageAdded(message) {
-      // the subscription payload is the message.
-      return message;
+    messageAdded: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(MESSAGE_ADDED_TOPIC),
+        (payload, args) =>
+          Boolean(
+            args.groupIds &&
+              ~args.groupIds.indexOf(payload.messageAdded.groupId)
+          )
+      ),
     },
-    groupAdded(group) {
-      return group;
+    groupAdded: {
+      subscribe: withFilter(
+        () => pubsub.asyncIterator(GROUP_ADDED_TOPIC),
+        (payload, args) =>
+          Boolean(
+            args.userId &&
+              ~map(payload.groupAdded.users, 'id').indexOf(args.userId)
+          )
+      ),
     },
   },
 

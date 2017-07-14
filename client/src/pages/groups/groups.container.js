@@ -8,7 +8,7 @@ import {
   USER_QUERY,
   MESSAGE_ADDED_SUBSCRIPTION,
   GROUP_ADDED_SUBSCRIPTION,
-} from 'ChatApp/src//graphql';
+} from 'ChatApp/src/graphql';
 
 import Groups from './groups.component';
 

@@ -2,13 +2,14 @@ import express from 'express';
 import { graphqlExpress, graphiqlExpress } from 'graphql-server-express';
 import bodyParser from 'body-parser';
 import { createServer } from 'http';
-import { SubscriptionServer } from 'subscriptions-transport-ws-authy';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
 import jwt from 'express-jwt';
 import jsonwebtoken from 'jsonwebtoken';
+import { execute, subscribe } from 'graphql';
 
 import JWT_SECRET from './config';
 import { User } from './data/connectors';
-import { subscriptionManager, getSubscriptionDetails } from './subscriptions';
+import { getSubscriptionDetails } from './subscriptions';
 import { subscriptionLogic } from './data/logic';
 import { executableSchema } from './data/schema';
 
@@ -45,38 +46,64 @@ app.use(
 
 const graphQLServer = createServer(app);
 graphQLServer.listen(GRAPHQL_PORT, () => {
-  console.log(`GraphQL Server is now running on http://localhost:${GRAPHQL_PORT}${GRAPHQL_PATH}`);
-  console.log(`GraphQL Subscriptions are now running on ws://localhost:${GRAPHQL_PORT}${SUBSCRIPTIONS_PATH}`);
+  console.log(
+    `GraphQL Server is now running on http://localhost:${GRAPHQL_PORT}${GRAPHQL_PATH}`
+  );
+  console.log(
+    `GraphQL Subscriptions are now running on ws://localhost:${GRAPHQL_PORT}${SUBSCRIPTIONS_PATH}`
+  );
 });
 
 // eslint-disable-next-line no-new
-new SubscriptionServer(
+SubscriptionServer.create(
   {
-    subscriptionManager,
-    onSubscribe(parsedMessage, baseParams) {
-      const { subscriptionName, args } = getSubscriptionDetails({
-        baseParams,
-        schema: subscriptionManager.schema,
-      });
-      const user = new Promise((res, rej) => {
-        if (baseParams.context.jwt) {
-          jsonwebtoken.verify(baseParams.context.jwt, JWT_SECRET, (err, decoded) => {
-            if (err) {
-              rej('Invalid Token');
+    schema: executableSchema,
+    execute,
+    subscribe,
+    onConnect(connectionParams) {
+      const userPromise = new Promise((res, rej) => {
+        if (connectionParams.jwt) {
+          jsonwebtoken.verify(
+            connectionParams.jwt,
+            JWT_SECRET,
+            (err, decoded) => {
+              if (err) {
+                rej('Invalid Token');
+              }
+
+              res(
+                User.findOne({
+                  where: { id: decoded.id, version: decoded.version },
+                })
+              );
             }
-            res(
-              User.findOne({
-                where: { id: decoded.id, version: decoded.version },
-              })
-            );
-          });
+          );
         } else {
-          res(null);
+          rej('No Token');
         }
       });
-      return subscriptionLogic[subscriptionName](baseParams, args, {
-        user,
+
+      return userPromise.then(user => {
+        if (user) {
+          return { user: Promise.resolve(user) };
+        }
+
+        return Promise.reject('No User');
       });
+    },
+    onOperation(parsedMessage, baseParams) {
+      // we need to implement this!!!
+      const { subscriptionName, args } = getSubscriptionDetails({
+        baseParams,
+        schema: executableSchema,
+      });
+
+      // we need to implement this too!!!
+      return subscriptionLogic[subscriptionName](
+        baseParams,
+        args,
+        baseParams.context
+      );
     },
   },
   {
