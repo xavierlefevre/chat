@@ -63,8 +63,8 @@ fastlane prod
 - [x] Finish transition to React Navigation
 - [x] Update most packages except graphql for server and RN for front
 - [x] Clean every file js, flow, etc.
-- [ ] **Review progressively new version of tutorial**
-- [ ] New subscription code
+- [x] **Review progressively new version of tutorial**
+- [x] New subscription code
 - [ ] Upgrade graphql
 - [ ] Full test the app (Android + iOS devices)
 - [ ] Upgrade react native
