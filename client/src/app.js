@@ -8,7 +8,7 @@ import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import {
   SubscriptionClient,
   addGraphQLSubscriptions,
-} from 'subscriptions-transport-ws-authy';
+} from 'subscriptions-transport-ws';
 import { persistStore, autoRehydrate } from 'redux-persist';
 import thunk from 'redux-thunk';
 import { AsyncStorage } from 'react-native';

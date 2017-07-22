@@ -98,13 +98,12 @@ export default class Messages extends Component {
   shouldScrollToBottom = false;
 
   componentWillReceiveProps(nextProps: PropsType) {
-    const oldData = this.props;
-    const newData = nextProps;
+    const currentProps = this.props;
     const usernameColors = {};
 
-    if (newData.group) {
-      if (newData.group.users) {
-        newData.group.users.map(user => {
+    if (nextProps.group) {
+      if (nextProps.group.users) {
+        nextProps.group.users.map(user => {
           usernameColors[user.username] =
             this.state.usernameColors[user.username] || randomColor();
           return usernameColors[user.username];
@@ -112,16 +111,17 @@ export default class Messages extends Component {
       }
 
       if (
-        !!newData.group.messages &&
-        (!oldData.group || newData.group.messages !== oldData.group.messages)
+        !!nextProps.group.messages &&
+        (!currentProps.group ||
+          nextProps.group.messages !== currentProps.group.messages)
       ) {
         this.setState({ usernameColors });
       }
     }
 
-    if (!this.subscription && !newData.loading) {
-      this.subscription = newData.subscribeToMessages(
-        newData.navigation.state.params.groupId
+    if (!this.subscription && !nextProps.loading) {
+      this.subscription = nextProps.subscribeToMessages(
+        nextProps.navigation.state.params.groupId
       );
     }
   }
