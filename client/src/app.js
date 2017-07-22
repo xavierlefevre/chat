@@ -1,10 +1,11 @@
 // @flow
 /* eslint no-param-reassign: 0 */
+/* eslint no-use-before-define: 0 */
 import React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import ApolloClient, { createNetworkInterface } from 'apollo-client';
+import ApolloClient, { createBatchingNetworkInterface } from 'apollo-client';
 import {
   SubscriptionClient,
   addGraphQLSubscriptions,
@@ -12,6 +13,7 @@ import {
 import { persistStore, autoRehydrate } from 'redux-persist';
 import thunk from 'redux-thunk';
 import { AsyncStorage } from 'react-native';
+import _ from 'lodash';
 
 import AppWithNavigationState, {
   navigationReducer,
@@ -26,8 +28,10 @@ global.FormData = global.originalFormData
   ? global.originalFormData
   : global.FormData;
 
-const networkInterface = createNetworkInterface({
+const networkInterface = createBatchingNetworkInterface({
   uri: `http://${ENV.url}:${ENV.port}/graphql`,
+  batchInterval: 10,
+  queryDeduplication: true,
 });
 
 // Create WebSocket client
@@ -35,9 +39,11 @@ const wsClient = new SubscriptionClient(
   `ws://${ENV.url}:${ENV.port}/subscriptions`,
   {
     reconnect: true,
-    connectionParams: {
-      // Pass any arguments you want for initialization
+    connectionParams() {
+      // get the authentication token from local storage if it exists
+      return { jwt: store.getState().auth.jwt };
     },
+    lazy: true,
   }
 );
 
@@ -93,7 +99,7 @@ wsClient.use([
 // middleware for requests
 networkInterface.use([
   {
-    applyMiddleware(req, next) {
+    applyBatchMiddleware(req, next) {
       if (!req.options.headers) {
         req.options.headers = {};
       }
@@ -107,30 +113,26 @@ networkInterface.use([
   },
 ]);
 
-// middleware for responses
+// afterware for responses
 networkInterface.useAfter([
   {
-    applyAfterware({ response }, next) {
-      if (!response.ok) {
-        response.clone().text().then(bodyText => {
-          console.log(
-            `Network Error: ${response.status} (${response.statusText}) - ${bodyText}`
-          );
-          next();
-        });
-      } else {
-        response.clone().json().then(({ errors }) => {
-          if (errors) {
-            errors.map(e => {
-              if (e.message === 'Unauthorized') {
-                return store.dispatch(logoutAction());
-              }
-              return console.log('GraphQL Error:', e.message); // eslint-disable-line no-console
-            });
+    applyBatchAfterware({ responses }, next) {
+      let isUnauthorized = false;
+
+      responses.forEach(response => {
+        if (response.errors) {
+          console.log('GraphQL Error:', response.errors);
+          if (_.some(response.errors, { message: 'Unauthorized' })) {
+            isUnauthorized = true;
           }
-          next();
-        });
+        }
+      });
+
+      if (isUnauthorized) {
+        store.dispatch(logoutAction());
       }
+
+      next();
     },
   },
 ]);
