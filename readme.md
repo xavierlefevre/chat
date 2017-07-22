@@ -65,7 +65,7 @@ fastlane prod
 - [x] Clean every file js, flow, etc.
 - [x] **Review progressively new version of tutorial**
 - [x] New subscription code
-- [ ] Upgrade graphql
+- [x] Upgrade graphql
 - [ ] Full test the app (Android + iOS devices)
 - [ ] Upgrade react native
 - [ ] Use Travis
