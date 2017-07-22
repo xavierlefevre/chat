@@ -1,6 +1,7 @@
 // @flow
 import { connect } from 'react-redux';
-import { graphql, compose } from 'react-apollo';
+import { graphql } from 'react-apollo';
+import { compose } from 'redux';
 
 import { LOGIN_MUTATION, SIGNUP_MUTATION } from 'ChatApp/src/graphql';
 

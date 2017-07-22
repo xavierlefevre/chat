@@ -100,12 +100,12 @@ wsClient.use([
 networkInterface.use([
   {
     applyBatchMiddleware(req, next) {
-      if (!req.options.headers) {
-        req.options.headers = {};
-      }
       // get the authentication token from local storage if it exists
       const jwt = store.getState().auth.jwt;
       if (jwt) {
+        if (!req.options.headers) {
+          req.options.headers = {};
+        }
         req.options.headers.authorization = `Bearer ${jwt}`;
       }
       next();
