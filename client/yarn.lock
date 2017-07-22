@@ -14,9 +14,17 @@
   version "0.9.3"
   resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-0.9.3.tgz#4a2a888e110c796eb7671bf8f9ecef229ad67749"
 
+"@types/graphql@^0.9.4":
+  version "0.9.4"
+  resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-0.9.4.tgz#cdeb6bcbef9b6c584374b81aa7f48ecf3da404fa"
+
 "@types/isomorphic-fetch@0.0.34":
   version "0.0.34"
   resolved "https://registry.yarnpkg.com/@types/isomorphic-fetch/-/isomorphic-fetch-0.0.34.tgz#3c3483e606c041378438e951464f00e4e60706d6"
+
+"@types/zen-observable@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.5.1.tgz#c0eab942b4d52934f396de0cd8e2e63fc92a3307"
 
 abab@^1.0.3:
   version "1.0.3"
@@ -129,7 +137,7 @@ anymatch@^1.3.0:
     arrify "^1.0.0"
     micromatch "^2.1.5"
 
-apollo-client@^1.4.0, apollo-client@^1.7.0:
+apollo-client@^1.4.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-1.7.0.tgz#3d6fdf6ead0a07d3e02d32d9191f26cbcfb6e4f6"
   dependencies:
@@ -143,6 +151,40 @@ apollo-client@^1.4.0, apollo-client@^1.7.0:
     "@types/async" "^2.0.31"
     "@types/graphql" "^0.9.0"
     "@types/isomorphic-fetch" "0.0.34"
+
+apollo-client@^1.9.0-1:
+  version "1.9.0-1"
+  resolved "https://registry.yarnpkg.com/apollo-client/-/apollo-client-1.9.0-1.tgz#4f5dccb95e0413b884af91b68552618be8a7411c"
+  dependencies:
+    apollo-link "^0.0.3"
+    graphql "^0.10.0"
+    graphql-anywhere "^3.0.1"
+    graphql-tag "^2.0.0"
+    redux "^3.4.0"
+    symbol-observable "^1.0.2"
+    whatwg-fetch "^2.0.0"
+  optionalDependencies:
+    "@types/async" "^2.0.31"
+    "@types/graphql" "^0.9.0"
+    "@types/isomorphic-fetch" "0.0.34"
+
+apollo-fetch@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/apollo-fetch/-/apollo-fetch-0.3.0.tgz#30a88346252e9bb4b969f93f3b23ecd748f84e68"
+  dependencies:
+    isomorphic-fetch "^2.2.1"
+
+apollo-link@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/apollo-link/-/apollo-link-0.0.3.tgz#9b02db8def792688e14f8be8b30f716f7789acb9"
+  dependencies:
+    apollo-fetch "^0.3.0"
+    graphql "^0.10.3"
+    graphql-tag "^2.4.2"
+    zen-observable "git+https://github.com/evanshauser/zen-observable.git"
+  optionalDependencies:
+    "@types/graphql" "^0.9.4"
+    "@types/zen-observable" "^0.5.1"
 
 append-transform@^0.4.0:
   version "0.4.0"
@@ -2120,6 +2162,12 @@ graphql@^0.10.0:
   dependencies:
     iterall "^1.1.0"
 
+graphql@^0.10.3:
+  version "0.10.5"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-0.10.5.tgz#c9be17ca2bdfdbd134077ffd9bbaa48b8becd298"
+  dependencies:
+    iterall "^1.1.0"
+
 growly@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/growly/-/growly-1.3.0.tgz#f10748cbe76af964b7c96c93c6bcc28af120c081"
@@ -2217,9 +2265,9 @@ hoist-non-react-statics@^1.0.3, hoist-non-react-statics@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-1.2.0.tgz#aa448cf0986d55cc40773b17174b7dd066cb7cfb"
 
-hoist-non-react-statics@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.0.0.tgz#843180515e0281952b08f41c620ca74870c7e354"
+hoist-non-react-statics@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.2.0.tgz#b099ca82f3640b1244309c8a526a2bd60ad9d7d9"
 
 home-or-tmp@^2.0.0:
   version "2.0.0"
@@ -2277,9 +2325,9 @@ image-size@^0.3.5:
   version "0.3.5"
   resolved "https://registry.yarnpkg.com/image-size/-/image-size-0.3.5.tgz#83240eab2fb5b00b04aab8c74b0471e9cba7ad8c"
 
-immutability-helper@^2.2.3:
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/immutability-helper/-/immutability-helper-2.2.3.tgz#681a0ec9ba2a243b9898564e39623c83d9ce1985"
+immutability-helper@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/immutability-helper/-/immutability-helper-2.3.0.tgz#e897741c1da29541a861ea16bdbf909265e2eb55"
   dependencies:
     invariant "^2.2.0"
 
@@ -2505,7 +2553,7 @@ isobject@^2.0.0:
   dependencies:
     isarray "1.0.0"
 
-isomorphic-fetch@^2.1.1:
+isomorphic-fetch@^2.1.1, isomorphic-fetch@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/isomorphic-fetch/-/isomorphic-fetch-2.2.1.tgz#611ae1acf14f5e81f729507472819fe9733558a9"
   dependencies:
@@ -3596,7 +3644,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.6:
+prop-types@^15.5.10:
   version "15.5.10"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
   dependencies:
@@ -3656,14 +3704,14 @@ raw-body@~2.1.2:
     iconv-lite "0.4.13"
     unpipe "1.0.0"
 
-react-apollo@^1.4.3:
-  version "1.4.3"
-  resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-1.4.3.tgz#be18bfe7f6609263f3ff623308f88108152a7573"
+react-apollo@^1.4.8:
+  version "1.4.8"
+  resolved "https://registry.yarnpkg.com/react-apollo/-/react-apollo-1.4.8.tgz#b510f207b08ce4bd1e3adbd46a3ede68e3af27e7"
   dependencies:
     apollo-client "^1.4.0"
     graphql-anywhere "^3.0.0"
     graphql-tag "^2.0.0"
-    hoist-non-react-statics "^2.0.0"
+    hoist-non-react-statics "^2.2.0"
     invariant "^2.2.1"
     lodash.flatten "^4.2.0"
     lodash.isequal "^4.1.1"
@@ -3671,8 +3719,6 @@ react-apollo@^1.4.3:
     lodash.pick "^4.4.0"
     object-assign "^4.0.1"
     prop-types "^15.5.8"
-  optionalDependencies:
-    react-dom "0.14.x || 15.* || ^15.0.0 || ^16.0.0-alpha"
 
 react-clone-referenced-element@^1.0.1:
   version "1.0.1"
@@ -3688,15 +3734,6 @@ react-devtools-core@^2.0.8:
   dependencies:
     cross-env "^3.1.4"
     ws "^2.0.3"
-
-"react-dom@0.14.x || 15.* || ^15.0.0 || ^16.0.0-alpha":
-  version "16.0.0-alpha.13"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.0.0-alpha.13.tgz#c2b39aaf8645f1d664619fb49a1fbb9f60719c23"
-  dependencies:
-    fbjs "^0.8.9"
-    loose-envify "^1.1.0"
-    object-assign "^4.1.0"
-    prop-types "^15.5.6"
 
 "react-native-alphabetlistview@https://github.com/xavierlefevre/react-native-alphabetlistview":
   version "0.2.0"
@@ -4877,3 +4914,7 @@ yargs@~3.10.0:
     cliui "^2.1.0"
     decamelize "^1.0.0"
     window-size "0.1.0"
+
+"zen-observable@git+https://github.com/evanshauser/zen-observable.git":
+  version "0.5.2"
+  resolved "git+https://github.com/evanshauser/zen-observable.git#a11ee4bd848f381898b6cd93c769eb1dcc0febf6"
