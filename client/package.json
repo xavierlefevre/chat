@@ -28,8 +28,7 @@
     "redux-persist": "^4.8.2",
     "redux-thunk": "^2.2.0",
     "seamless-immutable": "^7.1.2",
-    "subscriptions-transport-ws": "0.7.1",
-    "subscriptions-transport-ws-authy": "^0.5.5"
+    "subscriptions-transport-ws": "^0.8.1"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
