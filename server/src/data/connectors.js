@@ -49,7 +49,10 @@ db.sync({ force: true }).then(() => {
                 version: 1,
               })
               .then(user => {
-                console.log('{email, username, password}', `{${user.email}, ${user.username}, ${password}}`);
+                console.log(
+                  '{email, username, password}',
+                  `{${user.email}, ${user.username}, ${password}}`
+                );
                 _.times(MESSAGES_PER_USER, () =>
                   MessageModel.create({
                     userId: user.id,
@@ -85,7 +88,10 @@ db.sync({ force: true }).then(() => {
           version: 1,
         })
         .then(userl => {
-          console.log('{email, username, password}', `{${userl.email}, ${userl.username}, test}`);
+          console.log(
+            '{email, username, password}',
+            `{${userl.email}, ${userl.username}, test}`
+          );
           bcrypt.hash('test', 10).then(hashx =>
             group
               .createUser({
@@ -95,7 +101,10 @@ db.sync({ force: true }).then(() => {
                 version: 1,
               })
               .then(userx => {
-                console.log('{email, username, password}', `{${userx.email}, ${userx.username}, test}`);
+                console.log(
+                  '{email, username, password}',
+                  `{${userx.email}, ${userx.username}, test}`
+                );
                 userx.addFriend(userl);
               })
           );
