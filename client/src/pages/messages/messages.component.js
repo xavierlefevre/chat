@@ -179,7 +179,9 @@ export default class Messages extends Component {
         style={styles.container}
       >
         <FlatList
-          ref={ref => (this.flatList = ref)}
+          ref={ref => {
+            this.flatList = ref;
+          }}
           enableEmptySections
           data={this.props.group.messages.slice().reverse()}
           keyExtractor={this.keyExtractor}
